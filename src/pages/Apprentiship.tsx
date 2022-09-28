@@ -12,8 +12,10 @@ import { CopyIcon, EditIcon, TrashIcon } from "../assets/Svgs";
 
 const Apprentiship = () => {
   return (
-    <Box py={5} px={10} w='full'>
-      <Heading size='lg'>Apprentiship</Heading>
+    <Box py={5} px={[5, 5, 10]} w='full'>
+      <Heading size='lg' textAlign={["center", "start"]}>
+        Apprentiship
+      </Heading>
       <Grid
         py={3}
         gridTemplateColumns='repeat(6,1fr)'
