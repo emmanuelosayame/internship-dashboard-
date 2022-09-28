@@ -4,7 +4,7 @@
 
 On your terminal
 
-Run git clone https://<personal access token for the team>github.com/TeamTechRadicals/Project1.git
+Run git clone https://(personal access token for the team)@github.com/TeamTechRadicals/Project1.git
 
 cd Project1
 
@@ -30,6 +30,9 @@ To install [pnpm](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=
 [npm](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwi7o-CFx7f6AhWKRfEDHQUmAC4QFnoECA0QAQ&url=https%3A%2F%2Fdocs.npmjs.com%2Fdownloading-and-installing-node-js-and-npm%2F&usg=AOvVaw3Pw1wQN5mr41ewdKqwO4kC)
 
 ### `npm run dev`
+pnpm run dev
+yarn run dev
+npm run dev
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
@@ -37,8 +40,8 @@ or [http://localhost:5173](http://localhost:5173) to view it in your browser.
 
 ## Creating and Switching to your branch
 
-Run git Checkout -b <your name or anything to identify your branch>
+Run git Checkout -b (your name or anything to identify your branch)
 
 ## Switching to any branch only
 
-Run git Checkout <branch Name>
+Run git Checkout (the branch Name)
