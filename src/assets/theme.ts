@@ -18,11 +18,14 @@ const theme = extendTheme({
         borderRadius: 10,
         // color: "white",
         // bg: "black",
+        fontSize: "13px",
+        fontWeight: 500,
       },
       defaultProps: {
         size: "sm", // default is md
         variant: "ghost", // default is solid
-        fontSize: "15px",
+        fontSize: "13px",
+        fontWeight: 500,
         // colorScheme: 'green', // default is gray
       },
     },
@@ -33,7 +36,7 @@ const theme = extendTheme({
     },
     Input: {
       defaultProps: {
-        size: "sm",
+        size: "md",
         bg: "whitesmoke",
         borderRadius: 20,
         // _invalid: { border: "1px solid red" },

@@ -8,8 +8,8 @@ export const JobIcon = (props: IconProps) => (
     fill='none'
     fillRule='evenodd'
     clipRule='evenodd'
-    width='6'
-    height='6'
+    width='5'
+    height='5'
     {...props}>
     <path
       strokeLinecap='round'
@@ -27,8 +27,8 @@ export const SettingsIcon = (props: IconProps) => (
     fill='none'
     fillRule='evenodd'
     clipRule='evenodd'
-    width='6'
-    height='6'
+    width='5'
+    height='5'
     {...props}>
     <path
       strokeLinecap='round'
@@ -51,8 +51,8 @@ export const EditIcon = (props: IconProps) => (
     fill='none'
     fillRule='evenodd'
     clipRule='evenodd'
-    width='6'
-    height='6'
+    width='5'
+    height='5'
     {...props}>
     <path
       strokeLinecap='round'
@@ -70,8 +70,8 @@ export const CopyIcon = (props: IconProps) => (
     fill='none'
     fillRule='evenodd'
     clipRule='evenodd'
-    width='6'
-    height='6'
+    width='5'
+    height='5'
     {...props}>
     <path
       strokeLinecap='round'
@@ -89,8 +89,8 @@ export const TrashIcon = (props: IconProps) => (
     fill='none'
     fillRule='evenodd'
     clipRule='evenodd'
-    width='6'
-    height='6'
+    width='5'
+    height='5'
     {...props}>
     <path
       strokeLinecap='round'
@@ -108,8 +108,8 @@ export const EnvelopeIcon = (props: IconProps) => (
     fill='none'
     fillRule='evenodd'
     clipRule='evenodd'
-    width='6'
-    height='6'
+    width='5'
+    height='5'
     {...props}>
     <path
       strokeLinecap='round'
@@ -127,8 +127,8 @@ export const LockIcon = (props: IconProps) => (
     fill='none'
     fillRule='evenodd'
     clipRule='evenodd'
-    width='6'
-    height='6'
+    width='5'
+    height='5'
     {...props}>
     <path
       strokeLinecap='round'
@@ -138,7 +138,6 @@ export const LockIcon = (props: IconProps) => (
   </Icon>
 );
 
-
 export const EyeIcon = (props: IconProps) => (
   <Icon
     viewBox='0 0 24 24'
@@ -147,8 +146,8 @@ export const EyeIcon = (props: IconProps) => (
     fill='none'
     fillRule='evenodd'
     clipRule='evenodd'
-    width='6'
-    height='6'
+    width='5'
+    height='5'
     {...props}>
     <path
       strokeLinecap='round'
@@ -171,8 +170,8 @@ export const EyeSlashIcon = (props: IconProps) => (
     fill='none'
     fillRule='evenodd'
     clipRule='evenodd'
-    width='6'
-    height='6'
+    width='5'
+    height='5'
     {...props}>
     <path
       strokeLinecap='round'
@@ -181,6 +180,197 @@ export const EyeSlashIcon = (props: IconProps) => (
     />
   </Icon>
 );
+
+export const SquarePlusIcon = (props: IconProps) => (
+  <Icon
+    viewBox='0 0 24 24'
+    strokeWidth='1.5'
+    stroke='currentColor'
+    fill='none'
+    fillRule='evenodd'
+    clipRule='evenodd'
+    width='5'
+    height='5'
+    {...props}>
+    <path
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      d='M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v2.25A2.25 2.25 0 006 10.5zm0 9.75h2.25A2.25 2.25 0 0010.5 18v-2.25a2.25 2.25 0 00-2.25-2.25H6a2.25 2.25 0 00-2.25 2.25V18A2.25 2.25 0 006 20.25zm9.75-9.75H18a2.25 2.25 0 002.25-2.25V6A2.25 2.25 0 0018 3.75h-2.25A2.25 2.25 0 0013.5 6v2.25a2.25 2.25 0 002.25 2.25z'
+    />
+  </Icon>
+);
+
+export const PlusSquareIcon = (props: IconProps) => (
+  <Icon
+    viewBox='0 0 24 24'
+    strokeWidth='1.5'
+    stroke='currentColor'
+    fill='none'
+    fillRule='evenodd'
+    clipRule='evenodd'
+    width='5'
+    height='5'
+    {...props}>
+    <path
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      d='M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z'
+    />
+  </Icon>
+);
+
+export const Square2StackIcon = (props: IconProps) => (
+  <Icon
+    viewBox='0 0 24 24'
+    strokeWidth='1.5'
+    stroke='currentColor'
+    fill='none'
+    fillRule='evenodd'
+    clipRule='evenodd'
+    width='5'
+    height='5'
+    {...props}>
+    <path
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      d='M16.5 8.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v8.25A2.25 2.25 0 006 16.5h2.25m8.25-8.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-7.5A2.25 2.25 0 018.25 18v-1.5m8.25-8.25h-6a2.25 2.25 0 00-2.25 2.25v6'
+    />
+  </Icon>
+);
+
+export const ArrowLeftIcon = (props: IconProps) => (
+  <Icon
+    viewBox='0 0 24 24'
+    strokeWidth='1.5'
+    stroke='currentColor'
+    fill='none'
+    fillRule='evenodd'
+    clipRule='evenodd'
+    width='5'
+    height='5'
+    {...props}>
+    <path
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      d='M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18'
+    />
+  </Icon>
+);
+
+export const CheckIcon = (props: IconProps) => (
+  <Icon
+    viewBox='0 0 24 24'
+    strokeWidth='1.5'
+    stroke='currentColor'
+    fill='none'
+    fillRule='evenodd'
+    clipRule='evenodd'
+    width='5'
+    height='5'
+    {...props}>
+    <path
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      d='M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+    />
+  </Icon>
+);
+
+export const CircleIcon = (props: IconProps) => (
+  <Icon
+    viewBox='0 0 24 24'
+    strokeWidth='1.5'
+    stroke='currentColor'
+    fill='none'
+    fillRule='evenodd'
+    clipRule='evenodd'
+    width='5'
+    height='5'
+    {...props}>
+    <path
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      d='M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z'
+    />
+  </Icon>
+);
+
+export const CautionIcon = (props: IconProps) => (
+  <Icon
+    viewBox='0 0 24 24'
+    strokeWidth='1.5'
+    stroke='currentColor'
+    fill='none'
+    fillRule='evenodd'
+    clipRule='evenodd'
+    width='5'
+    height='5'
+    {...props}>
+    <path
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      d='M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z'
+    />
+  </Icon>
+);
+
+export const MonitorIcon = (props: IconProps) => (
+  <Icon
+    viewBox='0 0 24 24'
+    strokeWidth='1.5'
+    stroke='currentColor'
+    fill='none'
+    fillRule='evenodd'
+    clipRule='evenodd'
+    width='5'
+    height='5'
+    {...props}>
+    <path
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      d='M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125z'
+    />
+  </Icon>
+);
+
+export const MobileAppIcon = (props: IconProps) => (
+  <Icon
+    viewBox='0 0 24 24'
+    strokeWidth='1.5'
+    stroke='currentColor'
+    fill='none'
+    fillRule='evenodd'
+    clipRule='evenodd'
+    width='5'
+    height='5'
+    {...props}>
+    <path
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      d='M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3'
+    />
+  </Icon>
+);
+
+export const CalenderDaysIcon = (props: IconProps) => (
+  <Icon
+    viewBox='0 0 24 24'
+    strokeWidth='1.5'
+    stroke='currentColor'
+    fill='none'
+    fillRule='evenodd'
+    clipRule='evenodd'
+    width='5'
+    height='5'
+    {...props}>
+    <path
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      d='M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z'
+    />
+  </Icon>
+);
+
 
 
 
