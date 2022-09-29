@@ -8,7 +8,7 @@ const NavBar = () => {
   const [user, loading, error] = useAuthState(auth);
 
   //   if (
-  //     location.pathname === "/apprentiships" ||
+  //     location.pathname === "/apprenticeships" ||
   //     location.pathname === "/internships" ||
   //     location.pathname === "/jobs" ||
   //     location.pathname === "/settings" ||
@@ -49,7 +49,7 @@ const NavBar = () => {
           )}
         </NavLink>
 
-        <NavLink to='/apprentiships'>
+        <NavLink to='/apprenticeships'>
           {({ isActive }) => (
             <HStack
               align='center'
@@ -62,7 +62,7 @@ const NavBar = () => {
               <Text
                 display={["none", "none", "unset"]}
                 color={isActive ? "#5D3FD3" : "unset"}>
-                Apprentiships
+                Apprenticeships
               </Text>
             </HStack>
           )}

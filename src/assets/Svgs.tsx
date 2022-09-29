@@ -371,6 +371,60 @@ export const CalenderDaysIcon = (props: IconProps) => (
   </Icon>
 );
 
+export const XmarkIcon = (props: IconProps) => (
+  <Icon
+    viewBox='0 0 24 24'
+    strokeWidth='1.5'
+    stroke='currentColor'
+    fill='none'
+    fillRule='evenodd'
+    clipRule='evenodd'
+    width='4'
+    height='4'
+    {...props}>
+    <path
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      d='M6 18L18 6M6 6l12 12'
+    />
+  </Icon>
+);
 
+export const AddDocIcon = (props: IconProps) => (
+  <Icon
+    viewBox='0 0 24 24'
+    strokeWidth='1.5'
+    stroke='currentColor'
+    fill='none'
+    fillRule='evenodd'
+    clipRule='evenodd'
+    width='5'
+    height='5'
+    {...props}>
+    <path
+      fillRule='evenodd'
+      d='M5.625 1.5H9a3.75 3.75 0 013.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 013.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 01-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875zM12.75 12a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V18a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V12z'
+      clipRule='evenodd'
+    />
+    <path d='M14.25 5.25a5.23 5.23 0 00-1.279-3.434 9.768 9.768 0 016.963 6.963A5.23 5.23 0 0016.5 7.5h-1.875a.375.375 0 01-.375-.375V5.25z' />
+  </Icon>
+);
 
-
+export const PhotoIcon = (props: IconProps) => (
+  <Icon
+    viewBox='0 0 24 24'
+    strokeWidth='1.5'
+    stroke='currentColor'
+    fill='none'
+    fillRule='evenodd'
+    clipRule='evenodd'
+    width='3'
+    height='3'
+    {...props}>
+    <path
+      fillRule='evenodd'
+      d='M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z'
+      clipRule='evenodd'
+    />
+  </Icon>
+);

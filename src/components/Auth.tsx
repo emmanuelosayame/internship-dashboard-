@@ -32,9 +32,7 @@ const Auth = () => {
     password: Yup.string()
       .min(8, "cannot be less than 8")
       .max(30, "")
-      .required("enter email")
-      .required("enter password")
-      .required("enter a password"),
+      .required("enter password"),
   });
 
   const handleLogin = ({

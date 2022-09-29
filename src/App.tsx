@@ -11,12 +11,12 @@ import { useState } from "react";
 import { NavLink, Route, Routes } from "react-router-dom";
 import { JobIcon, SettingsIcon } from "./assets/Svgs";
 import Auth from "./components/Auth";
-import Apprentiships from "./pages/Apprentiships";
+import Apprenticeships from "./pages/Apprenticeships";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./assets/firebase";
 import Loading from "./components/Loading";
 import { updateProfile } from "firebase/auth";
-import Apprentiship from "./components/Apprentiship";
+import Apprenticeship from "./components/Apprenticeship";
 import NavBar from "./components/NavBar";
 import Internships from "./pages/Interships";
 
@@ -31,7 +31,7 @@ function App() {
     <Flex p={3} w='full' h='100vh'>
       <Routes>
         <Route index element={<NavBar />} />
-        <Route path='apprentiships' element={<NavBar />} />
+        <Route path='apprenticeships' element={<NavBar />} />
         <Route path='internships' element={<NavBar />} />
         <Route path='jobs' element={<NavBar />} />
         <Route path='settings' element={<NavBar />} />
@@ -56,9 +56,9 @@ function App() {
       >
         <Routes>
           <Route index element={<Box>dashboard home</Box>} />
-          <Route path='/apprentiships'>
-            <Route index element={<Apprentiships />} />
-            <Route path=':id' element={<Apprentiship />} />
+          <Route path='/apprenticeships'>
+            <Route index element={<Apprenticeships />} />
+            <Route path=':id' element={<Apprenticeship />} />
           </Route>
           <Route path='/internships' element={<Internships />} />
           <Route path='/jobs' element={<Box>Jobs</Box>} />

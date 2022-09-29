@@ -87,7 +87,7 @@ const theme = extendTheme({
           backgroundColor: "gray",
           borderRadius: "10px",
         },
-        "bg": "whitesmoke",
+        "bg": "gray.100",
       },
     },
   },

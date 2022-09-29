@@ -17,7 +17,7 @@ import {
   TrashIcon,
 } from "../assets/Svgs";
 
-const Apprentiships = () => {
+const Apprenticeships = () => {
   const navigate = useNavigate();
 
   return (
@@ -25,7 +25,7 @@ const Apprentiships = () => {
       <Box py={5} px={[5, 5, 10]} w='full'>
         <Flex justify='space-between'>
           <Heading size='lg' textAlign={["center", "start"]}>
-            Apprentiship
+            Apprenticeship
           </Heading>
           <Button
             fontSize={13}
@@ -34,8 +34,8 @@ const Apprentiships = () => {
             leftIcon={<PlusSquareIcon />}
             bgColor='#5D3FD3'
             color='white'
-            onClick={() => navigate("/apprentiships/new")}>
-            Create New Apprentiship
+            onClick={() => navigate("/apprenticeships/new")}>
+            Create New Apprenticeship
           </Button>
         </Flex>
         <Grid
@@ -182,4 +182,4 @@ const Apprentiships = () => {
   );
 };
 
-export default Apprentiships;
+export default Apprenticeships;
