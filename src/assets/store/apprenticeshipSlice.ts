@@ -143,7 +143,7 @@ export const apprenticeshipSlice: StateCreator<ApprSlice> = (set, get) => ({
     })),
   loadingAppr: false,
   resetAppr: () => set({ apprenticeship: initialState }),
-  editAppr: async (id: string) => {
+  populateAppr: async (id: string) => {
     set({ loadingAppr: true });
     await getDoc<any>(doc(db, "apprenticeships", id))
       .then((data) => {
@@ -151,7 +151,14 @@ export const apprenticeshipSlice: StateCreator<ApprSlice> = (set, get) => ({
         set({
           apprenticeship: {
             ...data.data(),
-            timeline: { startDate: null, estEndDate: null },
+            timeline: {
+              startDate:
+                data.data().timeline.startDate &&
+                data.data().timeline.startDate.toDate(),
+              estEndDate:
+                data.data().timeline.estEndDate &&
+                data.data().timeline.estEndDate.toDate(),
+            },
           },
         });
       })

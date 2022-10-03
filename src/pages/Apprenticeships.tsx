@@ -18,7 +18,14 @@ import {
 } from "../assets/Svgs";
 import logo from "../../public/RadicallX-Black-Logo 1.png";
 import { useCollection, useDocument } from "react-firebase-hooks/firestore";
-import { collection, deleteDoc, doc, query, where } from "firebase/firestore";
+import {
+  collection,
+  CollectionReference,
+  deleteDoc,
+  doc,
+  query,
+  where,
+} from "firebase/firestore";
 import { auth, db } from "../assets/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { ApprType } from "../assets/Types";
@@ -28,13 +35,12 @@ const Apprenticeships = () => {
   const navigate = useNavigate();
   // const params = useParams();
   const [user] = useAuthState(auth);
-  const editAppr = useStore((state) => state.editAppr);
 
-  const [data] = useCollection<any>(
+  const [data] = useCollection<ApprType>(
     query(
       collection(db, "apprenticeships"),
       where("creatorId", "==", `${user?.uid}`)
-    )
+    ) as CollectionReference<ApprType>
   );
 
   const deleteAppr = async (id: string) => {
@@ -87,10 +93,7 @@ const Apprenticeships = () => {
                 <IconButton
                   aria-label='edit'
                   size='xs'
-                  onClick={() => {
-                    editAppr(data.id);
-                    navigate(data.id);
-                  }}>
+                  onClick={() => navigate(data.id)}>
                   <EditIcon boxSize={5} />
                 </IconButton>
                 <IconButton aria-label='edit' size='xs'>
@@ -107,7 +110,7 @@ const Apprenticeships = () => {
                 {data?.apprenticeshipDescription}
               </Text>
               <Flex flexWrap='wrap'>
-                {data?.teamRoles?.map((role: any) => (
+                {data?.teamRoles?.map((role) => (
                   <Box
                     fontSize='12px'
                     m={1}

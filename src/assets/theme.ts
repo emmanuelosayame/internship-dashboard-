@@ -59,12 +59,18 @@ const theme = extendTheme({
     Checkbox: {
       baseStyle: {
         icon: {
-          color: "white",
+          color: "#793EF5",
+          // opacity: "1",
+          // bg: "red",
         },
         control: {
           border: "1px",
           borderColor: "gray.300",
           borderRadius: "50%",
+          _checked: {
+            bg: "rgb(121, 62, 245,0.4)",
+            // opacity: "0.4",
+          },
           _disabled: {
             borderColor: "gray.300",
             bg: "gray.200",
@@ -73,6 +79,7 @@ const theme = extendTheme({
         label: {
           fontWeight: "medium",
           color: "gray.900",
+          bg: "red",
         },
       },
     },

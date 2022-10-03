@@ -52,7 +52,7 @@ export interface ApprSlice {
   removeTeamAdmin: (id: string) => void;
   addTeamAdmin: (admin: TeamAdmin) => void;
   resetAppr: () => void;
-  editAppr: (id: string) => void;
+  populateAppr: (id: string) => void;
   loadingAppr: boolean;
 }
 
@@ -71,7 +71,7 @@ export interface TeamRoleSlice {
 }
 
 export interface TeamAdmin {
-  photo?: File | null;
+  photoUrl?: string;
   name: string;
   email: string;
   linkedInUrl?: string;

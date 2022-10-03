@@ -24,7 +24,7 @@ import {
   Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useStore } from "../assets/store/Store";
 import {
   CautionIcon,
@@ -36,11 +36,22 @@ import {
 import shallow from "zustand/shallow";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
+import { TeamAdmin } from "../assets/Types";
+import { useParams } from "react-router-dom";
 
 const TeamAdmins = () => {
+  const params = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const photoRef = useRef<HTMLInputElement | null>(null);
   const btnRef = useRef<HTMLButtonElement | null>(null);
+  const initialState = {
+    name: "",
+    email: "",
+    photoUrl: "",
+    linkedInUrl: "",
+  };
+  const [teamAdmin, setTeamAdmin] = useState<TeamAdmin>(initialState);
+  const [photo, setPhoto] = useState<File | null>(null);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -50,28 +61,20 @@ const TeamAdmins = () => {
     linkedInUrl: Yup.string().max(40, "limit 500"),
   });
 
-  const {
-    teamAdmins,
-    addTeamAdmin,
-    teamAdmin,
-    addPhoto,
-    reset,
-    populateState,
-  } = useStore(
+  const { teamAdmins, addTeamAdmin } = useStore(
     (state) => ({
       teamAdmins: state.apprenticeship.teamAdmins,
       addTeamAdmin: state.addTeamAdmin,
-      teamAdmin: state.teamAdmin,
-      addPhoto: state.setAdminPhoto,
-      reset: state.resetTeamAdmin,
-      populateState: state.populateTeamAdmin,
+      // addPhoto: state.setAdminPhoto,
+      // reset: state.resetTeamAdmin,
+      // populateState: state.populateTeamAdmin,
     }),
     shallow
   );
 
   // console.log(teamAdmins)
 
-  const photoSrc = teamAdmin.photo && URL.createObjectURL(teamAdmin.photo);
+  const photoSrc = photo && URL.createObjectURL(photo);
 
   return (
     <>
@@ -79,7 +82,7 @@ const TeamAdmins = () => {
         isOpen={isOpen}
         onClose={onClose}
         onCloseComplete={() => {
-          reset();
+          setTeamAdmin(initialState);
           photoSrc && URL.revokeObjectURL(photoSrc);
         }}>
         <ModalOverlay />
@@ -92,7 +95,7 @@ const TeamAdmins = () => {
               color='white'
               bgColor='#793EF5'
               onClick={() => btnRef.current?.click()}>
-              Save
+              {params.id === "new" ? "Save" : "Edit"}
             </Button>
             <ModalCloseButton position='unset' ml={2} />
           </ModalHeader>
@@ -123,7 +126,7 @@ const TeamAdmins = () => {
                 onChange={(e) => {
                   photoSrc && URL.revokeObjectURL(photoSrc);
                   if (e?.target?.files && e?.target?.files[0]?.size < 5000000) {
-                    addPhoto(e.target.files[0]);
+                    setPhoto(e.target.files[0]);
                   }
                 }}
                 ref={photoRef}
@@ -132,16 +135,21 @@ const TeamAdmins = () => {
             </Box>
 
             <Formik
-              // enableReinitialize
+              enableReinitialize
               validationSchema={validationSchema}
               initialValues={{
                 name: teamAdmin.name,
                 email: teamAdmin.email,
-                linkedInUrl: teamAdmin.linkedInUrl || "",
+                linkedInUrl: teamAdmin.linkedInUrl,
               }}
               onSubmit={(values) => {
-                addTeamAdmin({ ...values, photo: teamAdmin.photo });
-                onClose();
+                if (params.id === "new") {
+                  addTeamAdmin({ ...values });
+                  onClose();
+                } else {
+                  //remove old image and upload new
+                  onClose();
+                }
               }}>
               {({ dirty, errors, getFieldProps }) => (
                 <Stack as={Form} spacing='3'>
@@ -216,15 +224,21 @@ const TeamAdmins = () => {
           p={1}
           w='full'>
           {teamAdmins.map((admin) => {
-            const src = admin.photo ? URL.createObjectURL(admin.photo) : null;
+            // const src = admin.photo ? URL.createObjectURL(admin.photo) : null;
+            const src = null;
             return (
               <GridItem
                 key={admin.email}
+                cursor='pointer'
                 as={HStack}
                 colSpan={2}
                 border='1px solid gainsboro'
                 rounded='xl'
-                p={2}>
+                p={2}
+                onClick={() => {
+                  setTeamAdmin(admin);
+                  onOpen();
+                }}>
                 {src ? (
                   <Image src={src} w='40px' rounded='lg' h='40px' />
                 ) : (

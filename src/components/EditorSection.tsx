@@ -74,11 +74,9 @@ const FocusableBox = ({
     rounded='2xl'
     tabIndex={1}
     outline='none'
-    border={focused ? "1px solid #793EF5" : "1px solid transparent"}
-    boxShadow={focused ? "lg" : "unset"}
-    _focusWithin={
-      focusShow ? { border: "1px solid #793EF5", boxShadow: "2xl" } : {}
-    }
+    border='1px solid transparent'
+    // boxShadow="lg"
+    _focusWithin={{ border: "1px solid #793EF5", boxShadow: "2xl" }}
     // _focus={{ border: "1px solid #793EF5" }}
   >
     <Flex justify='space-between' py={2}>
@@ -167,8 +165,6 @@ const EditorSection = () => {
 
   //  console.log(checked);
 
-  const [tDP, setTDP] = useState(5);
-
   // const [user] = useAuthState(auth);
 
   const [errors, setErrors] = useState<ApprErrorTypes>({
@@ -213,10 +209,7 @@ const EditorSection = () => {
     <Stack mx='auto' maxW='650px' w='full' pt='150px' pb='40px' spacing={3}>
       <Stack spacing={3}>
         {/* Introduce your company video upload section */}
-        <FocusableBox
-          focusShow={true}
-          focused={!!(tDP === 0)}
-          text='Company Logo & Apprenticeship Title'>
+        <FocusableBox text='Company Logo & Apprenticeship Title'>
           <Flex w='full' justify='space-between' align='center'>
             <Box position='relative' mx={2}>
               {photoSrc ? (
@@ -260,6 +253,7 @@ const EditorSection = () => {
               _placeholder={{ color: "gray.400" }}
               placeholder='Enter Apprenticeship Title'
               name='apprenticeshipTitle'
+              autoFocus
               onChange={handleTextChange}
             />
           </Flex>
@@ -274,10 +268,7 @@ const EditorSection = () => {
           )}
         </FocusableBox>
 
-        <FocusableBox
-          focusShow={!!(tDP > 0)}
-          // focused={!!(tDP === 1)}
-          text='Company Description'>
+        <FocusableBox text='Company Description'>
           <Textarea
             as={TextareaAutosize}
             rows={1}
@@ -289,7 +280,6 @@ const EditorSection = () => {
             name='companyDescription'
             defaultValue={companyDescription}
             variant='unstyled'
-            disabled={!!(tDP < 1)}
             sx={{
               "&::-webkit-scrollbar": {
                 width: "1px",
@@ -315,7 +305,7 @@ const EditorSection = () => {
           )}
         </FocusableBox>
 
-        <FocusableBox focusShow={!!(tDP > 1)} text='Apprenticeship Description'>
+        <FocusableBox text='Apprenticeship Description'>
           <Textarea
             as={TextareaAutosize}
             placeholder='Enter Description'
@@ -328,7 +318,6 @@ const EditorSection = () => {
             defaultValue={apprenticeshipDescription}
             name='apprenticeshipDescription'
             onChange={handleTextChange}
-            disabled={!(tDP > 1)}
             sx={{
               "&::-webkit-scrollbar": {
                 width: "1px",
@@ -411,6 +400,7 @@ const EditorSection = () => {
           gridRowGap={3}
           w='full'>
           <CheckboxGroup
+            value={teamTypes}
             onChange={(checked) =>
               addTeamTypes(checked.map((check) => check.toString()))
             }>

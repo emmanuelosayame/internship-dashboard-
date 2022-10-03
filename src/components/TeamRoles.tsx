@@ -283,7 +283,7 @@ const TeamRoles = () => {
           w='full'>
           {teamRoles.map((member) => (
             <GridItem
-              key={member.title + member.description}
+              key={member.id}
               colSpan={2}
               border='1px solid gainsboro'
               p={2}
@@ -316,6 +316,7 @@ const TeamRoles = () => {
               <Flex flexWrap='wrap'>
                 {member.requiredSkills.map((skill) => (
                   <Text
+                    key={skill}
                     border='1px solid #793EF5'
                     m={1}
                     p={1}
@@ -327,6 +328,7 @@ const TeamRoles = () => {
                 ))}
                 {member.complementarySkills.map((skill) => (
                   <Text
+                    key={skill}
                     border='1px solid blue'
                     m={1}
                     p={1}

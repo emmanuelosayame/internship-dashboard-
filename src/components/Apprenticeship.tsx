@@ -15,7 +15,7 @@ import {
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../assets/firebase";
@@ -28,7 +28,8 @@ import {
 } from "../assets/Svgs";
 import { ApprType } from "../assets/Types";
 import EditorSection from "./EditorSection";
-import Loading from "./Loading";
+import { Loading, LoadingBlur } from "./Loading";
+import shallow from "zustand/shallow";
 
 const Apprenticeship = () => {
   const [user] = useAuthState(auth);
@@ -36,13 +37,21 @@ const Apprenticeship = () => {
   const navigate = useNavigate();
   const params = useParams();
 
-  // console.log(params);
-
   const appr = useStore((state) => state.apprenticeship);
-  const { loadingEditApp } = useStore((state) => ({
-    loadingEditApp: state.loadingAppr,
-    editAppr: state.editAppr,
-  }));
+  const { loadingEditApp, populateAppr } = useStore(
+    (state) => ({
+      loadingEditApp: state.loadingAppr,
+      populateAppr: state.populateAppr,
+    }),
+    shallow
+  );
+
+  // console.log(params?.id);
+
+  useEffect(() => {
+    if (params.id && params.id !== "new") populateAppr(params.id);
+  }, []);
+
   const resetStore = useStore((state) => state.resetAppr);
 
   const toast = useToast();
@@ -110,10 +119,11 @@ const Apprenticeship = () => {
     }
   };
 
-  if (loading || loadingEditApp) return <Loading />;
+  // if (loading) return <Loading />;
 
   return (
     <>
+      {(loading || loadingEditApp) && <LoadingBlur />}
       <Box
         pos='fixed'
         bgColor='gray.100'
@@ -130,6 +140,7 @@ const Apprenticeship = () => {
           align='center'>
           <Link to='/apprenticeships'>
             <Button
+              onClick={() => params.id !== "new" && resetStore()}
               leftIcon={
                 <ArrowLeftIcon boxSize={5} fontSize='18px' color='#793EF5' />
               }>
@@ -153,7 +164,9 @@ const Apprenticeship = () => {
                 appr.timeline.startDate
               )
             }>
-            Publish Apprenticeship
+            {params.id === "new"
+              ? "Publish Apprenticeship"
+              : "Re - Publish Apprenticeship"}
           </Button>
         </Flex>
 
