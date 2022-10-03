@@ -15,13 +15,17 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, doc, query, setDoc, where } from "firebase/firestore";
 import { useEffect, useRef, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useDocumentData } from "react-firebase-hooks/firestore";
+import {
+  useCollection,
+  useCollectionData,
+  useDocumentData,
+} from "react-firebase-hooks/firestore";
 import { auth, db } from "../assets/firebase";
 import { EditIcon, TickSquare } from "../assets/Svgs";
-import Loading from "../components/Loading";
+import { Loading } from "../components/Loading";
 
 const Settings = ({
   userData,
@@ -31,6 +35,13 @@ const Settings = ({
   loadingData: boolean;
 }) => {
   const [user] = useAuthState(auth);
+
+  const [apprs] = useCollection(
+    query(
+      collection(db, "apprenticeships"),
+      where("creatorId", "==", `${user?.uid}`)
+    )
+  );
 
   const photoRef = useRef<HTMLInputElement | null>(null);
   const [editName, setEditName] = useState(false);
@@ -164,12 +175,12 @@ const Settings = ({
         <Stack w='fit-content' spacing={4}>
           <HStack justify='space-between'>
             <Heading size='md'>Apprenticehips </Heading>
-            <Heading size='md'>: 2</Heading>
+            <Heading size='md'>: {apprs?.size}</Heading>
           </HStack>
 
           <HStack justify='space-between'>
             <Heading size='md'>Internships </Heading>
-            <Heading size='md'>: 2</Heading>
+            <Heading size='md'>: 0</Heading>
           </HStack>
         </Stack>
 

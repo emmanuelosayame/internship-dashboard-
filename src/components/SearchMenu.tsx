@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { db } from "../assets/firebase";
 import Fuse from "fuse.js";
-import { debounce } from "lodash";
+import debounce from "lodash/debounce";
 
 const SearchMenu = ({
   menuText,

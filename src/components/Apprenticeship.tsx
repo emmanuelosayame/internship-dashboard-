@@ -18,7 +18,7 @@ import {
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { auth, db } from "../assets/firebase";
+import { auth, db, storage } from "../assets/firebase";
 import { useStore } from "../assets/store/Store";
 import {
   ArrowLeftIcon,
@@ -30,6 +30,13 @@ import { ApprType } from "../assets/Types";
 import EditorSection from "./EditorSection";
 import { Loading, LoadingBlur } from "./Loading";
 import shallow from "zustand/shallow";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { v4 } from "uuid";
 
 const Apprenticeship = () => {
   const [user] = useAuthState(auth);
@@ -37,7 +44,8 @@ const Apprenticeship = () => {
   const navigate = useNavigate();
   const params = useParams();
 
-  const appr = useStore((state) => state.apprenticeship);
+  const { logo, videos, ...rest } = useStore((state) => state.apprenticeship);
+
   const { loadingEditApp, populateAppr } = useStore(
     (state) => ({
       loadingEditApp: state.loadingAppr,
@@ -46,7 +54,7 @@ const Apprenticeship = () => {
     shallow
   );
 
-  // console.log(params?.id);
+  // console.log(rest);
 
   useEffect(() => {
     if (params.id && params.id !== "new") populateAppr(params.id);
@@ -60,73 +68,150 @@ const Apprenticeship = () => {
 
   const handleSaveAppr = async () => {
     setLoading(true);
+    const id = v4();
     if (params.id === "new") {
-      await addDoc(collection(db, "apprenticeships"), {
-        ...appr,
-        timeStamp: serverTimestamp(),
-        creatorId: user?.uid,
-      })
-        .then(() => {
-          setLoading(false);
-          navigate("/apprenticeships");
-          resetStore();
+      const uploadVideos = () => {
+        const res = new Promise(
+          async (
+            resolve: (
+              urls: { name: string; url: string; refId: string }[]
+            ) => void,
+            reject
+          ) => {
+            let urls: { name: string; url: string; refId: string }[] = [];
+            for await (const video of videos) {
+              await uploadBytes(
+                ref(storage, `apprenticeship-videos/${id}${video.name}`),
+                video
+              )
+                .then(async (result) => {
+                  await getDownloadURL(result.ref)
+                    .then((url) => {
+                      urls.push({
+                        url: url,
+                        name: video.name,
+                        refId: `${id}${video.name}`,
+                      });
+                    })
+                    .catch((err) => reject(err));
+                })
+                .catch((error) => reject(error));
+            }
+            resolve(urls);
+          }
+        );
+        return res;
+      };
+
+      await uploadVideos()
+        .then(async (urls) => {
+          if (logo) {
+            uploadBytes(
+              ref(storage, `apprenticeship-logos/${id}${logo.name}`),
+              logo
+            )
+              .then((uploadTask) => {
+                getDownloadURL(uploadTask.ref)
+                  .then(async (url) => {
+                    await addDoc(collection(db, "apprenticeships"), {
+                      ...rest,
+                      videosUrls: urls,
+                      timeStamp: serverTimestamp(),
+                      creatorId: user?.uid,
+                      logoUrl: {
+                        refId: `${id}${logo.name}`,
+                        url,
+                      },
+                    })
+                      .then(() => {
+                        setLoading(false);
+                        navigate("/apprenticeships");
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                        setLoading(false);
+                      });
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                    setLoading(false);
+                  });
+              })
+              .catch((err) => {
+                console.log(err);
+                setLoading(false);
+              });
+          } else
+            await addDoc(collection(db, "apprenticeships"), {
+              ...rest,
+              videosUrls: urls,
+              timeStamp: serverTimestamp(),
+              creatorId: user?.uid,
+            })
+              .then(() => {
+                setLoading(false);
+                navigate("/apprenticeships");
+              })
+              .catch((err) => {
+                console.log(err);
+                setLoading(false);
+              });
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err);
           setLoading(false);
-          toast({
-            position: "bottom",
-            duration: 2000,
-            render: () => (
-              <Box
-                borderRadius={20}
-                bgColor='lavender'
-                p='1'
-                border='1px solid #793EF5'>
-                <Text textAlign='center' color='#793EF5' fontWeight={600}>
-                  Something went wrong
-                </Text>
-              </Box>
-            ),
-          });
-        });
-    } else {
-      await updateDoc(doc(db, "apprenticeships", `${params.id}`), {
-        ...appr,
-      })
-        .then(() => {
-          setLoading(false);
-          navigate("/apprenticeships");
-          resetStore();
-        })
-        .catch(() => {
-          setLoading(false);
-          toast({
-            position: "bottom",
-            duration: 2000,
-            render: () => (
-              <Box
-                borderRadius={20}
-                bgColor='lavender'
-                p='1'
-                border='1px solid #793EF5'>
-                <Text textAlign='center' color='#793EF5' fontWeight={600}>
-                  Something went wrong
-                </Text>
-              </Box>
-            ),
-          });
         });
     }
+    // if not new i.e updating
+    else {
+      await updateDoc(doc(db, "apprenticeships", `${params.id}`), {
+        ...rest,
+      })
+        .then(() => {
+          setLoading(false);
+          navigate("/apprenticeships");
+          resetStore();
+        })
+        .catch(() => {
+          setLoading(false);
+          toast({
+            position: "bottom",
+            duration: 2000,
+            render: () => (
+              <Box
+                borderRadius={20}
+                bgColor='lavender'
+                p='1'
+                border='1px solid #793EF5'>
+                <Text textAlign='center' color='#793EF5' fontWeight={600}>
+                  Something went wrong
+                </Text>
+              </Box>
+            ),
+          });
+        });
+      if (logo) {
+        await uploadBytes(ref(storage, `${id}${logo.name}`), logo)
+          .then((uploadResult) => {
+            getDownloadURL(uploadResult.ref)
+              .then(async (url) => {
+                await updateDoc(doc(db, "apprenticeships", `${params.id}`), {
+                  logoUrl: { refId: `${id}${logo.name}`, url },
+                });
+              })
+              .catch(() => setLoading(false));
+          })
+          .catch(() => setLoading(false));
+      }
+    }
   };
-
-  // if (loading) return <Loading />;
 
   return (
     <>
       {(loading || loadingEditApp) && <LoadingBlur />}
       <Box
         pos='fixed'
-        bgColor='gray.100'
+        bgColor='#F1F4F8'
         zIndex={100}
         right={0}
         left={0}
@@ -147,23 +232,28 @@ const Apprenticeship = () => {
               Back
             </Button>
           </Link>
-          <Heading>Creating Apprenticeship</Heading>
+          <Heading>
+            {params.id === "new"
+              ? "Creating Apprenticeship"
+              : "Editing Apprenticeship"}
+          </Heading>
           <Button
             leftIcon={<AddSquareIcon />}
             variant='solid'
             bgColor='#793EF5'
             color='white'
             onClick={handleSaveAppr}
-            isDisabled={
-              !(
-                appr.apprenticeshipDescription.length > 0 &&
-                appr.companyDescription.length > 0 &&
-                appr.apprenticeshipTitle.length > 0 &&
-                appr.teamAdmins.length > 0 &&
-                appr.teamRoles.length &&
-                appr.timeline.startDate
-              )
-            }>
+            // isDisabled={
+            //   !(
+            //     rest.apprenticeshipDescription.length > 0 &&
+            //     rest.companyDescription.length > 0 &&
+            //     rest.apprenticeshipTitle.length > 0 &&
+            //     rest.teamAdmins.length > 0 &&
+            //     rest.teamRoles.length &&
+            //     rest.timeline.startDate
+            //   )
+            // }
+          >
             {params.id === "new"
               ? "Publish Apprenticeship"
               : "Re - Publish Apprenticeship"}
@@ -183,34 +273,34 @@ const Apprenticeship = () => {
 
           <HStack spacing={1}>
             <CircleIcon
-              color={appr.teamTypes.length > 0 ? "#793EF5" : "gray"}
+              color={rest.teamTypes.length > 0 ? "#793EF5" : "gray"}
             />
-            <Text color={appr.teamTypes.length > 0 ? "#793EF5" : "gray"}>
+            <Text color={rest.teamTypes.length > 0 ? "#793EF5" : "gray"}>
               Team Type
             </Text>
           </HStack>
 
           <HStack spacing={1}>
             <CircleIcon
-              color={appr.teamRoles.length > 0 ? "#793EF5" : "gray"}
+              color={rest.teamRoles.length > 0 ? "#793EF5" : "gray"}
             />
-            <Text color={appr.teamRoles.length > 0 ? "#793EF5" : "gray"}>
+            <Text color={rest.teamRoles.length > 0 ? "#793EF5" : "gray"}>
               Team Roles
             </Text>
           </HStack>
 
           <HStack spacing={1}>
             <CircleIcon
-              color={appr.teamAdmins.length > 0 ? "#793EF5" : "gray"}
+              color={rest.teamAdmins.length > 0 ? "#793EF5" : "gray"}
             />
-            <Text color={appr.teamAdmins.length > 0 ? "#793EF5" : "gray"}>
+            <Text color={rest.teamAdmins.length > 0 ? "#793EF5" : "gray"}>
               Team Admin
             </Text>
           </HStack>
 
           <HStack spacing={1}>
-            <CircleIcon color={appr.timeline.startDate ? "#793EF5" : "gray"} />
-            <Text color={appr.timeline.startDate ? "#793EF5" : "gray"}>
+            <CircleIcon color={rest.timeline.startDate ? "#793EF5" : "gray"} />
+            <Text color={rest.timeline.startDate ? "#793EF5" : "gray"}>
               Timeline
             </Text>
           </HStack>

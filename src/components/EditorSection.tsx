@@ -38,9 +38,8 @@ import {
   XmarkIcon,
 } from "../assets/Svgs";
 import TextareaAutosize from "react-textarea-autosize";
-import { debounce } from "lodash";
+import debounce from "lodash/debounce";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "../assets/firebase";
 import { useDropzone } from "react-dropzone";
 import {
   ApprType,
@@ -55,6 +54,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useStore } from "../assets/store/Store";
 import shallow from "zustand/shallow";
+import { useParams } from "react-router-dom";
 
 const FocusableBox = ({
   text,
@@ -114,11 +114,14 @@ const CustomInput = forwardRef((props: any, ref: any) => {
 const EditorSection = () => {
   const photoRef = useRef<HTMLInputElement | null>(null);
 
+  const params = useParams();
+
   const {
     videos,
     teamTypes,
     timeline,
     logo,
+    logoUrl,
     apprenticeshipTitle,
     companyDescription,
     apprenticeshipDescription,
@@ -135,6 +138,7 @@ const EditorSection = () => {
     addTimelineSD,
     addTimelineEED,
     addLogo,
+    videosUrls,
   } = useStore(
     (state) => ({
       addApprTitle: state.setApprTitle,
@@ -146,6 +150,7 @@ const EditorSection = () => {
       addTimelineSD: state.setTimelineSD,
       addTimelineEED: state.setTimelineEED,
       addLogo: state.setCompanyLogo,
+      videosUrls: state.apprenticeship.videosUrls,
     }),
     shallow
   );
@@ -161,11 +166,7 @@ const EditorSection = () => {
     },
   });
 
-  //  const [checked, setChecked] = useState<(string | number)[]>([]);
-
-  //  console.log(checked);
-
-  // const [user] = useAuthState(auth);
+  const vids = params.id !== "new" ? videosUrls : videos;
 
   const [errors, setErrors] = useState<ApprErrorTypes>({
     apprenticeshipTitle: null,
@@ -214,6 +215,8 @@ const EditorSection = () => {
             <Box position='relative' mx={2}>
               {photoSrc ? (
                 <Image w='70px' h='60px' rounded='xl' src={photoSrc} />
+              ) : logoUrl ? (
+                <Image w='70px' h='60px' rounded='xl' src={logoUrl.url} />
               ) : (
                 <Box w='70px' h='60px' bgColor='gray.300' rounded='xl' />
               )}
@@ -253,6 +256,7 @@ const EditorSection = () => {
               _placeholder={{ color: "gray.400" }}
               placeholder='Enter Apprenticeship Title'
               name='apprenticeshipTitle'
+              rounded='none'
               autoFocus
               onChange={handleTextChange}
             />
@@ -363,33 +367,37 @@ const EditorSection = () => {
         </Button>
         <input {...getInputProps()} type='file' hidden />
         <HStack pt={3} flexWrap='wrap'>
-          {videos.map((file) => {
-            return (
-              <Flex
-                key={file.name}
-                bgColor='rgba(102, 95, 239, 0.16)'
-                border='1px solid #793EF5'
-                rounded='lg'
-                align='center'
-                px={2}
-                m={1}
-                py={0.5}
-                fontSize='15'
-                color='#793EF5'>
-                <Text>
-                  {`${file.name.slice(0, 17)}${
-                    file.name.length > 17 ? "..." : ""
-                  }`}
-                </Text>
-                <IconButton
-                  size='xs'
-                  aria-label='cancel video'
-                  onClick={() => removeOneApprVideo(file.name)}>
-                  <XmarkIcon />
-                </IconButton>
-              </Flex>
-            );
-          })}
+          {vids &&
+            vids.map((file) => {
+              return (
+                <Flex
+                  key={file.name}
+                  bgColor='rgba(102, 95, 239, 0.16)'
+                  border='1px solid #793EF5'
+                  rounded='lg'
+                  align='center'
+                  px={2}
+                  m={1}
+                  py={0.5}
+                  fontSize='15'
+                  color='#793EF5'>
+                  <Text>
+                    {`${file.name.slice(0, 17)}${
+                      file.name.length > 17 ? "..." : ""
+                    }`}
+                  </Text>
+                  <IconButton
+                    size='xs'
+                    aria-label='cancel video'
+                    onClick={async () => {
+                      if (params.id === "new") {
+                      } else removeOneApprVideo(file.name);
+                    }}>
+                    <XmarkIcon />
+                  </IconButton>
+                </Flex>
+              );
+            })}
         </HStack>
       </FocusableBox>
 

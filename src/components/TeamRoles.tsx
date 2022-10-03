@@ -45,11 +45,7 @@ import { useState } from "react";
 const TeamRoles = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [edit, setEdit] = useState<string | null>(null);
-
   const teamRoles = useStore((state) => state.apprenticeship.teamRoles);
-
-  // console.log(teamRoles);
 
   const {
     teamRole,
@@ -96,6 +92,7 @@ const TeamRoles = () => {
   return (
     <>
       <Modal
+        motionPreset='slideInBottom'
         isOpen={isOpen}
         onClose={onClose}
         onCloseComplete={() => resetTeamRole()}>

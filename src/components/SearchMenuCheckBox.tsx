@@ -12,7 +12,7 @@ import {
 import { DocumentData } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import Fuse from "fuse.js";
-import { debounce } from "lodash";
+import debounce from "lodash/debounce";
 import { CheckBoxWithText } from "./CheckBox";
 
 const SearchMenuCheckBox = ({

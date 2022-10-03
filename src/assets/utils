@@ -18,3 +18,34 @@ useEffect(() => {
   //     setTDP(2);
   //   }
   // }, [values]);
+
+
+
+  await addDoc(collection(db, "apprenticeships"), {
+        ...appr,
+        timeStamp: serverTimestamp(),
+        creatorId: user?.uid,
+      })
+        .then(() => {
+          // setLoading(false);
+          // navigate("/apprenticeships");
+          // resetStore();
+        })
+        .catch(() => {
+          // setLoading(false);
+          // toast({
+          //   position: "bottom",
+          //   duration: 2000,
+          //   render: () => (
+          //     <Box
+          //       borderRadius={20}
+          //       bgColor='lavender'
+          //       p='1'
+          //       border='1px solid #793EF5'>
+          //       <Text textAlign='center' color='#793EF5' fontWeight={600}>
+          //         Something went wrong
+          //       </Text>
+          //     </Box>
+          //   ),
+          // });
+        });

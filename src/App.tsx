@@ -15,7 +15,7 @@ import Auth from "./components/Auth";
 import Apprenticeships from "./pages/Apprenticeships";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "./assets/firebase";
-import Loading from "./components/Loading";
+import {LoadingBlur} from "./components/Loading";
 import { updateProfile } from "firebase/auth";
 import Apprenticeship from "./components/Apprenticeship";
 import NavBar from "./components/NavBar";
@@ -31,7 +31,7 @@ function App() {
     doc(db, "users", `${user?.uid}`)
   );
 
-  if (loading) return <Loading />;
+  if (loading) return <LoadingBlur />;
 
   if (!user) return <Auth />;
 

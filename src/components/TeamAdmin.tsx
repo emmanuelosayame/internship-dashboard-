@@ -79,6 +79,7 @@ const TeamAdmins = () => {
   return (
     <>
       <Modal
+        motionPreset='slideInBottom'
         isOpen={isOpen}
         onClose={onClose}
         onCloseComplete={() => {
@@ -142,9 +143,9 @@ const TeamAdmins = () => {
                 email: teamAdmin.email,
                 linkedInUrl: teamAdmin.linkedInUrl,
               }}
-              onSubmit={(values) => {
+              onSubmit={({ email, linkedInUrl, name }) => {
                 if (params.id === "new") {
-                  addTeamAdmin({ ...values });
+                  addTeamAdmin({ email, linkedInUrl, name, photo });
                   onClose();
                 } else {
                   //remove old image and upload new

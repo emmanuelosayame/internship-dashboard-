@@ -2,6 +2,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { StateCreator } from "zustand";
 import { db } from "../firebase";
 import { ApprSlice, ApprType } from "../Types";
+import { v4 } from "uuid";
 
 const initialState = {
   teamRoles: [],
@@ -56,7 +57,7 @@ export const apprenticeshipSlice: StateCreator<ApprSlice> = (set, get) => ({
               ...state.apprenticeship.teamRoles,
               {
                 ...role,
-                id: Date.now().toString(),
+                id: v4(),
               },
             ],
           },

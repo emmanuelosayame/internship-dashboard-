@@ -1,14 +1,15 @@
+import { Timestamp } from "firebase/firestore";
 import * as Yup from "yup";
 
 export interface ApprType {
   apprenticeshipTitle: string;
   companyDescription: string;
   apprenticeshipDescription: string;
-  logo: File | null;
+  logoUrl?: string;
   teamRoles: TeamRole[];
-  videos: File[];
+  videosUrls?: { name: string; url: string }[];
   teamTypes: string[];
-  timeline: { startDate: Date | null; estEndDate: Date | null };
+  timeline: { startDate: Timestamp | null; estEndDate: Timestamp | null };
   teamAdmins: TeamAdmin[];
 }
 
@@ -33,9 +34,29 @@ export interface TeamRole {
   minimumHoursPW: number | null;
   locationPref: string;
 }
+interface ApprCreateType {
+  logo: File | null;
+  logoUrl?: { refId: string; url: string };
+  apprenticeshipTitle: string;
+  companyDescription: string;
+  apprenticeshipDescription: string;
+  teamRoles: TeamRole[];
+  videos: File[];
+  videosUrls?: { name: string; url: string }[];
+  teamTypes: string[];
+  timeline: { startDate: Date | null; estEndDate: Date | null };
+  teamAdmins: TeamAdminCreate[];
+}
+
+interface TeamAdminCreate {
+  photo?: File | null;
+  name: string;
+  email: string;
+  linkedInUrl?: string;
+}
 
 export interface ApprSlice {
-  apprenticeship: ApprType;
+  apprenticeship: ApprCreateType;
   setCompanyLogo: (logo: File) => void;
   setApprTitle: (title: string) => void;
   setCompanyDescr: (descr: string) => void;
@@ -50,7 +71,7 @@ export interface ApprSlice {
   removeOneApprVideo: (videoName: string) => void;
   removeOneTeamRole: (role: string) => void;
   removeTeamAdmin: (id: string) => void;
-  addTeamAdmin: (admin: TeamAdmin) => void;
+  addTeamAdmin: (admin: TeamAdminCreate) => void;
   resetAppr: () => void;
   populateAppr: (id: string) => void;
   loadingAppr: boolean;
@@ -78,7 +99,7 @@ export interface TeamAdmin {
 }
 
 export interface TeamAdminSlice {
-  teamAdmin: TeamAdmin;
+  teamAdmin: TeamAdminCreate;
   setAdminName: (name: string) => void;
   setAdminEmail: (name: string) => void;
   setAdminLinkedInUrl: (name: string) => void;

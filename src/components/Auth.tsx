@@ -24,7 +24,7 @@ import {
 } from "../assets/Svgs";
 import * as Yup from "yup";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import Loading from "./Loading";
+import { LoadingBlur } from "./Loading";
 import { auth } from "../assets/firebase";
 import { updateProfile } from "firebase/auth";
 import logo from "../../public/RadicallX-Black-Logo 1.png";
@@ -52,7 +52,7 @@ const Auth = () => {
     signIn(email, password);
   };
 
-  if (!error && loading) return <Loading />;
+  if (!error && loading) return <LoadingBlur />;
 
   return (
     <Flex justify='end' h='100vh' bgColor='#793EF5' fontSize='156px'>

@@ -1,4 +1,10 @@
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Box,
   Button,
   Flex,
@@ -8,6 +14,7 @@ import {
   IconButton,
   Stack,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -30,8 +37,10 @@ import { auth, db } from "../assets/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { ApprType } from "../assets/Types";
 import { useStore } from "../assets/store/Store";
+import { useRef, useState } from "react";
 
 const Apprenticeships = () => {
+  const cancelRef = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
   // const params = useParams();
   const [user] = useAuthState(auth);
@@ -50,9 +59,54 @@ const Apprenticeships = () => {
   const apprList = data?.docs.map((data) => ({ ...data.data(), id: data.id }));
 
   // console.log(apprList);
+  const [deleteConfrm, setDeleteConfrm] = useState<{
+    isOpen: boolean;
+    id: string | null;
+  }>({ isOpen: false, id: null });
 
   return (
     <>
+      <AlertDialog
+        motionPreset='slideInBottom'
+        isOpen={deleteConfrm.isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={() => setDeleteConfrm({ id: null, isOpen: false })}
+        onCloseComplete={() =>
+          deleteConfrm.id && setDeleteConfrm({ id: null, isOpen: false })
+        }>
+        <AlertDialogOverlay>
+          <AlertDialogContent rounded='2xl' w='350px'>
+            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+              Delete Apprenticeship
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure? You can't undo this action afterwards.
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button
+                ref={cancelRef}
+                onClick={() => setDeleteConfrm({ id: null, isOpen: false })}
+                color='#793EF5'
+                // border='1px solid #793EF5'
+                _hover={{ bgColor: "lavender" }}>
+                Cancel
+              </Button>
+              <Button
+                colorScheme='red'
+                onClick={() => {
+                  deleteConfrm.id && deleteAppr(deleteConfrm.id);
+                  setDeleteConfrm({ id: null, isOpen: false });
+                }}
+                ml={3}>
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+
       <Box px={6} py={4} w='full'>
         <Flex justify='space-between'>
           <Text fontSize='32' fontWeight='600' textAlign={["center", "start"]}>
@@ -82,6 +136,8 @@ const Apprenticeships = () => {
               key={data.id}
               as={Stack}
               colSpan={[6, 3, 2]}
+              h='200px'
+              // w='365px'
               bgColor='white'
               rounded='20px'
               border='1px solid #CFD3D9'
@@ -102,7 +158,9 @@ const Apprenticeships = () => {
                 <IconButton
                   aria-label='edit'
                   size='xs'
-                  onClick={() => deleteAppr(data?.id)}>
+                  onClick={() =>
+                    setDeleteConfrm({ id: data.id, isOpen: true })
+                  }>
                   <TrashIcon boxSize={5} />
                 </IconButton>
               </Flex>
@@ -112,6 +170,7 @@ const Apprenticeships = () => {
               <Flex flexWrap='wrap'>
                 {data?.teamRoles?.map((role) => (
                   <Box
+                    key={role.id}
                     fontSize='12px'
                     m={1}
                     bgColor='#EDEAFF'
