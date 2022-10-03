@@ -10,7 +10,7 @@ const Loading = () => {
         justifyContent: "center",
         alignItems: "center",
       }}>
-      <DotLoader color='#5D3FD3' />
+      <DotLoader color='#793EF5' />
     </div>
   );
 };

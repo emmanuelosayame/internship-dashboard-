@@ -6,42 +6,111 @@ import {
   HStack,
   Stack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { auth, db } from "../assets/firebase";
+import { useStore } from "../assets/store/Store";
 import {
   ArrowLeftIcon,
   CheckIcon,
   CircleIcon,
-  PlusSquareIcon,
+  AddSquareIcon,
 } from "../assets/Svgs";
-import { ApprDataTypes } from "../assets/Types";
+import { ApprType } from "../assets/Types";
 import EditorSection from "./EditorSection";
+import Loading from "./Loading";
 
 const Apprenticeship = () => {
   const [user] = useAuthState(auth);
 
-  const tProg = 1;
+  const navigate = useNavigate();
+  const params = useParams();
 
-  const [values, setValues] = useState<ApprDataTypes>({
-    apprenticeshipTitle: "",
-    companyDescription: "",
-    apprenticeshipDescription: "",
-    photo: null,
-  });
-  // console.log(values);
+  // console.log(params);
 
-  const handleCreateNewAppr = async () => {
-    const { photo, ...rest } = values;
-    await addDoc(collection(db, "apprenticeships"), {
-      ...rest,
-      timeStamp: serverTimestamp(),
-      creatorId: user?.uid,
-    });
+  const appr = useStore((state) => state.apprenticeship);
+  const { loadingEditApp } = useStore((state) => ({
+    loadingEditApp: state.loadingAppr,
+    editAppr: state.editAppr,
+  }));
+  const resetStore = useStore((state) => state.resetAppr);
+
+  const toast = useToast();
+
+  const [loading, setLoading] = useState(false);
+
+  const handleSaveAppr = async () => {
+    setLoading(true);
+    if (params.id === "new") {
+      await addDoc(collection(db, "apprenticeships"), {
+        ...appr,
+        timeStamp: serverTimestamp(),
+        creatorId: user?.uid,
+      })
+        .then(() => {
+          setLoading(false);
+          navigate("/apprenticeships");
+          resetStore();
+        })
+        .catch(() => {
+          setLoading(false);
+          toast({
+            position: "bottom",
+            duration: 2000,
+            render: () => (
+              <Box
+                borderRadius={20}
+                bgColor='lavender'
+                p='1'
+                border='1px solid #793EF5'>
+                <Text textAlign='center' color='#793EF5' fontWeight={600}>
+                  Something went wrong
+                </Text>
+              </Box>
+            ),
+          });
+        });
+    } else {
+      await updateDoc(doc(db, "apprenticeships", `${params.id}`), {
+        ...appr,
+      })
+        .then(() => {
+          setLoading(false);
+          navigate("/apprenticeships");
+          resetStore();
+        })
+        .catch(() => {
+          setLoading(false);
+          toast({
+            position: "bottom",
+            duration: 2000,
+            render: () => (
+              <Box
+                borderRadius={20}
+                bgColor='lavender'
+                p='1'
+                border='1px solid #793EF5'>
+                <Text textAlign='center' color='#793EF5' fontWeight={600}>
+                  Something went wrong
+                </Text>
+              </Box>
+            ),
+          });
+        });
+    }
   };
+
+  if (loading || loadingEditApp) return <Loading />;
 
   return (
     <>
@@ -60,19 +129,30 @@ const Apprenticeship = () => {
           p={4}
           align='center'>
           <Link to='/apprenticeships'>
-            <Button leftIcon={<ArrowLeftIcon boxSize={5} color='#5D3FD3' />}>
+            <Button
+              leftIcon={
+                <ArrowLeftIcon boxSize={5} fontSize='18px' color='#793EF5' />
+              }>
               Back
             </Button>
           </Link>
           <Heading>Creating Apprenticeship</Heading>
           <Button
-            leftIcon={<PlusSquareIcon />}
+            leftIcon={<AddSquareIcon />}
             variant='solid'
-            bgColor='#5D3FD3'
+            bgColor='#793EF5'
             color='white'
-            onClick={handleCreateNewAppr}
-            // isDisabled={!!(tProg < 5)}
-          >
+            onClick={handleSaveAppr}
+            isDisabled={
+              !(
+                appr.apprenticeshipDescription.length > 0 &&
+                appr.companyDescription.length > 0 &&
+                appr.apprenticeshipTitle.length > 0 &&
+                appr.teamAdmins.length > 0 &&
+                appr.teamRoles.length &&
+                appr.timeline.startDate
+              )
+            }>
             Publish Apprenticeship
           </Button>
         </Flex>
@@ -84,33 +164,47 @@ const Apprenticeship = () => {
           border='1px solid gainsboro'
           rounded='2xl'>
           <HStack spacing={1}>
-            <CheckIcon color='#5D3FD3' />
-            <Text color='#5D3FD3'>Company Title and Desc.</Text>
+            <CheckIcon color='#793EF5' />
+            <Text color='#793EF5'>Company Title and Desc.</Text>
           </HStack>
 
           <HStack spacing={1}>
-            <CircleIcon color={tProg > 1 ? "#5D3FD3" : "gray"} />
-            <Text color={tProg > 1 ? "#5D3FD3" : "gray"}>Team Type</Text>
+            <CircleIcon
+              color={appr.teamTypes.length > 0 ? "#793EF5" : "gray"}
+            />
+            <Text color={appr.teamTypes.length > 0 ? "#793EF5" : "gray"}>
+              Team Type
+            </Text>
           </HStack>
 
           <HStack spacing={1}>
-            <CircleIcon color={tProg > 2 ? "#5D3FD3" : "gray"} />
-            <Text color={tProg > 2 ? "#5D3FD3" : "gray"}>Team Roles</Text>
+            <CircleIcon
+              color={appr.teamRoles.length > 0 ? "#793EF5" : "gray"}
+            />
+            <Text color={appr.teamRoles.length > 0 ? "#793EF5" : "gray"}>
+              Team Roles
+            </Text>
           </HStack>
 
           <HStack spacing={1}>
-            <CircleIcon color={tProg > 3 ? "#5D3FD3" : "gray"} />
-            <Text color={tProg > 3 ? "#5D3FD3" : "gray"}>Team Admin</Text>
+            <CircleIcon
+              color={appr.teamAdmins.length > 0 ? "#793EF5" : "gray"}
+            />
+            <Text color={appr.teamAdmins.length > 0 ? "#793EF5" : "gray"}>
+              Team Admin
+            </Text>
           </HStack>
 
           <HStack spacing={1}>
-            <CircleIcon color={tProg > 4 ? "#5D3FD3" : "gray"} />
-            <Text color={tProg > 4 ? "#5D3FD3" : "gray"}>Timeline</Text>
+            <CircleIcon color={appr.timeline.startDate ? "#793EF5" : "gray"} />
+            <Text color={appr.timeline.startDate ? "#793EF5" : "gray"}>
+              Timeline
+            </Text>
           </HStack>
         </Flex>
       </Box>
 
-      <EditorSection values={values} setValues={setValues} />
+      <EditorSection />
     </>
   );
 };

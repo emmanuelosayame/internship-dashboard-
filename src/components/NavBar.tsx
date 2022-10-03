@@ -1,10 +1,29 @@
-import { Avatar, Flex, Heading, HStack, Stack, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  Flex,
+  Heading,
+  HStack,
+  Image,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { NavLink, useLocation, useParams } from "react-router-dom";
-import { auth } from "../assets/firebase";
-import { JobIcon, SettingsIcon, SquarePlusIcon } from "../assets/Svgs";
+import { auth, db } from "../assets/firebase";
+import {
+  BookIcon,
+  BriefCaseIcon,
+  DashboardIcon,
+  JobIcon,
+  MedalSilver,
+  SettingsIcon,
+  SquarePlusIcon,
+} from "../assets/Svgs";
+import logo from "../../public/RadicallX-Black-Logo 1.png";
+import { useDocumentData } from "react-firebase-hooks/firestore";
+import { doc } from "firebase/firestore";
 
-const NavBar = () => {
+const NavBar = ({ userData }: { userData: any }) => {
   const [user, loading, error] = useAuthState(auth);
 
   //   if (
@@ -18,31 +37,32 @@ const NavBar = () => {
   return (
     <Flex
       flexDirection='column'
-      // display={showDashBoard() ? "unset" : "none"}
       bgColor='white'
-      w='fit-content'
+      align='center'
+      w='237px'
       h='full'
       px={2}
-      py={6}
-      rounded='2xl'>
-      <Heading display={["none", "none", "unset"]} size='md' textAlign='center'>
-        RADICAL X
-      </Heading>
-      <Stack spacing={4} py={7} flex='1' w='fit-content'>
+      rounded='24px'
+      boxShadow='lg'
+      py={6}>
+      <Image src={logo} w='160px' mx='auto' />
+
+      <Stack spacing={4} py={7} flex='1' w='197px'>
         <NavLink to='/' end>
           {({ isActive }) => (
             <HStack
               align='center'
-              py={1}
-              px={2}
-              rounded='xl'
-              bgColor={isActive ? "lavender" : "unset"}
-              color={isActive ? "#5D3FD3" : "unset"}
-              border={`0.12rem solid ${isActive ? "#5D3FD3" : "transparent"}`}>
-              <SquarePlusIcon color={isActive ? "#5D3FD3" : "unset"} />
+              py='12px'
+              px='16px'
+              h='48px'
+              rounded='16px'
+              bgColor={isActive ? "rgba(102, 95, 239, 0.16)" : "unset"}
+              color={isActive ? "#793EF5" : "unset"}
+              border={`0.12rem solid ${isActive ? "#793EF5" : "transparent"}`}>
+              <DashboardIcon stroke={isActive ? "#793EF5" : "unset"} />
               <Text
                 display={["none", "none", "unset"]}
-                color={isActive ? "#5D3FD3" : "unset"}>
+                color={isActive ? "#793EF5" : "unset"}>
                 DashBoard
               </Text>
             </HStack>
@@ -53,15 +73,16 @@ const NavBar = () => {
           {({ isActive }) => (
             <HStack
               align='center'
-              py={1}
-              px={2}
-              rounded='xl'
-              border={`0.12rem solid ${isActive ? "#5D3FD3" : "transparent"}`}
-              bgColor={isActive ? "lavender" : "unset"}>
-              <JobIcon color={isActive ? "#5D3FD3" : "unset"} />
+              py='12px'
+              px='16px'
+              h='48px'
+              rounded='16px'
+              border={`0.12rem solid ${isActive ? "#793EF5" : "transparent"}`}
+              bgColor={isActive ? "rgba(102, 95, 239, 0.16)" : "unset"}>
+              <MedalSilver color={isActive ? "#793EF5" : "unset"} />
               <Text
                 display={["none", "none", "unset"]}
-                color={isActive ? "#5D3FD3" : "unset"}>
+                color={isActive ? "#793EF5" : "unset"}>
                 Apprenticeships
               </Text>
             </HStack>
@@ -72,15 +93,16 @@ const NavBar = () => {
           {({ isActive }) => (
             <HStack
               align='center'
-              py={1}
-              px={2}
-              rounded='xl'
-              border={`0.12rem solid ${isActive ? "#5D3FD3" : "transparent"}`}
-              bgColor={isActive ? "lavender" : "unset"}>
-              <JobIcon color={isActive ? "#5D3FD3" : "unset"} />
+              py='12px'
+              px='16px'
+              h='48px'
+              rounded='16px'
+              border={`0.12rem solid ${isActive ? "#793EF5" : "transparent"}`}
+              bgColor={isActive ? "rgba(102, 95, 239, 0.16)" : "unset"}>
+              <BookIcon color={isActive ? "#793EF5" : "unset"} />
               <Text
                 display={["none", "none", "unset"]}
-                color={isActive ? "#5D3FD3" : "unset"}>
+                color={isActive ? "#793EF5" : "unset"}>
                 Internships
               </Text>
             </HStack>
@@ -91,15 +113,16 @@ const NavBar = () => {
           {({ isActive }) => (
             <HStack
               align='center'
-              py={1}
-              px={2}
-              rounded='xl'
-              border={`0.12rem solid ${isActive ? "#5D3FD3" : "transparent"}`}
-              bgColor={isActive ? "lavender" : "unset"}>
-              <JobIcon color={isActive ? "#5D3FD3" : "unset"} />
+              py='12px'
+              px='16px'
+              h='48px'
+              rounded='16px'
+              border={`0.12rem solid ${isActive ? "#793EF5" : "transparent"}`}
+              bgColor={isActive ? "rgba(102, 95, 239, 0.16)" : "unset"}>
+              <BriefCaseIcon color={isActive ? "#793EF5" : "unset"} />
               <Text
                 display={["none", "none", "unset"]}
-                color={isActive ? "#5D3FD3" : "unset"}>
+                color={isActive ? "#793EF5" : "unset"}>
                 Jobs
               </Text>
             </HStack>
@@ -110,15 +133,16 @@ const NavBar = () => {
           {({ isActive }) => (
             <HStack
               align='center'
-              py={1}
-              px={2}
-              rounded='xl'
-              border={`0.12rem solid ${isActive ? "#5D3FD3" : "transparent"}`}
-              bgColor={isActive ? "lavender" : "unset"}>
-              <SettingsIcon color={isActive ? "#5D3FD3" : "unset"} />
+              py='12px'
+              px='16px'
+              h='48px'
+              rounded='16px'
+              border={`0.12rem solid ${isActive ? "#793EF5" : "transparent"}`}
+              bgColor={isActive ? "rgba(102, 95, 239, 0.16)" : "unset"}>
+              <SettingsIcon color={isActive ? "#793EF5" : "unset"} />
               <Text
                 display={["none", "none", "unset"]}
-                color={isActive ? "#5D3FD3" : "unset"}>
+                color={isActive ? "#793EF5" : "unset"}>
                 Settings
               </Text>
             </HStack>
@@ -126,11 +150,11 @@ const NavBar = () => {
         </NavLink>
       </Stack>
 
-      <HStack cursor='pointer' onClick={() => auth.signOut()}>
+      <HStack cursor='pointer'>
         <Avatar size='sm' rounded='lg' />
-        <Heading display={["none", "none", "unset"]} size='xs'>
-          {user?.displayName}
-        </Heading>
+        <Text fontSize='14px' display={["none", "none", "unset"]} size='xs'>
+          {userData?.name || user?.displayName}
+        </Text>
       </HStack>
     </Flex>
   );

@@ -1,0 +1,20 @@
+useEffect(() => {
+  //   if (values.apprenticeshipTitle.length > 0) {
+  //     setTDP(1);
+  //   } else {
+  //     setTDP(0);
+  //     return;
+  //   }
+  //   if (
+  //     values.apprenticeshipDescription.length > 0 &&
+  //     values.companyDescription.length > 0 &&
+  //     values.apprenticeshipTitle.length > 0
+  //   ) {
+  //     setTDP(3);
+  //   } else if (
+  //     values.companyDescription.length > 0 &&
+  //     values.apprenticeshipTitle.length > 0
+  //   ) {
+  //     setTDP(2);
+  //   }
+  // }, [values]);

@@ -1,11 +1,11 @@
 import {
   Box,
   Button,
-  Checkbox,
   Flex,
   Heading,
   HStack,
   IconButton,
+  Image,
   Input,
   InputGroup,
   InputLeftElement,
@@ -15,12 +15,19 @@ import {
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { useState } from "react";
-import { EnvelopeIcon, EyeIcon, EyeSlashIcon, LockIcon } from "../assets/Svgs";
+import {
+  SmsIcon,
+  EyeIcon,
+  EyeSlashIcon,
+  LockIcon,
+  TickSquare,
+} from "../assets/Svgs";
 import * as Yup from "yup";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import Loading from "./Loading";
 import { auth } from "../assets/firebase";
 import { updateProfile } from "firebase/auth";
+import logo from "../../public/RadicallX-Black-Logo 1.png";
 
 const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -48,15 +55,16 @@ const Auth = () => {
   if (!error && loading) return <Loading />;
 
   return (
-    <Flex justify='end' h='100vh' bgColor='#5D3FD3' fontSize='15px'>
+    <Flex justify='end' h='100vh' bgColor='#793EF5' fontSize='156px'>
       <Stack
-        bgColor='white'
+        bgColor='#FFFFFF'
         align='center'
         w={["full", "full", "50%"]}
         h='full'
         px={2}
         py={10}>
-        <Heading size='lg'>Radical X</Heading>
+        <Image src={logo} />
+
         <Formik
           initialValues={{
             email: "",
@@ -65,27 +73,28 @@ const Auth = () => {
           validationSchema={validationSchema}
           onSubmit={handleLogin}>
           {({ dirty, getFieldProps, touched, errors }) => (
-            <Stack as={Form} flex='1' justify='center' spacing={2}>
-              <Heading w='full' size='sm'>
+            <Stack as={Form} flex='1' justify='center' spacing={2} w='360px'>
+              <Text fontSize='24px' lineHeight='24px'>
                 Login
-              </Heading>
+              </Text>
 
               <InputGroup>
                 <InputLeftElement h='full'>
-                  <EnvelopeIcon boxSize={5} />
+                  <SmsIcon boxSize={5} />
                 </InputLeftElement>
                 <Input
                   placeholder='Email'
                   type='email'
                   size='md'
-                  bgColor='whitesmoke'
+                  bgColor='#F5F5F7'
+                  border='1px solid #CECECE'
                   rounded='2xl'
                   {...getFieldProps("email")}
                 />
               </InputGroup>
               {touched.email && errors.email && (
                 <Text
-                  color='#5D3FD3'
+                  color='#793EF5'
                   textAlign='center'
                   fontStyle='oblique'
                   fontSize={15}>
@@ -99,8 +108,9 @@ const Auth = () => {
                 </InputLeftElement>
                 <Input
                   placeholder='Password'
+                  _placeholder={{ fontSize: "16px", fontWeight: "400" }}
                   size='md'
-                  bgColor='whitesmoke'
+                  bgColor='#F5F5F7'
                   rounded='2xl'
                   type={showPassword ? "text" : "password"}
                   {...getFieldProps("password")}
@@ -125,7 +135,7 @@ const Auth = () => {
 
               {touched.password && errors.password && (
                 <Text
-                  color='#5D3FD3'
+                  color='#793EF5'
                   textAlign='center'
                   fontStyle='oblique'
                   fontSize={15}>
@@ -135,20 +145,29 @@ const Auth = () => {
 
               <Flex justify='space-between'>
                 <HStack>
-                  <Checkbox />
-                  <Text>Remember me</Text>
+                  <IconButton
+                    aria-label='forgot-password'
+                    size='xs'
+                    variant='unstyled'>
+                    <TickSquare />
+                  </IconButton>
+                  <Text fontSize='16px'>Remember me</Text>
                 </HStack>
-                <Button variant='link' color='#5D3FD3'>
+                <Button variant='link' fontSize='16px' color='#793EF5'>
                   Forgot Password?
                 </Button>
               </Flex>
+
               <Button
                 type='submit'
-                // isDisabled={!dirty}
                 color='white'
-                bgColor='#5D3FD3'>
+                rounded='16px'
+                height='48px'
+                fontWeight={600}
+                bgColor='#793EF5'>
                 Login
               </Button>
+
               <Box h='5'>
                 {error && (
                   <Text

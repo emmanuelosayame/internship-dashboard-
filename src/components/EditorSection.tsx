@@ -1,7 +1,9 @@
 import {
   Box,
   Button,
+  ButtonProps,
   Checkbox,
+  CheckboxGroup,
   Flex,
   Grid,
   GridItem,
@@ -10,6 +12,7 @@ import {
   Image,
   Input,
   InputGroup,
+  InputProps,
   InputRightElement,
   Stack,
   Text,
@@ -17,8 +20,8 @@ import {
 } from "@chakra-ui/react";
 import {
   ChangeEvent,
-  ChangeEventHandler,
   Dispatch,
+  forwardRef,
   ReactNode,
   SetStateAction,
   useEffect,
@@ -32,25 +35,26 @@ import {
   MobileAppIcon,
   MonitorIcon,
   PhotoIcon,
-  PlusSquareIcon,
   XmarkIcon,
 } from "../assets/Svgs";
 import TextareaAutosize from "react-textarea-autosize";
-import * as Yup from "yup";
 import { debounce } from "lodash";
-import { doc, setDoc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
-import {
-  useCollectionData,
-  useDocumentData,
-} from "react-firebase-hooks/firestore";
 import { auth, db } from "../assets/firebase";
 import { useDropzone } from "react-dropzone";
 import {
-  ApprDataTypes,
+  ApprType,
   ApprErrorTypes,
+  TeamRole,
   validationSchemaA,
 } from "../assets/Types";
+import "../../editor.css";
+import TeamRoles from "./TeamRoles";
+import TeamAdmins from "./TeamAdmin";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useStore } from "../assets/store/Store";
+import shallow from "zustand/shallow";
 
 const FocusableBox = ({
   text,
@@ -70,12 +74,12 @@ const FocusableBox = ({
     rounded='2xl'
     tabIndex={1}
     outline='none'
-    border={focused ? "1px solid #5D3FD3" : "1px solid transparent"}
+    border={focused ? "1px solid #793EF5" : "1px solid transparent"}
     boxShadow={focused ? "lg" : "unset"}
     _focusWithin={
-      focusShow ? { border: "1px solid #5D3FD3", boxShadow: "2xl" } : {}
+      focusShow ? { border: "1px solid #793EF5", boxShadow: "2xl" } : {}
     }
-    // _focus={{ border: "1px solid #5D3FD3" }}
+    // _focus={{ border: "1px solid #793EF5" }}
   >
     <Flex justify='space-between' py={2}>
       <Text fontWeight={600}>{text}</Text>
@@ -85,57 +89,87 @@ const FocusableBox = ({
   </Box>
 );
 
-const EditorSection = ({
-  values,
-  setValues,
-}: {
-  values: ApprDataTypes;
-  setValues: Dispatch<SetStateAction<ApprDataTypes>>;
-}) => {
+const CustomInput = forwardRef((props: any, ref: any) => {
+  return (
+    <InputGroup>
+      <Input
+        ref={ref}
+        value={props.value}
+        placeholder={props.placeholder}
+        onChange={props.onChange}
+        rounded='xl'
+      />
+      <InputRightElement>
+        <IconButton
+          aria-label=''
+          size='xs'
+          onClick={props.onClick}
+          bgColor='lavender'
+          rounded='7px'>
+          <CalenderDaysIcon color='#793EF5' />
+        </IconButton>
+      </InputRightElement>
+    </InputGroup>
+  );
+});
+
+const EditorSection = () => {
   const photoRef = useRef<HTMLInputElement | null>(null);
-  const photoSrc = values.photo && URL.createObjectURL(values.photo);
-  const { getInputProps, getRootProps, acceptedFiles, isDragActive } =
-    useDropzone();
-  const [teamRoles, setTeamRoles] = useState<any[]>([]);
-  const [teamAdmins, setTeamAdmins] = useState<any[]>([]);
 
-  const [tDP, setTDP] = useState(0);
+  const {
+    videos,
+    teamTypes,
+    timeline,
+    logo,
+    apprenticeshipTitle,
+    companyDescription,
+    apprenticeshipDescription,
+  } = useStore((state) => state.apprenticeship);
+  // console.log(teamTypes);
 
-  useEffect(() => {
-    if (values.apprenticeshipTitle.length > 0) {
-      setTDP(1);
-    } else {
-      setTDP(0);
-      return;
-    }
-    if (
-      values.apprenticeshipDescription.length > 0 &&
-      values.companyDescription.length > 0 &&
-      values.apprenticeshipTitle.length > 0
-    ) {
-      setTDP(3);
-    } else if (
-      values.companyDescription.length > 0 &&
-      values.apprenticeshipTitle.length > 0
-    ) {
-      setTDP(2);
-    }
-  }, [values]);
+  const {
+    addApprTitle,
+    addCompanyDescr,
+    addApprDescr,
+    addApprVideos,
+    removeOneApprVideo,
+    addTeamTypes,
+    addTimelineSD,
+    addTimelineEED,
+    addLogo,
+  } = useStore(
+    (state) => ({
+      addApprTitle: state.setApprTitle,
+      addCompanyDescr: state.setCompanyDescr,
+      addApprDescr: state.setApprDescr,
+      addApprVideos: state.setApprVideos,
+      removeOneApprVideo: state.removeOneApprVideo,
+      addTeamTypes: state.setTeamTypes,
+      addTimelineSD: state.setTimelineSD,
+      addTimelineEED: state.setTimelineEED,
+      addLogo: state.setCompanyLogo,
+    }),
+    shallow
+  );
 
-  const [user] = useAuthState(auth);
+  const photoSrc = logo && URL.createObjectURL(logo);
 
-  const [filteredFiles, setFilteredFiles] = useState<File[]>([]);
+  const { getInputProps, getRootProps, isDragActive } = useDropzone({
+    // accept: { "video/mp4": [".mp4", ".MP4"] },
+    maxFiles: 5,
+    maxSize: 100000000,
+    onDrop: (acceptedFiles, rejected) => {
+      acceptedFiles.length > 0 && addApprVideos(acceptedFiles);
+    },
+  });
 
-  const removeOneFile = (filename: string) => {
-    setFilteredFiles(filteredFiles.filter((file) => filename !== file.name));
-  };
+  //  const [checked, setChecked] = useState<(string | number)[]>([]);
 
-  useEffect(() => {
-    if (acceptedFiles && acceptedFiles.length > 0)
-      setFilteredFiles(
-        acceptedFiles.filter((file) => file.size < 100000).slice(0, 4)
-      );
-  }, [acceptedFiles]);
+  //  console.log(checked);
+
+  const [tDP, setTDP] = useState(5);
+
+  // const [user] = useAuthState(auth);
 
   const [errors, setErrors] = useState<ApprErrorTypes>({
     apprenticeshipTitle: null,
@@ -145,27 +179,40 @@ const EditorSection = ({
 
   const handleTextChange = debounce(
     (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
-      // console.log(e.target.name, e.target.value);
-      const value = { [e.target.name]: e.target.value };
+      const name = e.target.name;
+      const value = e.target.value;
 
-      validationSchemaA
-        .validate(value)
-        .then(() => {
-          setValues({ ...values, ...value });
-          // if (errors[e.target.name]) {
-          //   setErrors({ ...errors, [e.target.name]: null });
-          // }
-        })
-        .catch((error) =>
-          setErrors({ ...errors, [e.target.name]: error.message })
-        );
+      switch (name) {
+        case "apprenticeshipTitle":
+          validationSchemaA
+            .validate({ apprenticeshipTitle: value })
+            .then(() => addApprTitle(value));
+          break;
+        case "companyDescription":
+          validationSchemaA
+            .validate({ companyDescription: value })
+            .then(() => addCompanyDescr(value));
+          break;
+        case "apprenticeshipDescription":
+          validationSchemaA
+            .validate({ apprenticeshipDescription: value })
+            .then(() => addApprDescr(value));
+          break;
+      }
+      // .catch((error) =>
+      //   setErrors({ ...errors, [e.target.name]: error.message })
+      // );
     },
-    500
+    800
   );
+
+  const checkedStyle = (value: string) =>
+    !!teamTypes.find((checked) => value === checked);
 
   return (
     <Stack mx='auto' maxW='650px' w='full' pt='150px' pb='40px' spacing={3}>
       <Stack spacing={3}>
+        {/* Introduce your company video upload section */}
         <FocusableBox
           focusShow={true}
           focused={!!(tDP === 0)}
@@ -196,18 +243,20 @@ const EditorSection = ({
                 onChange={(e) => {
                   photoSrc && URL.revokeObjectURL(photoSrc);
                   if (e?.target?.files && e?.target?.files[0]?.size < 5000000) {
-                    setValues({ ...values, photo: e.target.files[0] });
+                    addLogo(e.target.files[0]);
                   }
                 }}
                 ref={photoRef}
                 hidden
               />
             </Box>
+            {/* <Button onClick={() => addTitle("title")}>clickk</Button> */}
             <Input
               variant='unstyled'
               resize='none'
               fontSize='21'
               outline={0}
+              defaultValue={apprenticeshipTitle}
               _placeholder={{ color: "gray.400" }}
               placeholder='Enter Apprenticeship Title'
               name='apprenticeshipTitle'
@@ -216,7 +265,7 @@ const EditorSection = ({
           </Flex>
           {errors.apprenticeshipTitle && (
             <Text
-              color='#5D3FD3'
+              color='#793EF5'
               textAlign='center'
               fontStyle='oblique'
               fontSize={15}>
@@ -238,6 +287,7 @@ const EditorSection = ({
             placeholder='Enter Description'
             style={{ width: "100%", outline: "none", resize: "none" }}
             name='companyDescription'
+            defaultValue={companyDescription}
             variant='unstyled'
             disabled={!!(tDP < 1)}
             sx={{
@@ -256,7 +306,7 @@ const EditorSection = ({
           />
           {errors.companyDescription && (
             <Text
-              color='#5D3FD3'
+              color='#793EF5'
               textAlign='center'
               fontStyle='oblique'
               fontSize={15}>
@@ -275,6 +325,7 @@ const EditorSection = ({
             maxRows={7}
             fontSize='17'
             variant='unstyled'
+            defaultValue={apprenticeshipDescription}
             name='apprenticeshipDescription'
             onChange={handleTextChange}
             disabled={!(tDP > 1)}
@@ -293,7 +344,7 @@ const EditorSection = ({
           />
           {errors.apprenticeshipDescription && (
             <Text
-              color='#5D3FD3'
+              color='#793EF5'
               textAlign='center'
               fontStyle='oblique'
               fontSize={15}>
@@ -304,6 +355,7 @@ const EditorSection = ({
         {/* <button style={{ display: "none" }} ref={form1Ref} /> */}
       </Stack>
 
+      {/* Introduce your company video upload section */}
       <FocusableBox
         focusShow={true}
         text="Introduce yourself, your company, and what you're building.">
@@ -321,18 +373,20 @@ const EditorSection = ({
             : "Drag n drop to upload your video"}
         </Button>
         <input {...getInputProps()} type='file' hidden />
-        <HStack pt={3}>
-          {filteredFiles.map((file) => {
+        <HStack pt={3} flexWrap='wrap'>
+          {videos.map((file) => {
             return (
               <Flex
-                bgColor='lavender'
-                border='1px solid #5D3FD3'
+                key={file.name}
+                bgColor='rgba(102, 95, 239, 0.16)'
+                border='1px solid #793EF5'
                 rounded='lg'
                 align='center'
                 px={2}
+                m={1}
                 py={0.5}
                 fontSize='15'
-                color='#5D3FD3'>
+                color='#793EF5'>
                 <Text>
                   {`${file.name.slice(0, 17)}${
                     file.name.length > 17 ? "..." : ""
@@ -341,7 +395,7 @@ const EditorSection = ({
                 <IconButton
                   size='xs'
                   aria-label='cancel video'
-                  onClick={() => removeOneFile(file.name)}>
+                  onClick={() => removeOneApprVideo(file.name)}>
                   <XmarkIcon />
                 </IconButton>
               </Flex>
@@ -356,155 +410,177 @@ const EditorSection = ({
           gridColumnGap={3}
           gridRowGap={3}
           w='full'>
-          <GridItem w='full' border='1px solid gainsboro' p={2} rounded='2xl'>
-            <Flex w='full' justify='space-between'>
-              <MonitorIcon color='#5D3FD3' />
-              <Checkbox />
-            </Flex>
-            <Text>Web Platform</Text>
-          </GridItem>
+          <CheckboxGroup
+            onChange={(checked) =>
+              addTeamTypes(checked.map((check) => check.toString()))
+            }>
+            <GridItem
+              w='full'
+              p={3}
+              rounded='3xl'
+              role='group'
+              tabIndex={1}
+              bgColor={
+                checkedStyle("web-platform")
+                  ? "rgba(102, 95, 239, 0.16)"
+                  : "white"
+              }
+              border={
+                checkedStyle("web-platform")
+                  ? "1px solid #793EF5"
+                  : "1px solid gainsboro"
+              }>
+              <Flex w='full' py={1} justify='space-between'>
+                <MonitorIcon color='#793EF5' />
+                <Checkbox value='web-platform' />
+              </Flex>
+              <Text>Web Platform</Text>
+            </GridItem>
 
-          <GridItem w='full' border='1px solid gainsboro' p={2} rounded='2xl'>
-            <Flex w='full' justify='space-between'>
-              <MobileAppIcon color='#5D3FD3' />
-              <Checkbox />
-            </Flex>
-            <Text>Mobile App</Text>
-          </GridItem>
+            <GridItem
+              w='full'
+              bgColor={
+                checkedStyle("mobile-app")
+                  ? "rgba(102, 95, 239, 0.16)"
+                  : "white"
+              }
+              border={
+                checkedStyle("mobile-app")
+                  ? "1px solid #793EF5"
+                  : "1px solid gainsboro"
+              }
+              p={3}
+              rounded='3xl'>
+              <Flex w='full' py={1} justify='space-between'>
+                <MobileAppIcon color='#793EF5' />
+                <Checkbox value='mobile-app' />
+              </Flex>
+              <Text>Mobile App</Text>
+            </GridItem>
 
-          <GridItem w='full' border='1px solid gainsboro' p={2} rounded='2xl'>
-            <Flex w='full' justify='space-between'>
-              <MonitorIcon color='#5D3FD3' />
-              <Checkbox />
-            </Flex>
-            <Text>Growth</Text>
-          </GridItem>
+            <GridItem
+              w='full'
+              bgColor={
+                checkedStyle("growth") ? "rgba(102, 95, 239, 0.16)" : "white"
+              }
+              border={
+                checkedStyle("growth")
+                  ? "1px solid #793EF5"
+                  : "1px solid gainsboro"
+              }
+              p={3}
+              rounded='3xl'>
+              <Flex w='full' py={1} justify='space-between'>
+                <MonitorIcon color='#793EF5' />
+                <Checkbox value='growth' />
+              </Flex>
+              <Text>Growth</Text>
+            </GridItem>
 
-          <GridItem w='full' border='1px solid gainsboro' p={2} rounded='2xl'>
-            <Flex w='full' justify='space-between'>
-              <MonitorIcon color='#5D3FD3' />
-              <Checkbox />
-            </Flex>
-            <Text>Marketing Website</Text>
-          </GridItem>
+            <GridItem
+              w='full'
+              bgColor={
+                checkedStyle("marketing-website")
+                  ? "rgba(102, 95, 239, 0.16)"
+                  : "white"
+              }
+              border={
+                checkedStyle("marketing-website")
+                  ? "1px solid #793EF5"
+                  : "1px solid gainsboro"
+              }
+              p={3}
+              rounded='3xl'>
+              <Flex w='full' py='1' justify='space-between'>
+                <MonitorIcon color='#793EF5' />
+                <Checkbox value='marketing-website' />
+              </Flex>
+              <Text>Marketing Website</Text>
+            </GridItem>
 
-          <GridItem w='full' border='1px solid gainsboro' p={2} rounded='2xl'>
-            <Flex w='full' justify='space-between'>
-              <MonitorIcon color='#5D3FD3' />
-              <Checkbox />
-            </Flex>
-            <Text>Prototyping</Text>
-          </GridItem>
+            <GridItem
+              w='full'
+              bgColor={
+                checkedStyle("prototyping")
+                  ? "rgba(102, 95, 239, 0.16)"
+                  : "white"
+              }
+              border={
+                checkedStyle("prototyping")
+                  ? "1px solid #793EF5"
+                  : "1px solid gainsboro"
+              }
+              p={3}
+              rounded='3xl'>
+              <Flex w='full' py='1' justify='space-between'>
+                <MonitorIcon color='#793EF5' />
+                <Checkbox value='prototyping' />
+              </Flex>
+              <Text>Prototyping</Text>
+            </GridItem>
 
-          <GridItem w='full' border='1px solid gainsboro' p={2} rounded='2xl'>
-            <Flex w='full' justify='space-between'>
-              <MonitorIcon color='#5D3FD3' />
-              <Checkbox />
-            </Flex>
-            <Text>Data</Text>
-          </GridItem>
+            <GridItem
+              w='full'
+              bgColor={
+                checkedStyle("data") ? "rgba(102, 95, 239, 0.16)" : "white"
+              }
+              border={
+                checkedStyle("data")
+                  ? "1px solid #793EF5"
+                  : "1px solid gainsboro"
+              }
+              p={3}
+              rounded='3xl'>
+              <Flex w='full' py='1' justify='space-between'>
+                <MonitorIcon color='#793EF5' />
+                <Checkbox value='data' />
+              </Flex>
+              <Text>Data</Text>
+            </GridItem>
 
-          <GridItem w='full' border='1px solid gainsboro' p={2} rounded='2xl'>
-            <Flex w='full' justify='space-between'>
-              <MonitorIcon color='#5D3FD3' />
-              <Checkbox />
-            </Flex>
-            <Text>Custom Team</Text>
-          </GridItem>
+            <GridItem
+              w='full'
+              bgColor={
+                checkedStyle("custom-team")
+                  ? "rgba(102, 95, 239, 0.16)"
+                  : "white"
+              }
+              border={
+                checkedStyle("custom-team")
+                  ? "1px solid #793EF5"
+                  : "1px solid gainsboro"
+              }
+              p={3}
+              rounded='3xl'>
+              <Flex w='full' py='1' justify='space-between'>
+                <MonitorIcon color='#793EF5' />
+                <Checkbox value='custom-team' />
+              </Flex>
+              <Text>Custom Team</Text>
+            </GridItem>
+          </CheckboxGroup>
         </Grid>
       </FocusableBox>
 
-      <Box
-        bgColor='white'
-        p={3}
-        rounded='2xl'
-        border='1px solid transparent'
-        tabIndex={1}
-        outline='none'
-        _focusWithin={{ border: "1px solid #5D3FD3", boxShadow: "2xl" }}
-        // _focus={{ border: "1px solid #5D3FD3" }}
-      >
-        <Flex justify='space-between' p={1}>
-          <HStack>
-            <Text fontWeight={600}>Team Roles</Text>
-            <Button
-              border='1px dashed #5D3FD3'
-              leftIcon={<PlusSquareIcon />}
-              color='#5D3FD3'>
-              Add Team Member
-            </Button>
-          </HStack>
-          <CautionIcon color='gray.400' boxSize={5} />
-        </Flex>
-        <Grid
-          gridTemplateColumns='repeat(4,1fr)'
-          gridColumnGap={3}
-          gridRowGap={3}
-          w='full'>
-          {teamRoles.map((member) => (
-            <GridItem colSpan={2} border='1px solid gainsboro' p={2}>
-              <Flex justify='space-between'>
-                <Box w='50' h='40' bgColor='gainsboro' />
-                <Text fontWeight={600}>{member.name}</Text>
-              </Flex>
-            </GridItem>
-          ))}
-        </Grid>
-      </Box>
+      <TeamRoles />
 
-      <Box
-        bgColor='white'
-        p={3}
-        rounded='2xl'
-        border='1px solid transparent'
-        tabIndex={1}
-        outline='none'
-        _focusWithin={{ border: "1px solid #5D3FD3", boxShadow: "2xl" }}
-        // _focus={{ border: "1px solid #5D3FD3" }}
-      >
-        <Flex justify='space-between' p={1}>
-          <HStack>
-            <Text fontWeight={600}>Team Admin</Text>
-            <Button
-              border='1px dashed #5D3FD3'
-              leftIcon={<PlusSquareIcon />}
-              color='#5D3FD3'>
-              Add Team Member
-            </Button>
-          </HStack>
-          <CautionIcon color='gray.400' boxSize={5} />
-        </Flex>
-        <Grid
-          gridTemplateColumns='repeat(4,1fr)'
-          gridColumnGap={3}
-          gridRowGap={3}
-          w='full'>
-          {teamAdmins.map((member) => (
-            <GridItem colSpan={2} border='1px solid gainsboro' p={2}>
-              <Flex justify='space-between'>
-                <Box w='50' h='40' bgColor='gainsboro' />
-                <Text fontWeight={600}>{member.name}</Text>
-              </Flex>
-            </GridItem>
-          ))}
-        </Grid>
-      </Box>
+      <TeamAdmins />
 
       <FocusableBox text='Timeline'>
         <HStack>
-          <InputGroup>
-            <Input rounded='xl' placeholder='Start Date' />
-            <InputRightElement>
-              <CalenderDaysIcon color='#5D3FD3' />
-            </InputRightElement>
-          </InputGroup>
+          <DatePicker
+            selected={timeline.startDate}
+            placeholderText='Start Date'
+            onChange={(e: Date) => addTimelineSD(e)}
+            customInput={<CustomInput />}
+          />
 
-          <InputGroup>
-            <Input rounded='xl' placeholder='Estimated End Date' />
-            <InputRightElement>
-              <CalenderDaysIcon color='#5D3FD3' />
-            </InputRightElement>
-          </InputGroup>
+          <DatePicker
+            selected={timeline.estEndDate}
+            placeholderText='Estimated End Date'
+            onChange={(e: Date) => addTimelineEED(e)}
+            customInput={<CustomInput />}
+          />
         </HStack>
       </FocusableBox>
     </Stack>

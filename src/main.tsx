@@ -5,6 +5,7 @@ import App from "./App";
 import theme from "./assets/theme";
 import "./index.css";
 import { BrowserRouter as Router } from "react-router-dom";
+import "@fontsource/space-grotesk";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>

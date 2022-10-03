@@ -6,18 +6,22 @@ const config = {
 };
 
 const theme = extendTheme({
+  fonts: {
+    heading: `'Space Grotesk', sans-serif`,
+    body: `'Space Grotesk', sans-serif`,
+  },
   config,
   components: {
     Text: {
       baseStyle: {
-        fontSize: "15px",
+        fontSize: "18px",
+        lineHeight: "18px",
+        color: "#1E1E1E",
       },
     },
     Button: {
       baseStyle: {
         borderRadius: 10,
-        // color: "white",
-        // bg: "black",
         fontSize: "13px",
         fontWeight: 500,
       },
@@ -60,7 +64,7 @@ const theme = extendTheme({
         control: {
           border: "1px",
           borderColor: "gray.300",
-          borderRadius: "30%",
+          borderRadius: "50%",
           _disabled: {
             borderColor: "gray.300",
             bg: "gray.200",
@@ -87,7 +91,7 @@ const theme = extendTheme({
           backgroundColor: "gray",
           borderRadius: "10px",
         },
-        "bg": "gray.100",
+        "bg": "#F1F4F8",
       },
     },
   },
