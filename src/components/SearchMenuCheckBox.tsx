@@ -9,12 +9,11 @@ import {
   useCheckboxGroup,
   useDisclosure,
 } from "@chakra-ui/react";
-import { DocumentData } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import Fuse from "fuse.js";
 import debounce from "lodash/debounce";
 import { CheckBoxWithText } from "./CheckBox";
-import {  SearchData, SearchEntity } from "../assets/Types";
+import { SearchEntity } from "../assets/Types";
 
 const SearchMenuCheckBox = ({
   children,

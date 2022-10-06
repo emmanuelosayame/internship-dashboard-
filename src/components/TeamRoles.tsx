@@ -143,7 +143,7 @@ const TeamRoles = () => {
             <Heading size='xs'>Required Skills</Heading>
 
             <SearchMenuCheckBox
-              indexer='skill'
+              indexer='value'
               value={teamRole.requiredSkills}
               menuText='Search Skill'
               maxSelection={3}
@@ -180,7 +180,7 @@ const TeamRoles = () => {
 
             <SearchMenuCheckBox
               menuText='Search Skill'
-              indexer='skill'
+              indexer='value'
               searchData={roleSkills?.filter(
                 (data) => !teamRole.requiredSkills.includes(data?.value)
               )}
@@ -229,7 +229,7 @@ const TeamRoles = () => {
 
             <Heading size='xs'>Location Preferences</Heading>
             <SearchMenuCheckBox
-              indexer='location'
+              indexer='value'
               value={
                 teamRole.locationPref.length > 0 ? [teamRole.locationPref] : []
               }

@@ -34,6 +34,12 @@ import {
 import { ApprType, SearchEntity } from "./assets/Types";
 
 function App() {
+  // TODO make navbar display none to avoid refetching logo
+  // TODO add caching for images ==> edit apprr==>title
+  // TODO limit and paginate appr data
+  // TODO validation schema for text inputs
+  // TODO remove indexer prop and replace with value ==>hard code indexer
+  // TODO add search data to database
   const [user, loading, error] = useAuthState(auth);
   const { userData, updateUserData, setSearchData } = useStore(
     (state) => ({

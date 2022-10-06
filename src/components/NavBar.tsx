@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   Flex,
   Heading,
   HStack,
@@ -145,7 +146,15 @@ const NavBar = ({}: {}) => {
       </Stack>
 
       <HStack cursor='pointer'>
-        <Avatar size='sm' rounded='lg' />
+        {!userData?.photoURL || !user?.photoURL ? (
+          <Box boxSize='40px' rounded='15px' bgColor='gray.300' />
+        ) : (
+          <Image
+            src={userData.photoURL || user?.photoURL}
+            boxSize='40px'
+            rounded='15px'
+          />
+        )}
         <Text fontSize='14px' display={["none", "unset", "unset"]} size='xs'>
           {userData?.displayName || user?.displayName}
         </Text>

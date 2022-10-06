@@ -61,14 +61,21 @@ const Settings = ({
 
   const handlePhotoChange = async () => {
     if (user && photo) {
-      const uploadTask = await uploadBytes(ref(storage, "profiles"), photo);
-      try {
-        const photoURL = await getDownloadURL(uploadTask.ref);
-        updateUserData({ photoURL });
-        updateProfile(user, { photoURL });
-      } catch (err) {
-        console.log(err);
-      }
+      const uploadTask = await uploadBytes(ref(storage, "profiles"), photo, {
+        cacheControl: "public,max-age=1000000",
+      }).then((uploadTask) => {
+        getDownloadURL(uploadTask.ref).then((photoURL) => {
+          updateUserData({ photoURL });
+          updateProfile(user, { photoURL });
+        });
+      });
+      // try {
+      //   const photoURL = await getDownloadURL(uploadTask.ref);
+      //   updateUserData({ photoURL });
+      //   updateProfile(user, { photoURL });
+      // } catch (err) {
+      //   console.log(err);
+      // }
     }
   };
 
@@ -183,7 +190,16 @@ const Settings = ({
         </Flex>
 
         <HStack>
-          <Box w='120px' h='120px' rounded='15px' bgColor='gray.300' />
+          {!userData?.photoURL || !user?.photoURL ? (
+            <Box w='120px' h='120px' rounded='15px' bgColor='gray.300' />
+          ) : (
+            <Image
+              src={userData.photoURL || user?.photoURL}
+              w='120px'
+              h='120px'
+              rounded='15px'
+            />
+          )}
           <IconButton
             aria-label='edit-profile'
             size='xs'
