@@ -55,17 +55,16 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useStore } from "../assets/store/Store";
 import shallow from "zustand/shallow";
 import { useParams } from "react-router-dom";
+import { deleteObject, ref } from "firebase/storage";
+import { db, storage } from "../assets/firebase";
+import { doc, updateDoc } from "firebase/firestore";
 
 const FocusableBox = ({
   text,
   children,
-  focusShow,
-  focused,
 }: {
   text: string;
   children?: ReactNode;
-  focusShow?: boolean;
-  focused?: boolean;
 }) => (
   <Box
     bgColor='white'
@@ -113,7 +112,6 @@ const CustomInput = forwardRef((props: any, ref: any) => {
 
 const EditorSection = () => {
   const photoRef = useRef<HTMLInputElement | null>(null);
-
   const params = useParams();
 
   const {
@@ -125,10 +123,12 @@ const EditorSection = () => {
     apprenticeshipTitle,
     companyDescription,
     apprenticeshipDescription,
+    videosUrls,
   } = useStore((state) => state.apprenticeship);
   // console.log(teamTypes);
 
   const {
+    populateAppr,
     addApprTitle,
     addCompanyDescr,
     addApprDescr,
@@ -138,7 +138,6 @@ const EditorSection = () => {
     addTimelineSD,
     addTimelineEED,
     addLogo,
-    videosUrls,
   } = useStore(
     (state) => ({
       addApprTitle: state.setApprTitle,
@@ -150,7 +149,7 @@ const EditorSection = () => {
       addTimelineSD: state.setTimelineSD,
       addTimelineEED: state.setTimelineEED,
       addLogo: state.setCompanyLogo,
-      videosUrls: state.apprenticeship.videosUrls,
+      populateAppr: state.populateAppr,
     }),
     shallow
   );
@@ -167,12 +166,6 @@ const EditorSection = () => {
   });
 
   const vids = params.id !== "new" ? videosUrls : videos;
-
-  const [errors, setErrors] = useState<ApprErrorTypes>({
-    apprenticeshipTitle: null,
-    companyDescription: null,
-    apprenticeshipDescription: null,
-  });
 
   const handleTextChange = debounce(
     (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
@@ -251,6 +244,7 @@ const EditorSection = () => {
               variant='unstyled'
               resize='none'
               fontSize='21'
+              maxLength={100}
               outline={0}
               defaultValue={apprenticeshipTitle}
               _placeholder={{ color: "gray.400" }}
@@ -261,21 +255,13 @@ const EditorSection = () => {
               onChange={handleTextChange}
             />
           </Flex>
-          {errors.apprenticeshipTitle && (
-            <Text
-              color='#793EF5'
-              textAlign='center'
-              fontStyle='oblique'
-              fontSize={15}>
-              {errors.apprenticeshipTitle}
-            </Text>
-          )}
         </FocusableBox>
 
         <FocusableBox text='Company Description'>
           <Textarea
             as={TextareaAutosize}
             rows={1}
+            maxLength={400}
             minRows={1}
             maxRows={7}
             fontSize='17'
@@ -298,15 +284,6 @@ const EditorSection = () => {
             }}
             onChange={handleTextChange}
           />
-          {errors.companyDescription && (
-            <Text
-              color='#793EF5'
-              textAlign='center'
-              fontStyle='oblique'
-              fontSize={15}>
-              {errors.companyDescription}
-            </Text>
-          )}
         </FocusableBox>
 
         <FocusableBox text='Apprenticeship Description'>
@@ -314,6 +291,7 @@ const EditorSection = () => {
             as={TextareaAutosize}
             placeholder='Enter Description'
             style={{ width: "100%", outline: "none", resize: "none" }}
+            maxLength={400}
             rows={1}
             minRows={1}
             maxRows={7}
@@ -335,23 +313,12 @@ const EditorSection = () => {
               },
             }}
           />
-          {errors.apprenticeshipDescription && (
-            <Text
-              color='#793EF5'
-              textAlign='center'
-              fontStyle='oblique'
-              fontSize={15}>
-              {errors.apprenticeshipDescription}
-            </Text>
-          )}
         </FocusableBox>
         {/* <button style={{ display: "none" }} ref={form1Ref} /> */}
       </Stack>
 
       {/* Introduce your company video upload section */}
-      <FocusableBox
-        focusShow={true}
-        text="Introduce yourself, your company, and what you're building.">
+      <FocusableBox text="Introduce yourself, your company, and what you're building.">
         <Button
           // zIndex={200}
           {...getRootProps()}
@@ -390,7 +357,19 @@ const EditorSection = () => {
                     size='xs'
                     aria-label='cancel video'
                     onClick={async () => {
-                      if (params.id === "new") {
+                      if (params.id !== "new") {
+                        deleteObject(
+                          ref(storage, `apprenticeship-videos/${file.refId}`)
+                        ).then(() =>
+                          updateDoc(
+                            doc(db, "apprenticeships", `${params.id}`),
+                            {
+                              videosUrls: videosUrls?.filter(
+                                (url) => file.refId !== url.refId
+                              ),
+                            }
+                          ).then(() => params.id && populateAppr(params.id))
+                        );
                       } else removeOneApprVideo(file.name);
                     }}>
                     <XmarkIcon />

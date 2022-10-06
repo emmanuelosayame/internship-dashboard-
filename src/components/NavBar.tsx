@@ -22,17 +22,11 @@ import {
 import logo from "../../public/RadicallX-Black-Logo 1.png";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { doc } from "firebase/firestore";
+import { useStore } from "../assets/store/Store";
 
-const NavBar = ({ userData }: { userData: any }) => {
-  const [user, loading, error] = useAuthState(auth);
-
-  //   if (
-  //     location.pathname === "/apprenticeships" ||
-  //     location.pathname === "/internships" ||
-  //     location.pathname === "/jobs" ||
-  //     location.pathname === "/settings" ||
-  //     location.pathname === "/"
-  //   )
+const NavBar = ({}: {}) => {
+  const userData = useStore((state) => state.userData);
+  const user = auth.currentUser;
 
   return (
     <Flex
@@ -152,8 +146,8 @@ const NavBar = ({ userData }: { userData: any }) => {
 
       <HStack cursor='pointer'>
         <Avatar size='sm' rounded='lg' />
-        <Text fontSize='14px' display={["none", "none", "unset"]} size='xs'>
-          {userData?.name || user?.displayName}
+        <Text fontSize='14px' display={["none", "unset", "unset"]} size='xs'>
+          {userData?.displayName || user?.displayName}
         </Text>
       </HStack>
     </Flex>

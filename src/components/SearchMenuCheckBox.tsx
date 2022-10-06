@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import Fuse from "fuse.js";
 import debounce from "lodash/debounce";
 import { CheckBoxWithText } from "./CheckBox";
+import {  SearchData, SearchEntity } from "../assets/Types";
 
 const SearchMenuCheckBox = ({
   children,
@@ -26,7 +27,7 @@ const SearchMenuCheckBox = ({
 }: {
   menuText: string;
   children: JSX.Element;
-  searchData: DocumentData[] | undefined;
+  searchData: SearchEntity[];
   maxSelection: number;
   mutateFn: (value: string[]) => void;
   indexer: string;
@@ -43,7 +44,7 @@ const SearchMenuCheckBox = ({
     // defaultValue: ["2"],
   });
 
-  const fuse = new Fuse(searchData || [], { keys: [indexer] });
+  const fuse = new Fuse(searchData, { keys: [indexer] });
 
   const [filtered, setFiltered] = useState<string[]>([]);
 

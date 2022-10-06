@@ -80,11 +80,11 @@ const TeamRoles = () => {
     shallow
   );
 
-  // console.log(teamRole);
+  const { roleTitles, roleSkills, locations } = useStore(
+    (state) => state.searchData
 
-  const [skillsData] = useCollectionData(collection(db, "skills"));
-  const [locationsData] = useCollectionData(collection(db, "locations"));
-  const [roleTitles] = useCollectionData(collection(db, "teamRoleTitles"));
+    );
+    // console.log(roleTitles)
 
   const selectRoleTitle = (title: string) =>
     teamRole.title !== title && setTitle(title);
@@ -116,7 +116,7 @@ const TeamRoles = () => {
           <ModalBody as={Stack} spacing={1} pb='5'>
             <SearchMenu
               searchData={roleTitles}
-              indexer='role'
+              indexer='value'
               menuText={
                 teamRole.title.length < 1 ? "Select Role" : teamRole.title
               }
@@ -147,8 +147,8 @@ const TeamRoles = () => {
               value={teamRole.requiredSkills}
               menuText='Search Skill'
               maxSelection={3}
-              searchData={skillsData?.filter(
-                (data) => !teamRole.complementarySkills.includes(data?.skill)
+              searchData={roleSkills?.filter(
+                (data) => !teamRole.complementarySkills.includes(data.value)
               )}
               mutateFn={(value) => setReqSkills(value)}>
               <UserIcon />
@@ -181,8 +181,8 @@ const TeamRoles = () => {
             <SearchMenuCheckBox
               menuText='Search Skill'
               indexer='skill'
-              searchData={skillsData?.filter(
-                (data) => !teamRole.requiredSkills.includes(data?.skill)
+              searchData={roleSkills?.filter(
+                (data) => !teamRole.requiredSkills.includes(data?.value)
               )}
               maxSelection={3}
               value={teamRole.complementarySkills}
@@ -238,7 +238,7 @@ const TeamRoles = () => {
                   ? teamRole.locationPref
                   : "Select Location"
               }
-              searchData={locationsData}
+              searchData={locations}
               maxSelection={1}
               mutateFn={(value) =>
                 setLocationPref(value.length > 0 ? value[0] : "")

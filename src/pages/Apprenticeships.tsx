@@ -35,31 +35,23 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../assets/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { ApprType } from "../assets/Types";
+import { ApprsData, ApprType } from "../assets/Types";
 import { useStore } from "../assets/store/Store";
 import { useRef, useState } from "react";
 
-const Apprenticeships = () => {
+const Apprenticeships = ({
+  apprsData,
+}: {
+  apprsData: ApprsData | undefined;
+}) => {
   const cancelRef = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
-  // const params = useParams();
-  const [user] = useAuthState(auth);
-
-  const [data] = useCollection<ApprType>(
-    query(
-      collection(db, "apprenticeships"),
-      where("creatorId", "==", `${user?.uid}`)
-    ) as CollectionReference<ApprType>
-  );
 
   const deleteAppr = async (id: string) => {
     await deleteDoc(doc(db, "apprenticeships", id));
   };
 
-  const apprList = data?.docs.map((data) => ({ ...data.data(), id: data.id }));
-
-  // console.log(apprList);
-  const [deleteConfrm, setDeleteConfrm] = useState<{
+  const [{ id, isOpen }, setDeleteConfrm] = useState<{
     isOpen: boolean;
     id: string | null;
   }>({ isOpen: false, id: null });
@@ -68,12 +60,15 @@ const Apprenticeships = () => {
     <>
       <AlertDialog
         motionPreset='slideInBottom'
-        isOpen={deleteConfrm.isOpen}
+        isOpen={isOpen}
         leastDestructiveRef={cancelRef}
-        onClose={() => setDeleteConfrm({ id: null, isOpen: false })}
-        onCloseComplete={() =>
-          deleteConfrm.id && setDeleteConfrm({ id: null, isOpen: false })
-        }>
+        onClose={() =>
+          setDeleteConfrm((state) => ({ id: null, isOpen: false }))
+        }
+        // onCloseComplete={() =>
+        //   id && setDeleteConfrm((state) => ({ ...state, id: null }))
+        // }
+      >
         <AlertDialogOverlay>
           <AlertDialogContent rounded='2xl' w='350px'>
             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
@@ -96,7 +91,7 @@ const Apprenticeships = () => {
               <Button
                 colorScheme='red'
                 onClick={() => {
-                  deleteConfrm.id && deleteAppr(deleteConfrm.id);
+                  id && deleteAppr(id);
                   setDeleteConfrm({ id: null, isOpen: false });
                 }}
                 ml={3}>
@@ -131,7 +126,7 @@ const Apprenticeships = () => {
           gridTemplateColumns='repeat(6,1fr)'
           gridColumnGap={4}
           gridRowGap={4}>
-          {apprList?.map((data) => (
+          {apprsData?.list?.map((data) => (
             <GridItem
               key={data.id}
               as={Stack}

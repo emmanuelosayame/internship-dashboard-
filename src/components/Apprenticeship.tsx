@@ -57,7 +57,14 @@ const Apprenticeship = () => {
   // console.log(rest);
 
   useEffect(() => {
-    if (params.id && params.id !== "new") populateAppr(params.id);
+    let sub = false;
+    if (params.id && params.id !== "new") {
+      sub = true;
+      populateAppr(params.id);
+    }
+    return () => {
+      sub = false;
+    };
   }, []);
 
   const resetStore = useStore((state) => state.resetAppr);
@@ -191,7 +198,10 @@ const Apprenticeship = () => {
           });
         });
       if (logo) {
-        await uploadBytes(ref(storage, `${id}${logo.name}`), logo)
+        await uploadBytes(
+          ref(storage, `apprenticeship-logos/${id}${logo.name}`),
+          logo
+        )
           .then((uploadResult) => {
             getDownloadURL(uploadResult.ref)
               .then(async (url) => {
@@ -243,17 +253,16 @@ const Apprenticeship = () => {
             bgColor='#793EF5'
             color='white'
             onClick={handleSaveAppr}
-            // isDisabled={
-            //   !(
-            //     rest.apprenticeshipDescription.length > 0 &&
-            //     rest.companyDescription.length > 0 &&
-            //     rest.apprenticeshipTitle.length > 0 &&
-            //     rest.teamAdmins.length > 0 &&
-            //     rest.teamRoles.length &&
-            //     rest.timeline.startDate
-            //   )
-            // }
-          >
+            isDisabled={
+              !(
+                rest.apprenticeshipDescription.length > 0 &&
+                rest.companyDescription.length > 0 &&
+                rest.apprenticeshipTitle.length > 0 &&
+                rest.teamAdmins.length > 0 &&
+                rest.teamRoles.length &&
+                rest.timeline.startDate
+              )
+            }>
             {params.id === "new"
               ? "Publish Apprenticeship"
               : "Re - Publish Apprenticeship"}

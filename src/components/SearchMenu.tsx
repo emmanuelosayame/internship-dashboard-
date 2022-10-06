@@ -12,6 +12,7 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { db } from "../assets/firebase";
 import Fuse from "fuse.js";
 import debounce from "lodash/debounce";
+import { SearchEntity } from "../assets/Types";
 
 const SearchMenu = ({
   menuText,
@@ -21,12 +22,12 @@ const SearchMenu = ({
   children,
 }: {
   menuText: string;
-  searchData: DocumentData[] | undefined;
+  searchData: SearchEntity[];
   mutateFn: (value: string) => void;
   indexer: string;
   children: JSX.Element;
 }) => {
-  const fuse = new Fuse(searchData || [], { keys: [indexer] });
+  const fuse = new Fuse(searchData, { keys: [indexer] });
 
   const [filtered, setFiltered] = useState<string[]>([]);
 

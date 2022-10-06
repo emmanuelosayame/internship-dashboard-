@@ -49,3 +49,85 @@ useEffect(() => {
           //   ),
           // });
         });
+
+
+        const [errors, setErrors] = useState<ApprErrorTypes>({
+    apprenticeshipTitle: null,
+    companyDescription: null,
+    apprenticeshipDescription: null,
+  });
+
+  
+
+
+
+
+  {errors.apprenticeshipTitle && (
+            <Text
+              color='#793EF5'
+              textAlign='center'
+              fontStyle='oblique'
+              fontSize={15}>
+              {errors.apprenticeshipTitle}
+            </Text>
+          )}
+
+
+
+
+          {errors.companyDescription && (
+            <Text
+              color='#793EF5'
+              textAlign='center'
+              fontStyle='oblique'
+              fontSize={15}>
+              {errors.companyDescription}
+            </Text>
+          )}
+
+
+
+          {errors.apprenticeshipDescription && (
+            <Text
+              color='#793EF5'
+              textAlign='center'
+              fontStyle='oblique'
+              fontSize={15}>
+              {errors.apprenticeshipDescription}
+            </Text>
+          )}
+
+
+
+
+           //   if (
+  //     location.pathname === "/apprenticeships" ||
+  //     location.pathname === "/internships" ||
+  //     location.pathname === "/jobs" ||
+  //     location.pathname === "/settings" ||
+  //     location.pathname === "/"
+  //   )
+
+
+  // useEffect(() => {
+  //   if (user) {
+  //     updateUserData({
+  //       displayName: user?.displayName,
+  //       photoURL: user?.photoURL,
+  //     });
+  //     const unsub = onSnapshot<ApprType>(
+  //       query(
+  //         collection(db, "apprenticeships"),
+  //         where("creatorId", "==", `${user?.uid}`)
+  //       ) as CollectionReference<ApprType>,
+  //       (snapshot) => {
+  //         const data = snapshot.docs.map((doc) => ({
+  //           ...doc.data(),
+  //           id: doc.id,
+  //         }));
+  //         setApprData(data);
+  //       }
+  //     );
+  //     return () => unsub;
+  //   }
+  // }, [user]);

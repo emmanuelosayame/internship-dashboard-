@@ -2,15 +2,22 @@ import { Timestamp } from "firebase/firestore";
 import * as Yup from "yup";
 
 export interface ApprType {
+  id: string;
   apprenticeshipTitle: string;
   companyDescription: string;
   apprenticeshipDescription: string;
-  logoUrl?: string;
+  logoUrl?: { refId: string; url: string };
   teamRoles: TeamRole[];
-  videosUrls?: { name: string; url: string }[];
+  videosUrls?: { refId: string; name: string; url: string }[];
   teamTypes: string[];
   timeline: { startDate: Timestamp | null; estEndDate: Timestamp | null };
   teamAdmins: TeamAdmin[];
+}
+
+export interface ApprsData {
+  list: ApprType[];
+  empty?: boolean;
+  size?: number;
 }
 
 export interface ApprErrorTypes {
@@ -34,6 +41,11 @@ export interface TeamRole {
   minimumHoursPW: number | null;
   locationPref: string;
 }
+
+interface VideoFile extends File {
+  refId?: string;
+}
+
 interface ApprCreateType {
   logo: File | null;
   logoUrl?: { refId: string; url: string };
@@ -41,8 +53,8 @@ interface ApprCreateType {
   companyDescription: string;
   apprenticeshipDescription: string;
   teamRoles: TeamRole[];
-  videos: File[];
-  videosUrls?: { name: string; url: string }[];
+  videos: VideoFile[];
+  videosUrls?: { refId: string; name: string; url: string }[];
   teamTypes: string[];
   timeline: { startDate: Date | null; estEndDate: Date | null };
   teamAdmins: TeamAdminCreate[];
@@ -98,6 +110,10 @@ export interface TeamAdmin {
   linkedInUrl?: string;
 }
 
+// export interface Indexer {
+//   [key: string]: string
+// }
+
 export interface TeamAdminSlice {
   teamAdmin: TeamAdminCreate;
   setAdminName: (name: string) => void;
@@ -106,4 +122,43 @@ export interface TeamAdminSlice {
   setAdminPhoto: (file: File) => void;
   populateTeamAdmin: (admin: TeamAdmin) => void;
   resetTeamAdmin: () => void;
+}
+
+export interface Search {
+  type: string;
+  value: string;
+}
+
+export interface UserData {
+  displayName?: string | null;
+  photoURL?: string | null;
+}
+
+export interface UserSlice {
+  userData: UserData;
+  updateUserData: ({
+    displayName,
+    photoURL,
+  }: {
+    displayName?: string | null;
+    photoURL?: string | null;
+  }) => void;
+}
+
+export interface SearchEntity {
+  // id: string;
+  [key: string]: string;
+  search: string;
+  value: string;
+}
+
+export interface SearchData {
+  roleTitles: SearchEntity[];
+  roleSkills: SearchEntity[];
+  locations: SearchEntity[];
+}
+
+export interface ApiSlice {
+  searchData: SearchData;
+  setSearchData: (data: SearchEntity[]) => void;
 }

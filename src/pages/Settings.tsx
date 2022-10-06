@@ -15,7 +15,9 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
+import { updateProfile } from "firebase/auth";
 import { collection, doc, query, setDoc, where } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useEffect, useRef, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
@@ -23,38 +25,32 @@ import {
   useCollectionData,
   useDocumentData,
 } from "react-firebase-hooks/firestore";
-import { auth, db } from "../assets/firebase";
-import { EditIcon, TickSquare } from "../assets/Svgs";
+import { auth, db, storage } from "../assets/firebase";
+import { useStore } from "../assets/store/Store";
+import { EditIcon, TickSquare, XmarkIcon } from "../assets/Svgs";
+import { ApprsData, ApprType, UserData } from "../assets/Types";
 import { Loading } from "../components/Loading";
 
 const Settings = ({
   userData,
-  loadingData,
+  apprsData,
 }: {
-  userData: any;
-  loadingData: boolean;
+  userData: UserData;
+  apprsData: ApprsData | undefined;
 }) => {
-  const [user] = useAuthState(auth);
-
-  const [apprs] = useCollection(
-    query(
-      collection(db, "apprenticeships"),
-      where("creatorId", "==", `${user?.uid}`)
-    )
-  );
+  const updateUserData = useStore((state) => state.updateUserData);
+  const user = auth.currentUser;
 
   const photoRef = useRef<HTMLInputElement | null>(null);
   const [editName, setEditName] = useState(false);
-  const [name, setName] = useState(userData?.name);
-  const [photo, setPhoto] = useState<File | undefined>(undefined);
+  const [name, setName] = useState(user?.displayName ?? "");
+  const [photo, setPhoto] = useState<File | null>(null);
 
   const lastLogin = user?.metadata?.lastSignInTime
     ? new Date(user?.metadata?.lastSignInTime)
     : null;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  // console.log(userData);
 
   const photoChange = (file: File | undefined) => {
     if (file && file?.size < 5000000) {
@@ -63,13 +59,31 @@ const Settings = ({
     }
   };
 
+  const handlePhotoChange = async () => {
+    if (user && photo) {
+      const uploadTask = await uploadBytes(ref(storage, "profiles"), photo);
+      try {
+        const photoURL = await getDownloadURL(uploadTask.ref);
+        updateUserData({ photoURL });
+        updateProfile(user, { photoURL });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   const photoPreview = photo && URL.createObjectURL(photo);
 
-  if (loadingData) return <Loading />;
+  // if (loadingData) return <Loading />;
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        onCloseComplete={() =>
+          photoPreview && URL.revokeObjectURL(photoPreview)
+        }>
         <ModalOverlay />
         <ModalContent
           w='fit-content'
@@ -77,13 +91,6 @@ const Settings = ({
           bgColor='transparent'
           boxShadow='none'>
           <HStack spacing={4}>
-            <Image
-              rounded='3xl'
-              overflow='hidden'
-              src={photoPreview}
-              w='300px'
-              h='300px'
-            />
             <IconButton
               aria-label='photo'
               rounded='xl'
@@ -92,6 +99,29 @@ const Settings = ({
               variant='solid'
               onClick={() => {
                 photoPreview && URL.revokeObjectURL(photoPreview);
+                onClose();
+                setPhoto(null);
+              }}>
+              <XmarkIcon color='#793EF5' boxSize='6' />
+            </IconButton>
+            {photoPreview && (
+              <Image
+                rounded='3xl'
+                overflow='hidden'
+                src={photoPreview}
+                w='300px'
+                h='300px'
+              />
+            )}
+            <IconButton
+              aria-label='photo'
+              rounded='xl'
+              w='fit-content'
+              bgColor='lavender'
+              variant='solid'
+              onClick={() => {
+                photoPreview && URL.revokeObjectURL(photoPreview);
+                handlePhotoChange();
                 onClose();
               }}>
               <TickSquare boxSize='6' />
@@ -121,23 +151,20 @@ const Settings = ({
                 // textAlign='center'
                 size='lg'>
                 {/* <span style={{ color: "#793EF5" }}></span> */}
-                {userData?.name || user?.displayName}
+                {userData?.displayName || user?.displayName}
               </Text>
             )}
             <IconButton
               aria-label='edit-profile'
               size='xs'
               onClick={() => {
-                if (editName && name === userData?.name) {
+                if (editName && name === userData?.displayName) {
                   setEditName(false);
-                } else if (editName && name.length > 1) {
-                  setDoc(
-                    doc(db, "users", `${user?.uid}`),
-                    {
-                      name: name,
-                    },
-                    { merge: true }
-                  );
+                  return;
+                } else if (editName && name.length > 1 && auth.currentUser) {
+                  //TODO update user
+                  updateProfile(auth.currentUser, { displayName: name });
+                  updateUserData({ displayName: name });
                   setEditName(false);
                 } else setEditName(true);
               }}>
@@ -160,7 +187,9 @@ const Settings = ({
           <IconButton
             aria-label='edit-profile'
             size='xs'
-            onClick={() => photoRef.current?.click()}>
+            onClick={() => {
+              photo ? onOpen() : photoRef.current?.click();
+            }}>
             <EditIcon boxSize='5' />
           </IconButton>
           <input
@@ -175,7 +204,7 @@ const Settings = ({
         <Stack w='fit-content' spacing={4}>
           <HStack justify='space-between'>
             <Heading size='md'>Apprenticehips </Heading>
-            <Heading size='md'>: {apprs?.size}</Heading>
+            <Heading size='md'>: {apprsData?.size}</Heading>
           </HStack>
 
           <HStack justify='space-between'>
