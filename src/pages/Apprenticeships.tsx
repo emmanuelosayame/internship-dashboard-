@@ -34,9 +34,7 @@ import {
   where,
 } from "firebase/firestore";
 import { auth, db } from "../assets/firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { ApprsData, ApprType } from "../assets/Types";
-import { useStore } from "../assets/store/Store";
 import { useRef, useState } from "react";
 
 const Apprenticeships = ({
@@ -48,7 +46,11 @@ const Apprenticeships = ({
   const navigate = useNavigate();
 
   const deleteAppr = async (id: string) => {
-    await deleteDoc(doc(db, "apprenticeships", id));
+    try {
+      await deleteDoc(doc(db, "apprenticeships", id));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const [{ id, isOpen }, setDeleteConfrm] = useState<{

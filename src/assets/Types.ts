@@ -6,9 +6,9 @@ export interface ApprType {
   apprenticeshipTitle: string;
   companyDescription: string;
   apprenticeshipDescription: string;
-  logoUrl?: { refId: string; url: string };
+  logoUrl?: string;
   teamRoles: TeamRole[];
-  videosUrls?: { refId: string; name: string; url: string }[];
+  videosUrls?: { name: string; url: string }[];
   teamTypes: string[];
   timeline: { startDate: Timestamp | null; estEndDate: Timestamp | null };
   teamAdmins: TeamAdmin[];
@@ -42,19 +42,15 @@ export interface TeamRole {
   locationPref: string;
 }
 
-interface VideoFile extends File {
-  refId?: string;
-}
-
 interface ApprCreateType {
   logo: File | null;
-  logoUrl?: { refId: string; url: string };
+  logoUrl?: string;
   apprenticeshipTitle: string;
   companyDescription: string;
   apprenticeshipDescription: string;
   teamRoles: TeamRole[];
-  videos: VideoFile[];
-  videosUrls?: { refId: string; name: string; url: string }[];
+  videos: File[];
+  videosUrls?: { name: string; url: string }[];
   teamTypes: string[];
   timeline: { startDate: Date | null; estEndDate: Date | null };
   teamAdmins: TeamAdminCreate[];

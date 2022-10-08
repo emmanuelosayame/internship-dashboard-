@@ -131,3 +131,67 @@ useEffect(() => {
   //     return () => unsub;
   //   }
   // }, [user]);
+
+  // try {
+        //   let urls: { name: string; url: string; refId: string }[] = [];
+        //   for await (const video of videos) {
+        //     const uploadTask = await uploadBytes(
+        //       ref(storage, `apprenticeship-videos/${id}${video.name}`),
+        //       video
+        //     );
+        //     const url = await getDownloadURL(uploadTask.ref);
+        //     urls.push({
+        //       url,
+        //       name: video.name,
+        //       refId: `${id}${video.name}`,
+        //     });
+        //   }
+        //   return urls;
+        // } catch (err) {
+        //   // reject(err as FirebaseError);
+        //   throw err as FirebaseError;
+        //   // console.log(err);
+        // }
+        //   resolve(urls);
+
+
+
+
+      //   await uploadVideos()
+      //     .then(async (urls) => {
+      //       if (logo) {
+      //         uploadBytes(
+      //           ref(storage, `apprenticeship-logos/${id}${logo.name}`),
+      //           logo
+      //         )
+      //           .then((uploadTask) => {
+      //             getDownloadURL(uploadTask.ref)
+      //               .then(async (url) => {
+      //                 await addDoc(collection(db, "apprenticeships"), {
+      //                   ...rest,
+      //                   videosUrls: urls,
+      //                   timeStamp: serverTimestamp(),
+      //                   creatorId: user?.uid,
+      //                   logoUrl: {
+      //                     refId: `${id}${logo.name}`,
+      //                     url,
+      //                   },
+      //                 })
+      //                   .then(() => {
+      //                     setLoading(false);
+      //                     navigate("/apprenticeships");
+      //                   })
+      //                   .catch((err) => {
+      //                     console.log(err);
+      //                     setLoading(false);
+      //                   });
+      //               })
+      //               .catch((err) => {
+      //                 console.log(err);
+      //                 setLoading(false);
+      //               });
+      //           })
+      //           .catch((err) => {
+      //             console.log(err);
+      //             setLoading(false);
+      //           });

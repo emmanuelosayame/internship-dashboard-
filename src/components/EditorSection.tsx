@@ -165,8 +165,6 @@ const EditorSection = () => {
     },
   });
 
-  const vids = params.id !== "new" ? videosUrls : videos;
-
   const handleTextChange = debounce(
     (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
       const name = e.target.name;
@@ -209,7 +207,7 @@ const EditorSection = () => {
               {photoSrc ? (
                 <Image w='70px' h='60px' rounded='xl' src={photoSrc} />
               ) : logoUrl ? (
-                <Image w='70px' h='60px' rounded='xl' src={logoUrl.url} />
+                <Image w='70px' h='60px' rounded='xl' src={logoUrl} />
               ) : (
                 <Box w='70px' h='60px' bgColor='gray.300' rounded='xl' />
               )}
@@ -334,13 +332,40 @@ const EditorSection = () => {
         </Button>
         <input {...getInputProps()} type='file' hidden />
         <HStack pt={3} flexWrap='wrap'>
-          {vids &&
-            vids.map((file) => {
+          {videos?.map((file) => {
+            return (
+              <Flex
+                key={file.name}
+                bgColor='rgba(102, 95, 239, 0.16)'
+                border='1px solid #793EF5'
+                rounded='lg'
+                align='center'
+                px={2}
+                m={1}
+                py={0.5}
+                fontSize='15'
+                color='#793EF5'>
+                <Text>
+                  {`${file.name.slice(0, 17)}${
+                    file.name.length > 17 ? "..." : ""
+                  }`}
+                </Text>
+                <IconButton
+                  size='xs'
+                  aria-label='cancel video'
+                  onClick={() => removeOneApprVideo(file.name)}>
+                  <XmarkIcon />
+                </IconButton>
+              </Flex>
+            );
+          })}
+          {videosUrls &&
+            videosUrls?.map((file) => {
               return (
                 <Flex
                   key={file.name}
                   bgColor='rgba(102, 95, 239, 0.16)'
-                  border='1px solid #793EF5'
+                  border='1px solid blue'
                   rounded='lg'
                   align='center'
                   px={2}
@@ -348,7 +373,7 @@ const EditorSection = () => {
                   py={0.5}
                   fontSize='15'
                   color='#793EF5'>
-                  <Text>
+                  <Text color='blue'>
                     {`${file.name.slice(0, 17)}${
                       file.name.length > 17 ? "..." : ""
                     }`}
@@ -356,21 +381,16 @@ const EditorSection = () => {
                   <IconButton
                     size='xs'
                     aria-label='cancel video'
+                    color='blue'
                     onClick={async () => {
-                      if (params.id !== "new") {
-                        deleteObject(
-                          ref(storage, `apprenticeship-videos/${file.refId}`)
-                        ).then(() =>
-                          updateDoc(
-                            doc(db, "apprenticeships", `${params.id}`),
-                            {
-                              videosUrls: videosUrls?.filter(
-                                (url) => file.refId !== url.refId
-                              ),
-                            }
-                          ).then(() => params.id && populateAppr(params.id))
-                        );
-                      } else removeOneApprVideo(file.name);
+                      await deleteObject(ref(storage, file?.url)).then(() =>
+                        updateDoc(doc(db, "apprenticeships", `${params.id}`), {
+                          videosUrls: videosUrls?.filter(
+                            (url) => file.url !== url.url
+                          ),
+                        })
+                      );
+                      params.id && populateAppr(params.id);
                     }}>
                     <XmarkIcon />
                   </IconButton>

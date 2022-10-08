@@ -37,6 +37,8 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { v4 } from "uuid";
+import { FirebaseError } from "firebase/app";
+import useToastR from "./ToastR";
 
 const Apprenticeship = () => {
   const [user] = useAuthState(auth);
@@ -44,7 +46,13 @@ const Apprenticeship = () => {
   const navigate = useNavigate();
   const params = useParams();
 
-  const { logo, videos, ...rest } = useStore((state) => state.apprenticeship);
+  const {
+    logo,
+    videos,
+    videosUrls: prevVideoUrls,
+    logoUrl: prevLogoUrl,
+    ...rest
+  } = useStore((state) => state.apprenticeship);
 
   const { loadingEditApp, populateAppr } = useStore(
     (state) => ({
@@ -69,151 +77,68 @@ const Apprenticeship = () => {
 
   const resetStore = useStore((state) => state.resetAppr);
 
-  const toast = useToast();
+  const toast = useToastR({ title: "oops !!", body: "looks like you offline" });
 
   const [loading, setLoading] = useState(false);
 
   const handleSaveAppr = async () => {
     setLoading(true);
     const id = v4();
-    if (params.id === "new") {
-      const uploadVideos = () => {
-        const res = new Promise(
-          async (
-            resolve: (
-              urls: { name: string; url: string; refId: string }[]
-            ) => void,
-            reject
-          ) => {
-            let urls: { name: string; url: string; refId: string }[] = [];
-            for await (const video of videos) {
-              await uploadBytes(
-                ref(storage, `apprenticeship-videos/${id}${video.name}`),
-                video
-              )
-                .then(async (result) => {
-                  await getDownloadURL(result.ref)
-                    .then((url) => {
-                      urls.push({
-                        url: url,
-                        name: video.name,
-                        refId: `${id}${video.name}`,
-                      });
-                    })
-                    .catch((err) => reject(err));
-                })
-                .catch((error) => reject(error));
-            }
-            resolve(urls);
-          }
+    const uploadVideos = Promise.all(
+      videos.map(async (video) => {
+        const uploadTask = await uploadBytes(
+          ref(storage, `apprenticeship-videos/${id}${video.name}`),
+          video
         );
-        return res;
-      };
-
-      await uploadVideos()
-        .then(async (urls) => {
-          if (logo) {
-            uploadBytes(
-              ref(storage, `apprenticeship-logos/${id}${logo.name}`),
-              logo
-            )
-              .then((uploadTask) => {
-                getDownloadURL(uploadTask.ref)
-                  .then(async (url) => {
-                    await addDoc(collection(db, "apprenticeships"), {
-                      ...rest,
-                      videosUrls: urls,
-                      timeStamp: serverTimestamp(),
-                      creatorId: user?.uid,
-                      logoUrl: {
-                        refId: `${id}${logo.name}`,
-                        url,
-                      },
-                    })
-                      .then(() => {
-                        setLoading(false);
-                        navigate("/apprenticeships");
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                        setLoading(false);
-                      });
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                    setLoading(false);
-                  });
-              })
-              .catch((err) => {
-                console.log(err);
-                setLoading(false);
-              });
-          } else
-            await addDoc(collection(db, "apprenticeships"), {
-              ...rest,
-              videosUrls: urls,
-              timeStamp: serverTimestamp(),
-              creatorId: user?.uid,
-            })
-              .then(() => {
-                setLoading(false);
-                navigate("/apprenticeships");
-              })
-              .catch((err) => {
-                console.log(err);
-                setLoading(false);
-              });
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoading(false);
-        });
-    }
-    // if not new i.e updating
-    else {
-      await updateDoc(doc(db, "apprenticeships", `${params.id}`), {
-        ...rest,
+        return {
+          name: video.name,
+          url: await getDownloadURL(uploadTask.ref),
+        };
       })
-        .then(() => {
-          setLoading(false);
-          navigate("/apprenticeships");
-          resetStore();
-        })
-        .catch(() => {
-          setLoading(false);
-          toast({
-            position: "bottom",
-            duration: 2000,
-            render: () => (
-              <Box
-                borderRadius={20}
-                bgColor='lavender'
-                p='1'
-                border='1px solid #793EF5'>
-                <Text textAlign='center' color='#793EF5' fontWeight={600}>
-                  Something went wrong
-                </Text>
-              </Box>
-            ),
-          });
-        });
+    );
+    const uploadLogo = async () => {
       if (logo) {
-        await uploadBytes(
+        const uploadTask = await uploadBytes(
           ref(storage, `apprenticeship-logos/${id}${logo.name}`),
           logo
-        )
-          .then((uploadResult) => {
-            getDownloadURL(uploadResult.ref)
-              .then(async (url) => {
-                await updateDoc(doc(db, "apprenticeships", `${params.id}`), {
-                  logoUrl: { refId: `${id}${logo.name}`, url },
-                });
-              })
-              .catch(() => setLoading(false));
-          })
-          .catch(() => setLoading(false));
+        );
+        return getDownloadURL(uploadTask.ref);
       }
-    }
+    };
+    if (params.id === "new") {
+      try {
+        const videosUrls = await uploadVideos;
+        const logoUrl = await uploadLogo();
+        await addDoc(collection(db, "apprenticeships"), {
+          ...rest,
+          videosUrls,
+          timeStamp: serverTimestamp(),
+          creatorId: user?.uid,
+          logoUrl,
+        });
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+        console.log(err);
+        toast();
+      }
+    } else
+      try {
+        const videosUrls = await uploadVideos;
+        const logoUrl = await uploadLogo();
+        await updateDoc(doc(db, "apprenticeships", `${params.id}`), {
+          ...rest,
+          logoUrl: logo ? logoUrl : prevLogoUrl || "",
+          videosUrls: prevVideoUrls
+            ? [...prevVideoUrls, ...videosUrls]
+            : videosUrls,
+        });
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+        console.log(err);
+        toast();
+      }
   };
 
   return (

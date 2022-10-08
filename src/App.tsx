@@ -40,6 +40,7 @@ function App() {
   // TODO validation schema for text inputs
   // TODO remove indexer prop and replace with value ==>hard code indexer
   // TODO add search data to database
+  // TODO index db field:creatorId
   const [user, loading, error] = useAuthState(auth);
   const { userData, updateUserData, setSearchData } = useStore(
     (state) => ({

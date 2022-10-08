@@ -30,6 +30,8 @@ const db = getFirestore(app);
 
 const storage = getStorage(app);
 
+storage.maxUploadRetryTime = 10000;
+
 if (!apps.length) {
   enableIndexedDbPersistence(db);
 }
