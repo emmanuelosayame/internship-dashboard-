@@ -14,13 +14,13 @@ import { NavLink, Route, Routes } from "react-router-dom";
 import Auth from "./components/Auth";
 import Apprenticeships from "./pages/Apprenticeships";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "./assets/firebase";
+import { auth, db } from "../firebase";
 import { Loading, LoadingBlur } from "./components/Loading";
 import Apprenticeship from "./components/Apprenticeship";
 import NavBar from "./components/NavBar";
 import Internships from "./pages/Interships";
 import Settings from "./pages/Settings";
-import { useStore } from "./assets/store/Store";
+import { useStore } from "./components/store/Store";
 import shallow from "zustand/shallow";
 import { useCollection } from "react-firebase-hooks/firestore";
 import {
@@ -31,7 +31,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { ApprType, SearchEntity } from "./assets/Types";
+import { ApprType, SearchEntity } from "./components/Types";
 
 function App() {
   // TODO make navbar display none to avoid refetching logo
@@ -41,7 +41,9 @@ function App() {
   // TODO remove indexer prop and replace with value ==>hard code indexer
   // TODO add search data to database
   // TODO index db field:creatorId
+  // TODO error handling
   const [user, loading, error] = useAuthState(auth);
+  
   const { userData, updateUserData, setSearchData } = useStore(
     (state) => ({
       userData: state.userData,
@@ -102,6 +104,7 @@ function App() {
         {/* TODO create 404 page */}
         <Route path='*' element={<div />} />
       </Routes>
+
       <Box w='full' h='full' p={5}>
         <Routes>
           <Route

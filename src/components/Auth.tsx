@@ -21,13 +21,13 @@ import {
   EyeSlashIcon,
   LockIcon,
   TickSquare,
-} from "../assets/Svgs";
+} from "../components/Svgs";
 import * as Yup from "yup";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { LoadingBlur } from "./Loading";
-import { auth } from "../assets/firebase";
+import { auth } from "../../firebase";
 import { updateProfile } from "firebase/auth";
-import logo from "../../public/RadicallX-Black-Logo 1.png";
+import logo from "../assets/RadicallX-Black-Logo 1.png";
 
 const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);

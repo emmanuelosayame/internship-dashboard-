@@ -9,10 +9,10 @@ import {
 import { collection, DocumentData } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { db } from "../assets/firebase";
+import { db } from "../../firebase";
 import Fuse from "fuse.js";
 import debounce from "lodash/debounce";
-import { SearchEntity } from "../assets/Types";
+import { SearchEntity } from "./Types";
 
 const SearchMenu = ({
   menuText,

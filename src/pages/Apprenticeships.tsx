@@ -22,7 +22,7 @@ import {
   AddSquareIcon,
   Square2StackIcon,
   TrashIcon,
-} from "../assets/Svgs";
+} from "../components/Svgs";
 import logo from "../../public/RadicallX-Black-Logo 1.png";
 import { useCollection, useDocument } from "react-firebase-hooks/firestore";
 import {
@@ -33,8 +33,8 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { auth, db } from "../assets/firebase";
-import { ApprsData, ApprType } from "../assets/Types";
+import { auth, db } from "../../firebase";
+import { ApprsData, ApprType } from "../components/Types";
 import { useRef, useState } from "react";
 
 const Apprenticeships = ({

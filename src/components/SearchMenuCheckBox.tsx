@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import Fuse from "fuse.js";
 import debounce from "lodash/debounce";
 import { CheckBoxWithText } from "./CheckBox";
-import { SearchEntity } from "../assets/Types";
+import { SearchEntity } from "./Types";
 
 const SearchMenuCheckBox = ({
   children,

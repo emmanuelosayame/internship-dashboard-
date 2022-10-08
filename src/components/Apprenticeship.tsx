@@ -18,15 +18,15 @@ import {
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { auth, db, storage } from "../assets/firebase";
-import { useStore } from "../assets/store/Store";
+import { auth, db, storage } from "../../firebase";
+import { useStore } from "../components/store/Store";
 import {
   ArrowLeftIcon,
   CheckIcon,
   CircleIcon,
   AddSquareIcon,
-} from "../assets/Svgs";
-import { ApprType } from "../assets/Types";
+} from "../components/Svgs";
+import { ApprType } from "../components/Types";
 import EditorSection from "./EditorSection";
 import { Loading, LoadingBlur } from "./Loading";
 import shallow from "zustand/shallow";

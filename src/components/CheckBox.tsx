@@ -8,7 +8,7 @@ import {
   useCheckbox,
   UseCheckboxProps,
 } from "@chakra-ui/react";
-import { TickSquare, UntickIcon } from "../assets/Svgs";
+import { TickSquare, UntickIcon } from "./Svgs";
 
 export const CheckBox = (props: UseCheckboxProps) => {
   const { state, getCheckboxProps, getInputProps, getLabelProps, htmlProps } =
@@ -48,7 +48,7 @@ export const CheckBoxWithText = (props: UseCheckboxWithTextProps) => {
       {...htmlProps}>
       <input {...getInputProps()} hidden />
 
-      <HStack {...getCheckboxProps()} >
+      <HStack {...getCheckboxProps()}>
         {state.isChecked ? <TickSquare boxSize={6} /> : <UntickIcon />}
         <Text {...props.textStyle}>{props.text}</Text>
       </HStack>

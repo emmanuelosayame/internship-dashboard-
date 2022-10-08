@@ -25,18 +25,18 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
-import { useStore } from "../assets/store/Store";
+import { useStore } from "../components/store/Store";
 import {
   CautionIcon,
   AddSquareIcon,
   UserIcon,
   PhotoIcon,
   SmsIcon,
-} from "../assets/Svgs";
+} from "../components/Svgs";
 import shallow from "zustand/shallow";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { TeamAdmin } from "../assets/Types";
+import { TeamAdmin } from "../components/Types";
 import { useParams } from "react-router-dom";
 
 const TeamAdmins = () => {

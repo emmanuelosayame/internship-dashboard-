@@ -36,7 +36,7 @@ import {
   MonitorIcon,
   PhotoIcon,
   XmarkIcon,
-} from "../assets/Svgs";
+} from "../components/Svgs";
 import TextareaAutosize from "react-textarea-autosize";
 import debounce from "lodash/debounce";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -46,17 +46,17 @@ import {
   ApprErrorTypes,
   TeamRole,
   validationSchemaA,
-} from "../assets/Types";
+} from "../components/Types";
 import "../../editor.css";
 import TeamRoles from "./TeamRoles";
 import TeamAdmins from "./TeamAdmin";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useStore } from "../assets/store/Store";
+import { useStore } from "../components/store/Store";
 import shallow from "zustand/shallow";
 import { useParams } from "react-router-dom";
 import { deleteObject, ref } from "firebase/storage";
-import { db, storage } from "../assets/firebase";
+import { db, storage } from "../../firebase";
 import { doc, updateDoc } from "firebase/firestore";
 
 const FocusableBox = ({

@@ -30,15 +30,15 @@ import {
   EditIcon,
   Square2StackIcon,
   TrashIcon,
-} from "../assets/Svgs";
-import { TeamRole } from "../assets/Types";
+} from "../components/Svgs";
+import { TeamRole } from "../components/Types";
 import { debounce } from "lodash";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { collection } from "firebase/firestore";
-import { db } from "../assets/firebase";
+import { db } from "../../firebase";
 import SearchMenu from "./SearchMenu";
 import SearchMenuCheckBox from "./SearchMenuCheckBox";
-import { useStore } from "../assets/store/Store";
+import { useStore } from "../components/store/Store";
 import shallow from "zustand/shallow";
 import { useState } from "react";
 

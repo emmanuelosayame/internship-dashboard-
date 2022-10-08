@@ -1,6 +1,6 @@
 import { doc, getDoc } from "firebase/firestore";
 import { StateCreator } from "zustand";
-import { db } from "../firebase";
+import { db } from "../../../firebase";
 import { ApprSlice, ApprType } from "../Types";
 import { v4 } from "uuid";
 

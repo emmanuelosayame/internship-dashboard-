@@ -25,10 +25,10 @@ import {
   useCollectionData,
   useDocumentData,
 } from "react-firebase-hooks/firestore";
-import { auth, db, storage } from "../assets/firebase";
-import { useStore } from "../assets/store/Store";
-import { EditIcon, TickSquare, XmarkIcon } from "../assets/Svgs";
-import { ApprsData, ApprType, UserData } from "../assets/Types";
+import { auth, db, storage } from "../../firebase";
+import { useStore } from "../components/store/Store";
+import { EditIcon, TickSquare, XmarkIcon } from "../components/Svgs";
+import { ApprsData, ApprType, UserData } from "../components/Types";
 import { Loading } from "../components/Loading";
 
 const Settings = ({

@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { NavLink, useLocation, useParams } from "react-router-dom";
-import { auth, db } from "../assets/firebase";
+import { auth, db } from "../../firebase";
 import {
   BookIcon,
   BriefCaseIcon,
@@ -19,11 +19,11 @@ import {
   MedalSilver,
   SettingsIcon,
   SquarePlusIcon,
-} from "../assets/Svgs";
-import logo from "../../public/RadicallX-Black-Logo 1.png";
+} from "../components/Svgs";
+import logo from "../assets/RadicallX-Black-Logo 1.png";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { doc } from "firebase/firestore";
-import { useStore } from "../assets/store/Store";
+import { useStore } from "../components/store/Store";
 
 const NavBar = ({}: {}) => {
   const userData = useStore((state) => state.userData);
