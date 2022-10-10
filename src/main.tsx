@@ -12,6 +12,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <Router>
       <ChakraProvider theme={theme}>
         <App />
+        {/* <Newcomp /> */}
       </ChakraProvider>
     </Router>
   </React.StrictMode>

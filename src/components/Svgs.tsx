@@ -834,3 +834,41 @@ export const UntickIcon = (props: IconProps) => (
     />
   </Icon>
 );
+
+export const ArrowLeft = (props: IconProps) => (
+  <Icon
+    viewBox='0 0 24 24'
+    strokeWidth='1.5'
+    stroke='currentColor'
+    fill='none'
+    fillRule='evenodd'
+    clipRule='evenodd'
+    width='5'
+    height='5'
+    {...props}>
+    <path
+      d='M11.165 6.91821L4.08331 13.9999L11.165 21.0815'
+      stroke='#793EF5'
+      stroke-width='1.5'
+      stroke-miterlimit='10'
+      stroke-linecap='round'
+      stroke-linejoin='round'
+    />
+    <path
+      d='M14.9566 14H4.08331'
+      stroke='#793EF5'
+      stroke-width='1.5'
+      stroke-miterlimit='10'
+      stroke-linecap='round'
+      stroke-linejoin='round'
+    />
+    <path
+      d='M23.7183 14H19.6583'
+      stroke='#793EF5'
+      stroke-width='1.5'
+      stroke-miterlimit='10'
+      stroke-linecap='round'
+      stroke-linejoin='round'
+    />
+  </Icon>
+);

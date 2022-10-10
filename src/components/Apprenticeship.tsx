@@ -25,6 +25,7 @@ import {
   CheckIcon,
   CircleIcon,
   AddSquareIcon,
+  ArrowLeft,
 } from "../components/Svgs";
 import { ApprType } from "../components/Types";
 import EditorSection from "./EditorSection";
@@ -161,9 +162,8 @@ const Apprenticeship = () => {
           <Link to='/apprenticeships'>
             <Button
               onClick={() => params.id !== "new" && resetStore()}
-              leftIcon={
-                <ArrowLeftIcon boxSize={5} fontSize='18px' color='#793EF5' />
-              }>
+              // Emmanuel changed this icon 
+              leftIcon={<ArrowLeft boxSize={5} />}>
               Back
             </Button>
           </Link>

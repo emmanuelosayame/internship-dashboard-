@@ -95,6 +95,8 @@ function App() {
   return (
     <Flex p={3} w='full' h='100vh'>
       {/* TODO create responsive Navbar */}
+
+      {/* navbar component */}
       <Routes>
         <Route index element={<NavBar />} />
         <Route path='apprenticeships' element={<NavBar />} />
@@ -104,6 +106,7 @@ function App() {
         {/* TODO create 404 page */}
         <Route path='*' element={<div />} />
       </Routes>
+      {/* navbar component */}
 
       <Box w='full' h='full' p={5}>
         <Routes>
