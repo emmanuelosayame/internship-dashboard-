@@ -37,13 +37,14 @@ import { auth, db } from "../../firebase";
 import { ApprsData, ApprType } from "../components/Types";
 import { useRef, useState } from "react";
 
+
 const Apprenticeships = ({
   apprsData,
 }: {
   apprsData: ApprsData | undefined;
 }) => {
-  const cancelRef = useRef<HTMLButtonElement>(null);
-  const navigate = useNavigate();
+  const cancelRef = useRef<HTMLButtonElement>(null); //hook
+  const navigate = useNavigate(); //hook
 
   const deleteAppr = async (id: string) => {
     try {
@@ -56,7 +57,7 @@ const Apprenticeships = ({
   const [{ id, isOpen }, setDeleteConfrm] = useState<{
     isOpen: boolean;
     id: string | null;
-  }>({ isOpen: false, id: null });
+  }>({ isOpen: false, id: null }); //hook
 
   return (
     <>

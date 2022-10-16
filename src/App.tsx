@@ -32,6 +32,7 @@ import {
   where,
 } from "firebase/firestore";
 import { ApprType, SearchEntity } from "./components/Types";
+import { functions } from "lodash";
 
 function App() {
   // TODO make navbar display none to avoid refetching logo
@@ -42,8 +43,12 @@ function App() {
   // TODO add search data to database
   // TODO index db field:creatorId
   // TODO error handling
+
+  // Line 47 is a react hook. Hooks lets us abstract codes into a simple function. yes hooks are functions. They can contain other functions, variables, classes, components, libraries and even other hooks in the case of custom hooks Jooks in react start with the 'use' word.
   const [user, loading, error] = useAuthState(auth);
-  
+
+  // so the hook above takes auth from firebase as a parameter and returns an array of values including user: the current user or undefined if no user, loading: if the hook is checking wether or not a user exist(in thsi case i use it to show a loading component).
+
   const { userData, updateUserData, setSearchData } = useStore(
     (state) => ({
       userData: state.userData,
@@ -93,6 +98,17 @@ function App() {
   if (!user) return <Auth />;
 
   return (
+    // remember the return section where write our html codes and add children components. in this section. i have the navbar component which i reused multiple times so I could render/show it on specific pages. The route component does the job of rendering/showing.
+    // You can read more on react router
+    //The routes(parent) wraps the route(child) component. They all work together including the router from main.tsx.
+
+    //The other part of the code is where I created another routes and route set to render the main contents of the specific pages.
+
+    //Since we're working primarily on the apprenticeships part of the app. I,m importing   1.Apprenticeships  2.Apprenticeship and 3.Settings component
+
+    //1 is the main page where all the apprenticeships display.
+    //2 is the creat apprenticeship page. I'm also using this same component for edit apprenticeship. That's the idea of components: re-usablility, code-abstraction(so I dont have my code jampacked in a single file) and a lot more.
+
     <Flex p={3} w='full' h='100vh'>
       {/* TODO create responsive Navbar */}
 
@@ -120,6 +136,9 @@ function App() {
           />
           <Route path='/apprenticeships'>
             <Route index element={<Apprenticeships apprsData={apprsData} />} />
+            //path=":id" means that the page should be dynamic. eg.
+            apprenticeships/new,apprenticeships/86tghuhyyujuy78u8u,apprenticeships/new,apprenticeships/f8ghuhyfvyujuyuuu8u
+            //You just change the contents of the page not the structure and layout
             <Route path=':id' element={<Apprenticeship />} />
           </Route>
           <Route
