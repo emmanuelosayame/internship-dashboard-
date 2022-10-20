@@ -44,7 +44,7 @@ function App() {
   // TODO index db field:creatorId
   // TODO error handling
 
-  // Line 47 is a react hook. Hooks lets us abstract codes into a simple function. yes hooks are functions. They can contain other functions, variables, classes, components, libraries and even other hooks in the case of custom hooks Jooks in react start with the 'use' word.
+  // Line 48 is a react hook. Hooks lets us abstract codes into a simple function. yes hooks are functions. They can contain other functions, variables, classes, components, libraries and even other hooks in the case of custom hooks Jooks in react start with the 'use' word.
   const [user, loading, error] = useAuthState(auth);
 
   // so the hook above takes auth from firebase as a parameter and returns an array of values including user: the current user or undefined if no user, loading: if the hook is checking wether or not a user exist(in thsi case i use it to show a loading component).
@@ -124,7 +124,7 @@ function App() {
       </Routes>
       {/* navbar component */}
 
-      <Box w='full' h='full' p={5}>
+      <Box w='full' h='full' p={5} pb='5' pt={["14", "14", "5"]}>
         <Routes>
           <Route
             index
@@ -138,7 +138,8 @@ function App() {
             <Route index element={<Apprenticeships apprsData={apprsData} />} />
             //path=":id" means that the page should be dynamic. eg.
             apprenticeships/new,apprenticeships/86tghuhyyujuy78u8u,apprenticeships/new,apprenticeships/f8ghuhyfvyujuyuuu8u
-            //You just change the contents of the page not the structure and layout
+            //You just change the contents of the page not the structure and
+            layout
             <Route path=':id' element={<Apprenticeship />} />
           </Route>
           <Route

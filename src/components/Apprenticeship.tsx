@@ -153,46 +153,48 @@ const Apprenticeship = () => {
         left={0}
         p={2}
         top={0}>
-        <Flex
-          bgColor='white'
-          rounded='3xl'
-          justify='space-between'
-          p={4}
-          align='center'>
-          <Link to='/apprenticeships'>
-            <Button
-              onClick={() => params.id !== "new" && resetStore()}
-              // Emmanuel changed this icon 
-              leftIcon={<ArrowLeft boxSize={5} />}>
-              Back
-            </Button>
-          </Link>
-          <Heading>
+        <Stack bgColor='white' rounded='3xl' p={4} w='full'>
+          {/* <Heading mx='auto' display={["unset", "unset", "none"]}>
             {params.id === "new"
               ? "Creating Apprenticeship"
               : "Editing Apprenticeship"}
-          </Heading>
-          <Button
-            leftIcon={<AddSquareIcon />}
-            variant='solid'
-            bgColor='#793EF5'
-            color='white'
-            onClick={handleSaveAppr}
-            isDisabled={
-              !(
-                rest.apprenticeshipDescription.length > 0 &&
-                rest.companyDescription.length > 0 &&
-                rest.apprenticeshipTitle.length > 0 &&
-                rest.teamAdmins.length > 0 &&
-                rest.teamRoles.length &&
-                rest.timeline.startDate
-              )
-            }>
-            {params.id === "new"
-              ? "Publish Apprenticeship"
-              : "Re - Publish Apprenticeship"}
-          </Button>
-        </Flex>
+          </Heading> */}
+          <Flex justify='space-between' align='center'>
+            <Link to='/apprenticeships'>
+              <Button
+                onClick={() => params.id !== "new" && resetStore()}
+                // Emmanuel changed this icon
+                leftIcon={<ArrowLeft boxSize={5} />}>
+                Back
+              </Button>
+            </Link>
+            <Heading display={["none", "none", "unset"]}>
+              {params.id === "new"
+                ? "Creating Apprenticeship"
+                : "Editing Apprenticeship"}
+            </Heading>
+            <Button
+              leftIcon={<AddSquareIcon />}
+              variant='solid'
+              bgColor='#793EF5'
+              color='white'
+              onClick={handleSaveAppr}
+              isDisabled={
+                !(
+                  rest.apprenticeshipDescription.length > 0 &&
+                  rest.companyDescription.length > 0 &&
+                  rest.apprenticeshipTitle.length > 0 &&
+                  rest.teamAdmins.length > 0 &&
+                  rest.teamRoles.length &&
+                  rest.timeline.startDate
+                )
+              }>
+              {params.id === "new"
+                ? "Publish Apprenticeship"
+                : "Re - Publish Apprenticeship"}
+            </Button>
+          </Flex>
+        </Stack>
 
         <Flex
           justify='space-between'
