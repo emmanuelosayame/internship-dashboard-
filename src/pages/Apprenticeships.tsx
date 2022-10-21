@@ -42,8 +42,8 @@ const Apprenticeships = ({
 }: {
   apprsData: ApprsData | undefined;
 }) => {
-  const cancelRef = useRef<HTMLButtonElement>(null);
-  const navigate = useNavigate();
+  const cancelRef = useRef<HTMLButtonElement>(null); //hook
+  const navigate = useNavigate(); //hook
 
   const deleteAppr = async (id: string) => {
     try {
@@ -56,7 +56,7 @@ const Apprenticeships = ({
   const [{ id, isOpen }, setDeleteConfrm] = useState<{
     isOpen: boolean;
     id: string | null;
-  }>({ isOpen: false, id: null });
+  }>({ isOpen: false, id: null }); //hook
 
   return (
     <>
@@ -104,12 +104,13 @@ const Apprenticeships = ({
         </AlertDialogOverlay>
       </AlertDialog>
 
-      <Box px={6} py={4} w='full'>
-        <Flex justify='space-between'>
+      <Box px={[2, 2, 6]} py={4} w='full'>
+        <Flex justify='space-between' align='center' >
           <Text fontSize='32' fontWeight='600' textAlign={["center", "start"]}>
             Apprenticeship
           </Text>
           <Button
+            display={["none", "none", "unset"]}
             fontSize={13}
             py={5}
             // h='44px'
@@ -122,6 +123,16 @@ const Apprenticeships = ({
             onClick={() => navigate("/apprenticeships/new")}>
             Create New Apprenticeship
           </Button>
+          <IconButton
+            size='md'
+            aria-label='new apprenticeship'
+            display={["unset", "unset", "none"]}
+            fontWeight={500}
+            bgColor='#793EF5'
+            color='white'
+            onClick={() => navigate("/apprenticeships/new")}>
+            <AddSquareIcon />
+          </IconButton>
         </Flex>
         <Grid
           py={3}
