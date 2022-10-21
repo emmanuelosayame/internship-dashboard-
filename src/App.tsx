@@ -29,6 +29,7 @@ import {
   getDocs,
   limit,
   onSnapshot,
+  orderBy,
   query,
   where,
 } from "firebase/firestore";
@@ -78,10 +79,11 @@ function App() {
     }
   }, [user]);
 
-  const [apprs] = useCollection(
+  const [apprs, apprsLoading, apprsError] = useCollection(
     query(
       collection(db, "apprenticeships"),
       where("creatorId", "==", `${user?.uid}`),
+      orderBy("timestamp", "desc"),
       limit(20)
     ) as CollectionReference<ApprType>
   );
@@ -95,7 +97,12 @@ function App() {
     empty: apprs?.empty,
   };
 
+  // console.log(errorc);
+  apprsError && console.log(apprsError);
+
   if (loading) return <Loading />;
+
+  if (apprsLoading) return <LoadingBlur />;
 
   if (!user) return <Auth />;
 

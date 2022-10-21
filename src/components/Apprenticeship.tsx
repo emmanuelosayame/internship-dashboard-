@@ -63,8 +63,6 @@ const Apprenticeship = () => {
     shallow
   );
 
-  // console.log(rest);
-
   useEffect(() => {
     let sub = false;
     if (params.id && params.id !== "new") {
@@ -88,18 +86,20 @@ const Apprenticeship = () => {
     //create unique id for logos and videos incase you have multiple files with the same ////name, they dont get overwritten
     const id = v4();
     //uploadVideos is function that returns a promise. In this function it uploads the videos in parallel and resolves the promises
-    const uploadVideos = Promise.all(
-      videos.map(async (video) => {
-        const uploadTask = await uploadBytes(
-          ref(storage, `apprenticeship-videos/${id}${video.name}`),
-          video
-        );
-        return {
-          name: video.name,
-          url: await getDownloadURL(uploadTask.ref),
-        };
-      })
-    );
+    const uploadVideos = videos
+      ? Promise.all(
+          videos.map(async (video) => {
+            const uploadTask = await uploadBytes(
+              ref(storage, `apprenticeship-videos/${id}${video.name}`),
+              video
+            );
+            return {
+              name: video.name,
+              url: await getDownloadURL(uploadTask.ref),
+            };
+          })
+        )
+      : [];
     //upload logo is a function that returns a promise. In this function, it uploads the logo if there be any. its also creates unique names for the logos by adding a unique id created during the save apprenticeship execution with the file name.
     const uploadLogo = async () => {
       if (logo) {
@@ -108,7 +108,7 @@ const Apprenticeship = () => {
           logo
         );
         return getDownloadURL(uploadTask.ref);
-      }
+      } else return null;
     };
     if (params.id === "new") {
       if (logo) {
@@ -118,11 +118,13 @@ const Apprenticeship = () => {
           await addDoc(collection(db, "apprenticeships"), {
             ...rest,
             videosUrls,
-            timeStamp: serverTimestamp(),
+            timestamp: serverTimestamp(),
             creatorId: user?.uid,
             logoUrl,
           });
           setLoading(false);
+          navigate("/apprenticeships");
+          resetStore();
         } catch (err) {
           setLoading(false);
           console.log(err);
@@ -136,10 +138,12 @@ const Apprenticeship = () => {
           await addDoc(collection(db, "apprenticeships"), {
             ...rest,
             videosUrls,
-            timeStamp: serverTimestamp(),
+            timestamp: serverTimestamp(),
             creatorId: user?.uid,
           });
           setLoading(false);
+          navigate("/apprenticeships");
+          resetStore();
         } catch (err) {
           setLoading(false);
           console.log(err);
@@ -150,16 +154,20 @@ const Apprenticeship = () => {
     //if its not a new apprenticeship.i.e editing apprenticeship
     else
       try {
-        const videosUrls = await uploadVideos;
-        const logoUrl = await uploadLogo();
+        const videosUrls =
+          videos && videos.length > 0 ? await uploadVideos : [];
+        const logoUrl = logo ? await uploadLogo() : null;
         await updateDoc(doc(db, "apprenticeships", `${params.id}`), {
           ...rest,
           logoUrl: logo ? logoUrl : prevLogoUrl || "",
           videosUrls: prevVideoUrls
             ? [...prevVideoUrls, ...videosUrls]
             : videosUrls,
+          timestamp: serverTimestamp(),
         });
         setLoading(false);
+        navigate("/apprenticeships");
+        resetStore();
       } catch (err) {
         setLoading(false);
         console.log(err);
@@ -191,20 +199,13 @@ const Apprenticeship = () => {
                 {/* <Text opacity={[0, 0, 1]}>Back</Text> */}
               </Button>
             </Link>
-            <Heading
-              textAlign='center'
-              fontSize='15px'
-              display={["unset", "unset", "none"]}>
-              {params.id === "new"
-                ? "Creating Apprenticeship"
-                : "Editing Apprenticeship"}
-            </Heading>
-            <Heading display={["none", "none", "unset"]}>
+            <Heading textAlign='center' fontSize={["14px", "14px", "unset"]}>
               {params.id === "new"
                 ? "Creating Apprenticeship"
                 : "Editing Apprenticeship"}
             </Heading>
             <Button
+              display={["flex", "flex", "none"]}
               leftIcon={<AddSquareIcon />}
               variant='solid'
               bgColor='#793EF5'
@@ -217,11 +218,33 @@ const Apprenticeship = () => {
                   rest.companyDescription.length > 0 &&
                   rest.apprenticeshipTitle.length > 0 &&
                   rest.teamAdmins.length > 0 &&
-                  rest.teamRoles.length &&
+                  rest.teamRoles.length > 0 &&
                   rest.timeline.startDate
                 )
               }>
               {params.id === "new" ? "Publish" : "Save"}
+            </Button>
+            <Button
+              display={["none", "none", "flex"]}
+              leftIcon={<AddSquareIcon />}
+              variant='solid'
+              bgColor='#793EF5'
+              px='4'
+              color='white'
+              onClick={handleSaveAppr}
+              isDisabled={
+                !(
+                  rest.apprenticeshipDescription.length > 0 &&
+                  rest.companyDescription.length > 0 &&
+                  rest.apprenticeshipTitle.length > 0 &&
+                  rest.teamAdmins.length > 0 &&
+                  rest.teamRoles.length > 0 &&
+                  rest.timeline.startDate
+                )
+              }>
+              {params.id === "new"
+                ? "Publish Apprenticeship"
+                : "Re - Publish Apprenticeship"}
             </Button>
           </Flex>
         </Stack>
