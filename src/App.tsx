@@ -27,6 +27,7 @@ import {
   collection,
   CollectionReference,
   getDocs,
+  limit,
   onSnapshot,
   query,
   where,
@@ -80,7 +81,8 @@ function App() {
   const [apprs] = useCollection(
     query(
       collection(db, "apprenticeships"),
-      where("creatorId", "==", `${user?.uid}`)
+      where("creatorId", "==", `${user?.uid}`),
+      limit(20)
     ) as CollectionReference<ApprType>
   );
 
@@ -124,7 +126,7 @@ function App() {
       </Routes>
       {/* navbar component */}
 
-      <Box w='full' h='full' p={5} pb='5' pt={["14", "14", "5"]}>
+      <Box w='full' h='full' px={["0", "0", "5"]} pb='5' pt={["14", "14", "5"]}>
         <Routes>
           <Route
             index

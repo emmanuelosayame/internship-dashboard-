@@ -1,4 +1,4 @@
-import { Icon, IconProps } from '@chakra-ui/react';
+import { Icon, IconProps } from "@chakra-ui/react";
 
 export const JobIcon = (props: IconProps) => (
   <Icon
@@ -10,8 +10,7 @@ export const JobIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -30,8 +29,7 @@ export const SettingsIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       d='M15 12C15 10.34 13.66 9 12 9C10.34 9 9 10.34 9 12C9 13.66 10.34 15 12 15C12.41 15 12.81 14.92 13.17 14.76'
       // stroke='#1E1E1E'
@@ -72,8 +70,7 @@ export const EditIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='20'
     height='20'
-    {...props}
-  >
+    {...props}>
     <g opacity='0.5'>
       <path
         d='M12.5 18.4584H7.50002C5.29492 18.4584 3.84036 17.9854 2.92753 17.0726C2.0147 16.1597 1.54169 14.7052 1.54169 12.5001V7.50008C1.54169 5.29498 2.0147 3.84042 2.92753 2.92759C3.84036 2.01476 5.29492 1.54175 7.50002 1.54175H9.16669C9.19683 1.54175 9.22812 1.55403 9.25376 1.57968C9.2794 1.60532 9.29169 1.6366 9.29169 1.66675C9.29169 1.6969 9.2794 1.72818 9.25376 1.75382C9.22812 1.77946 9.19683 1.79175 9.16669 1.79175H7.50002C5.54391 1.79175 4.06893 2.13449 3.10168 3.10174C2.13442 4.06899 1.79169 5.54397 1.79169 7.50008V12.5001C1.79169 14.4562 2.13442 15.9312 3.10168 16.8984C4.06893 17.8657 5.54391 18.2084 7.50002 18.2084H12.5C14.4561 18.2084 15.9311 17.8657 16.8984 16.8984C17.8656 15.9312 18.2084 14.4562 18.2084 12.5001V10.8334C18.2084 10.8033 18.2206 10.772 18.2463 10.7463C18.2719 10.7207 18.3032 10.7084 18.3334 10.7084C18.3635 10.7084 18.3948 10.7207 18.4204 10.7463C18.4461 10.772 18.4584 10.8033 18.4584 10.8334V12.5001C18.4584 14.7052 17.9853 16.1597 17.0725 17.0726C16.1597 17.9854 14.7051 18.4584 12.5 18.4584Z'
@@ -104,8 +101,7 @@ export const CopyIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='20'
     height='20'
-    {...props}
-  >
+    {...props}>
     <g opacity='0.5'>
       <path
         d='M9.24999 18.4584H5.74999C4.18327 18.4584 3.16345 18.1085 2.5275 17.4726C1.89156 16.8366 1.54166 15.8168 1.54166 14.2501V10.7501C1.54166 9.18336 1.89156 8.16354 2.5275 7.52759C3.16345 6.89165 4.18327 6.54175 5.74999 6.54175H9.24999C10.8167 6.54175 11.8365 6.89165 12.4725 7.52759C13.1084 8.16354 13.4583 9.18336 13.4583 10.7501V14.2501C13.4583 15.8168 13.1084 16.8366 12.4725 17.4726C11.8365 18.1085 10.8167 18.4584 9.24999 18.4584ZM5.74999 6.79175C4.42878 6.79175 3.38777 7.00936 2.69852 7.69861C2.00927 8.38786 1.79166 9.42887 1.79166 10.7501V14.2501C1.79166 15.5713 2.00927 16.6123 2.69852 17.3016C3.38777 17.9908 4.42878 18.2084 5.74999 18.2084H9.24999C10.5712 18.2084 11.6122 17.9908 12.3015 17.3016C12.9907 16.6123 13.2083 15.5713 13.2083 14.2501V10.7501C13.2083 9.42887 12.9907 8.38786 12.3015 7.69861C11.6122 7.00936 10.5712 6.79175 9.24999 6.79175H5.74999Z'
@@ -131,8 +127,7 @@ export const TrashIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='20'
     height='20'
-    {...props}
-  >
+    {...props}>
     <g opacity='0.5'>
       <path
         d='M2.48187 4.85603L2.48211 4.85601L4.18211 4.68935L4.18382 4.68917C8.57175 4.24378 13.0273 4.41608 17.5095 4.856L17.5098 4.85603C17.5726 4.86216 17.6259 4.92235 17.619 4.99318L17.6189 4.99317L17.6181 5.00338C17.6139 5.05834 17.5651 5.10839 17.5 5.10839H17.4999H17.4998H17.4997H17.4996H17.4995H17.4994H17.4993H17.4992H17.4991H17.499H17.4989H17.4988H17.4987H17.4986H17.4985H17.4984H17.4983H17.4982H17.4981H17.498H17.4979H17.4978H17.4977H17.4976H17.4975H17.4974H17.4973H17.4972H17.4971H17.497H17.4969H17.4968H17.4967H17.4966H17.4965H17.4964H17.4963H17.4961H17.496H17.4959H17.4958H17.4957H17.4956H17.4955H17.4954H17.4953H17.4952H17.4951H17.495H17.4949H17.4948H17.4947H17.4946H17.4944H17.4943H17.4942H17.4941H17.494H17.4939H17.4938H17.4937H17.4936H17.4935H17.4934H17.4933H17.4931H17.493H17.4929H17.4928H17.4927H17.4926H17.4925H17.4924H17.4923H17.4922H17.492H17.4919H17.4918H17.4917H17.4916H17.4915H17.4914H17.4913H17.4912H17.491H17.4909H17.4908H17.4907H17.4906H17.4905H17.4904H17.4902H17.4901H17.49H17.4899H17.4898H17.4897H17.4896H17.4894H17.4893H17.4892H17.4891H17.489H17.4889H17.4888H17.4886H17.4885H17.4884H17.4883H17.4882H17.4881H17.4879H17.4878H17.4877H17.4876H17.4875H17.4874H17.4872H17.4871H17.487H17.4869H17.4868H17.4867H17.4865H17.4864H17.4863H17.4862H17.4861H17.4859H17.4858H17.4857H17.4856H17.4855H17.4853H17.4852H17.4851H17.485H17.4849H17.4847H17.4846H17.4845H17.4844H17.4843H17.4841H17.484H17.4839H17.4838H17.4837H17.4835H17.4834H17.4833H17.4832H17.483H17.4829H17.4828H17.4827H17.4825H17.4824H17.4823H17.4822H17.4821H17.4819H17.4818H17.4817H17.4816H17.4814H17.4813H17.4812H17.4811H17.4809H17.4808H17.4807H17.4806H17.4804H17.4803H17.4802H17.4801H17.4799H17.4798H17.4797H17.4796H17.4794H17.4793H17.4792H17.4791H17.4789H17.4788H17.4787H17.4785H17.4784H17.4783H17.4782H17.478H17.4779H17.4778H17.4777H17.4775H17.4774H17.4773H17.4771H17.477H17.4769H17.4768H17.4766H17.4765H17.4764H17.4762H17.4761H17.476H17.4759H17.4757H17.4756H17.4755H17.4753H17.4752H17.4751H17.4749H17.4748H17.4747H17.4746H17.4744H17.4743H17.4742H17.474H17.4739H17.4738H17.4736H17.4735H17.4734H17.4732H17.4731H17.473H17.4728H17.4727H17.4726H17.4724H17.4723H17.4722H17.4721H17.4719H17.4718H17.4717H17.4715H17.4714H17.4713H17.4711H17.471H17.4709H17.4707H17.4706H17.4705H17.4703H17.4702H17.4701H17.4699H17.4698H17.4696H17.4695H17.4694H17.4692H17.4691H17.469H17.4688H17.4687H17.4686H17.4684H17.4683H17.4682H17.468H17.4679H17.4678H17.4676H17.4675H17.4674H17.4672H17.4671H17.4669H17.4668H17.4667H17.4665H17.4664H17.4663H17.4661H17.466H17.4659H17.4657H17.4656H17.4654H17.4653H17.4652H17.465H17.4649H17.4648H17.4646H17.4645H17.4643H17.4642H17.4641H17.4639H17.4638H17.4636H17.4635H17.4634H17.4632H17.4631H17.463H17.4628H17.4627H17.4625H17.4624H17.4623H17.4621H17.462H17.4618H17.4617H17.4616H17.4614H17.4613H17.4612H17.461H17.4609H17.4607H17.4606H17.4605H17.4603H17.4602H17.46H17.4599H17.4598H17.4596H17.4595H17.4593H17.4592H17.459H17.4589H17.4588H17.4586H17.4585H17.4583H17.4583C13.0394 4.66671 8.61197 4.4989 4.21706 4.94419C4.21679 4.94422 4.21652 4.94425 4.21625 4.94428L2.51925 5.11065C2.5191 5.11066 2.51895 5.11068 2.5188 5.11069C2.43863 5.1181 2.37938 5.06403 2.37274 4.99432C2.36543 4.91759 2.41578 4.86248 2.48187 4.85603Z'
@@ -172,8 +167,7 @@ export const SmsIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='20'
     height='20'
-    {...props}
-  >
+    {...props}>
     <path
       d='M18.3333 10.8165V12.9165C18.3333 15.8332 16.6666 17.0832 14.1666 17.0832H5.83329C3.33329 17.0832 1.66663 15.8332 1.66663 12.9165V7.08317C1.66663 4.1665 3.33329 2.9165 5.83329 2.9165H14.1666C16.6666 2.9165 18.3333 4.1665 18.3333 7.08317'
       stroke='#8A8B8C'
@@ -203,8 +197,7 @@ export const LockIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       d='M5 8.33317V6.6665C5 3.90817 5.83333 1.6665 10 1.6665C14.1667 1.6665 15 3.90817 15 6.6665V8.33317'
       stroke='#8A8B8C'
@@ -239,8 +232,7 @@ export const EyeIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='20'
     height='20'
-    {...props}
-  >
+    {...props}>
     <path
       d='M7.52506 11.6666C7.20006 11.1916 7.01672 10.6166 7.01672 9.99993C7.01672 8.34993 8.35006 7.0166 10.0001 7.0166C11.6501 7.0166 12.9834 8.34993 12.9834 9.99993C12.9834 11.6499 11.6501 12.9833 10.0001 12.9833'
       stroke='#8A8B8C'
@@ -268,8 +260,7 @@ export const EyeSlashIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -288,8 +279,7 @@ export const SquarePlusIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -308,8 +298,7 @@ export const AddSquareIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       d='M12.4917 10H13.3333'
       stroke='white'
@@ -351,8 +340,7 @@ export const Square2StackIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -371,8 +359,7 @@ export const ArrowLeftIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -392,26 +379,25 @@ export const CheckIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
-      d='M4 6C2.75 7.67 2 9.75 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2C10.57 2 9.2 2.3 7.97 2.85'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      d='M4 6C2.75 7.67 2 9.75 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 1M2C10.57 2 9.2 2.3 7.97 2.85'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M15 10.38L16.12 9.25'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M7.88 12L10.62 14.75L13.17 12.21'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
   </Icon>
 );
@@ -426,12 +412,11 @@ export const CircleIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
-      d='M4.5 6C3.25 7.67 2.5 9.75 2.5 12C2.5 17.52 6.98 22 12.5 22C18.02 22 22.5 17.52 22.5 12C22.5 6.48 18.02 2 12.5 2C11.07 2 9.7 2.3 8.47 2.85'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      d='M4.5 6C3.25 7.67 2.5 9.75 2.5 12C2.5 17.52 6.98 22 12.5 22C18.02 22 22.5 17.52 22.5 12C22.M6.48 18.02 2 12.5 2C11.07 2 9.7 2.3 8.47 2.85'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
   </Icon>
 );
@@ -446,8 +431,7 @@ export const CautionIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -466,8 +450,7 @@ export const MonitorIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path d='M22 10.63V12.78C22 16.34 21.11 17.22 17.56 17.22H6.44C2.89 17.22 2 16.33 2 12.78V6.44C2 2.89 2.89 2 6.44 2H17.55C21.11 2 22 2.89 22 6.44' />
     <path d='M12 17.2202V22.0002' />
     <path d='M2 13H22' />
@@ -485,28 +468,27 @@ export const MobileAppIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       d='M20 11.03V17C20 21 19 22 15 22H9C5 22 4 21 4 17V7C4 3 5 2 9 2H15C19 2 20 3 20 7'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M14 5.5H10'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M12 19.1C12.856 19.1 13.55 18.406 13.55 17.55C13.55 16.694 12.856 16 12 16C11.1439 16 10.45 16.694 10.45 17.55C10.45 18.406 11.1439 19.1 12 19.1Z'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
   </Icon>
 );
@@ -521,39 +503,38 @@ export const GrowthIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       d='M17.97 22H22'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-miterlimit='10'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeMiterlimit='10'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M2 2V19C2 20.66 3.34 22 5 22H13.98'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-miterlimit='10'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeMiterlimit='10'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M19.99 8.17999L21 7'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-miterlimit='10'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeMiterlimit='10'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M5 17.0002L9.59 11.6402C10.35 10.7602 11.7 10.7002 12.52 11.5302L13.47 12.4802C14.29 13.3002 15.64 13.2502 16.4 12.3702L17.55 11.0202'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-miterlimit='10'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeMiterlimit='10'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
   </Icon>
 );
@@ -567,35 +548,34 @@ export const MarketingIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       d='M1 6.26001C1 2.70001 1.75 1.40003 4.52 1.09003C5.04 1.02003 5.61 1 6.27 1H15.74C16.39 1 16.97 1.02003 17.49 1.09003C20.26 1.40003 21.01 2.70001 21.01 6.26001V12.58C21.01 16.14 20.26 17.44 17.49 17.75C16.97 17.82 16.4 17.84 15.74 17.84H6.27C5.62 17.84 5.04 17.82 4.52 17.75C1.75 17.44 1 16.14 1 12.58V10.1'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M12.58 7.31982H16.26'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M5.73999 13.1099H5.75998H16.27'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M6 21H16'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
   </Icon>
 );
@@ -610,28 +590,27 @@ export const PrototypeIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       d='M3.17004 7.43994L12 12.5499L20.77 7.46994'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M12 21.61V12.54'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M2.39001 13.2501V14.8301C2.39001 16.2101 3.38001 17.8901 4.59001 18.5601L9.93001 21.5301C11.07 22.1601 12.94 22.1601 14.08 21.5301L19.42 18.5601C20.63 17.8901 21.62 16.2101 21.62 14.8301V9.17006C21.62 7.79006 20.63 6.11006 19.42 5.44006L14.08 2.47006C12.94 1.84006 11.07 1.84006 9.93001 2.47006L4.59001 5.44006C3.38001 6.11006 2.39001 7.79006 2.39001 9.17006'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
   </Icon>
 );
@@ -645,56 +624,55 @@ export const DataIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       d='M6 6.25V8.25'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M10 6.25V8.25'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M2 9C2 4 4 2 9 2H15C20 2 22 4 22 9V15C22 20 20 22 15 22H9C4 22 2 20 2 15V12H18'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M6 16V18'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M10 16V18'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M14 7.25H18'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M14 17H18'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
   </Icon>
 );
@@ -708,14 +686,13 @@ export const CustomteamIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       d='M18.67 18.67L20.89 17.56V14.78M14.22 9.78L12 10.89L14.22 9.78ZM12 10.89L9.77998 9.78L12 10.89ZM12 10.89V13.67V10.89ZM20.89 6.44L18.67 7.55L20.89 6.44ZM20.89 6.44L18.67 5.33L20.89 6.44ZM20.89 6.44V9.22V6.44ZM14.22 3.11L12 2L9.77998 3.11H14.22ZM3.10999 6.44L5.32999 5.33L3.10999 6.44ZM3.10999 6.44L5.32999 7.55L3.10999 6.44ZM3.10999 6.44V9.22V6.44ZM12 22L9.77998 20.89L12 22ZM12 22L14.22 20.89L12 22ZM12 22V19.22V22ZM5.32999 18.67L3.10999 17.56V14.78L5.32999 18.67Z'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
   </Icon>
 );
@@ -730,60 +707,59 @@ export const CalenderDaysIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       d='M8 2V5'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-miterlimit='10'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeMiterlimit='10'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M16 2V5'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-miterlimit='10'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeMiterlimit='10'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M3.5 9.08984H20.5'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-miterlimit='10'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeMiterlimit='10'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M3 13.01V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-miterlimit='10'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeMiterlimit='10'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M11.9955 13.7002H12.0045'
       stroke='#793EF5'
-      stroke-width='2'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='2'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M8.29431 13.7002H8.30329'
       stroke='#793EF5'
-      stroke-width='2'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='2'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M8.29431 16.7002H8.30329'
       stroke='#793EF5'
-      stroke-width='2'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='2'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
   </Icon>
 );
@@ -798,8 +774,7 @@ export const XmarkIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='4'
     height='4'
-    {...props}
-  >
+    {...props}>
     <path
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -818,8 +793,7 @@ export const AddDocIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       fillRule='evenodd'
       d='M5.625 1.5H9a3.75 3.75 0 013.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 013.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 01-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875zM12.75 12a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V18a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V12z'
@@ -839,8 +813,7 @@ export const PhotoIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='3'
     height='3'
-    {...props}
-  >
+    {...props}>
     <path
       fillRule='evenodd'
       d='M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z'
@@ -859,8 +832,7 @@ export const UserIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       strokeLinecap='round'
       strokeLinejoin='round'
@@ -879,8 +851,7 @@ export const TickSquare = (props: IconProps) => (
     clipRule='evenodd'
     width='16.67px'
     height='16.67px'
-    {...props}
-  >
+    {...props}>
     <path
       d='M1.66663 10.7998V12.4998C1.66663 16.6665 3.33329 18.3332 7.49996 18.3332H12.5C16.6666 18.3332 18.3333 16.6665 18.3333 12.4998V7.49984C18.3333 3.33317 16.6666 1.6665 12.5 1.6665H7.49996C3.33329 1.6665 1.66663 3.33317 1.66663 7.49984'
       stroke='#793EF5'
@@ -915,8 +886,7 @@ export const MedalSilver = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       d='M16.25 3.44C17.92 4.72 19 6.73 19 9C19 10.45 18.57 11.78 17.83 12.89C16.75 14.49 15.04 15.62 13.05 15.91C12.71 15.97 12.36 16 12 16C11.64 16 11.29 15.97 10.95 15.91C8.96 15.62 7.25 14.49 6.17 12.89C5.43 11.78 5 10.45 5 9C5 5.13 8.13 2 12 2'
       stroke='currentColor'
@@ -951,8 +921,7 @@ export const DashboardIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       d='M15.73 2C14.14 2 13.5 2.6 13.5 4.1V10.9C13.5 12.4 14.14 13 15.73 13H19.77C21.36 13 22 12.4 22 10.9V4.1C22 2.6 21.36 2 19.77 2'
       stroke='currentColor'
@@ -1036,8 +1005,7 @@ export const BriefCaseIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       d='M21.3699 14L21.7099 10.43C21.9699 7.99 21.2699 6 16.9999 6H6.99995C2.72995 6 2.02995 7.99 2.29995 10.43L3.04995 18.43C3.25995 20.39 3.97995 22 7.99995 22H15.9999C20.0199 22 20.7399 20.39 20.9499 18.43'
       // stroke='#1E1E1E'
@@ -1096,8 +1064,7 @@ export const BookIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='5'
     height='5'
-    {...props}
-  >
+    {...props}>
     <path
       d='M22 10.9899V4.66994C22 3.46994 21.02 2.57994 19.83 2.67994H19.77C17.67 2.85994 14.48 3.92994 12.7 5.04994L12.53 5.15994C12.24 5.33994 11.76 5.33994 11.47 5.15994L11.22 5.00994C9.44 3.89994 6.26 2.83994 4.16 2.66994C2.97 2.56994 2 3.46994 2 4.65994V16.7399C2 17.6999 2.78 18.5999 3.74 18.7199L4.03 18.7599C6.2 19.0499 9.55 20.1499 11.47 21.1999L11.51 21.2199C11.78 21.3699 12.21 21.3699 12.47 21.2199C14.39 20.1599 17.75 19.0499 19.93 18.7599L20.26 18.7199C21.22 18.5999 22 17.6999 22 16.7399V15.0199'
       stroke='currentColor'
@@ -1139,8 +1106,7 @@ export const UntickIcon = (props: IconProps) => (
     clipRule='evenodd'
     width='24px'
     height='24px'
-    {...props}
-  >
+    {...props}>
     <path
       d='M2 12.96V15C2 20 4 22 9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9'
       stroke='#793EF5'
@@ -1153,39 +1119,38 @@ export const UntickIcon = (props: IconProps) => (
 
 export const ArrowLeft = (props: IconProps) => (
   <Icon
-    viewBox='0 0 24 24'
+    viewBox='0 0 30 30'
     strokeWidth='1.5'
     stroke='currentColor'
     fill='none'
     fillRule='evenodd'
     clipRule='evenodd'
-    width='5'
-    height='5'
-    {...props}
-  >
+    width='6'
+    height='6'
+    {...props}>
     <path
       d='M11.165 6.91821L4.08331 13.9999L11.165 21.0815'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-miterlimit='10'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeMiterlimit='10'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M14.9566 14H4.08331'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-miterlimit='10'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeMiterlimit='10'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
     <path
       d='M23.7183 14H19.6583'
       stroke='#793EF5'
-      stroke-width='1.5'
-      stroke-miterlimit='10'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeMiterlimit='10'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
   </Icon>
 );
@@ -1207,15 +1172,3 @@ export const Bars3CL = (props: IconProps) => (
     />
   </Icon>
 );
-
-<svg
-  xmlns='http://www.w3.org/2000/svg'
-  viewBox='0 0 24 24'
-  fill='currentColor'
-  className='w-6 h-6'>
-  <path
-    fillRule='evenodd'
-    d='M3 9a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 9zm0 6.75a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z'
-    clipRule='evenodd'
-  />
-</svg>;
