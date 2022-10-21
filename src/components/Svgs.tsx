@@ -1189,7 +1189,6 @@ export const ArrowLeft = (props: IconProps) => (
     />
   </Icon>
 );
-<<<<<<< HEAD
 export const Bars3CL = (props: IconProps) => (
   <Icon
     viewBox='0 0 24 24'
@@ -1220,5 +1219,3 @@ export const Bars3CL = (props: IconProps) => (
     clipRule='evenodd'
   />
 </svg>;
-=======
->>>>>>> Icons-update
