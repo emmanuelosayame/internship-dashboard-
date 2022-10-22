@@ -104,17 +104,17 @@ const Apprenticeships = ({
         </AlertDialogOverlay>
       </AlertDialog>
 
-      <Box px={[2, 2, 6]} py={4} w='full'>
-        <Flex justify='space-between' align='center' >
+      <Box px={[1, 2, 6]} py={4} w='full'>
+        <Flex justify='space-between' align='center'>
           <Text fontSize='32' fontWeight='600' textAlign={["center", "start"]}>
             Apprenticeship
           </Text>
           <Button
-            display={["none", "none", "unset"]}
+            display={["none", "none", "flex"]}
             fontSize={13}
             py={5}
-            // h='44px'
-            // w='254px'
+            h='44px'
+            w='254px'
             rounded='12px'
             fontWeight={500}
             leftIcon={<AddSquareIcon />}
@@ -124,9 +124,9 @@ const Apprenticeships = ({
             Create New Apprenticeship
           </Button>
           <IconButton
+            display={["unset", "unset", "none"]}
             size='md'
             aria-label='new apprenticeship'
-            display={["unset", "unset", "none"]}
             fontWeight={500}
             bgColor='#793EF5'
             color='white'

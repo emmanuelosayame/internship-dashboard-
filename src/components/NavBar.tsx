@@ -42,15 +42,18 @@ const NavBar = ({}: {}) => {
       <Show below='md'>
         <Box
           position='fixed'
-          left='2'
-          right='2'
-          top='2'
+          boxShadow='sm'
+          // border='1px solid #CFD3D9'
+          roundedBottom={isOpen ? "xl" : "unset"}
+          left='0'
+          right='0'
+          top='0'
           bgColor='white'
-          rounded='20px'
+          // rounded='20px'
           zIndex={1000}>
           <Flex p='1.5' align='center'>
-            <IconButton aria-label='' onClick={onToggle}>
-              <Bars3CL />
+            <IconButton ml='1' aria-label='' onClick={onToggle}>
+              <Bars3CL boxSize={7} color='#793EF5' stroke='#793EF5' />
             </IconButton>
             <Image
               src={logo}

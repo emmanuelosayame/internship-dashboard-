@@ -17,7 +17,7 @@ import {
   Stack,
   Text,
   Textarea,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 import {
   ChangeEvent,
   Dispatch,
@@ -27,7 +27,7 @@ import {
   useEffect,
   useRef,
   useState,
-} from 'react';
+} from "react";
 import {
   AddDocIcon,
   CalenderDaysIcon,
@@ -41,28 +41,28 @@ import {
   PrototypeIcon,
   DataIcon,
   CustomteamIcon,
-} from '../components/Svgs';
-import TextareaAutosize from 'react-textarea-autosize';
-import debounce from 'lodash/debounce';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useDropzone } from 'react-dropzone';
+} from "../components/Svgs";
+import TextareaAutosize from "react-textarea-autosize";
+import debounce from "lodash/debounce";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useDropzone } from "react-dropzone";
 import {
   ApprType,
   ApprErrorTypes,
   TeamRole,
   validationSchemaA,
-} from '../components/Types';
-import '../../editor.css';
-import TeamRoles from './TeamRoles';
-import TeamAdmins from './TeamAdmin';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { useStore } from '../components/store/Store';
-import shallow from 'zustand/shallow';
-import { useParams } from 'react-router-dom';
-import { deleteObject, ref } from 'firebase/storage';
-import { db, storage } from '../../firebase';
-import { doc, updateDoc } from 'firebase/firestore';
+} from "../components/Types";
+import "../../editor.css";
+import TeamRoles from "./TeamRoles";
+import TeamAdmins from "./TeamAdmin";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useStore } from "../components/store/Store";
+import shallow from "zustand/shallow";
+import { useParams } from "react-router-dom";
+import { deleteObject, ref } from "firebase/storage";
+import { db, storage } from "../../firebase";
+import { doc, updateDoc } from "firebase/firestore";
 
 const FocusableBox = ({
   text,
@@ -80,7 +80,7 @@ const FocusableBox = ({
     outline='none'
     border='1px solid transparent'
     // boxShadow="lg"
-    _focusWithin={{ border: '1px solid #793EF5', boxShadow: '2xl' }}
+    _focusWithin={{ border: "1px solid #793EF5", boxShadow: "2xl" }}
     // _focus={{ border: "1px solid #793EF5" }}
   >
     <Flex justify='space-between' py={2}>
@@ -107,8 +107,7 @@ const CustomInput = forwardRef((props: any, ref: any) => {
           size='xs'
           onClick={props.onClick}
           bgColor='lavender'
-          rounded='7px'
-        >
+          rounded='7px'>
           <CalenderDaysIcon color='#793EF5' />
         </IconButton>
       </InputRightElement>
@@ -177,17 +176,17 @@ const EditorSection = () => {
       const value = e.target.value;
 
       switch (name) {
-        case 'apprenticeshipTitle':
+        case "apprenticeshipTitle":
           validationSchemaA
             .validate({ apprenticeshipTitle: value })
             .then(() => addApprTitle(value));
           break;
-        case 'companyDescription':
+        case "companyDescription":
           validationSchemaA
             .validate({ companyDescription: value })
             .then(() => addCompanyDescr(value));
           break;
-        case 'apprenticeshipDescription':
+        case "apprenticeshipDescription":
           validationSchemaA
             .validate({ apprenticeshipDescription: value })
             .then(() => addApprDescr(value));
@@ -204,7 +203,13 @@ const EditorSection = () => {
     !!teamTypes.find((checked) => value === checked);
 
   return (
-    <Stack mx='auto' maxW='650px' w='full' pt='150px' pb='40px' spacing={3}>
+    <Stack
+      mx='auto'
+      maxW={["full", "full", "650px"]}
+      w='full'
+      pt={["20px", "20px", "150px"]}
+      pb={["90px", "40px"]}
+      spacing={3}>
       <Stack spacing={3}>
         {/* Introduce your company video upload section */}
         <FocusableBox text='Company Logo & Apprenticeship Title'>
@@ -227,8 +232,7 @@ const EditorSection = () => {
                 rounded='lg'
                 aria-label='add-photo'
                 size='xs'
-                onClick={() => photoRef.current?.click()}
-              >
+                onClick={() => photoRef.current?.click()}>
                 <PhotoIcon />
               </IconButton>
               <input
@@ -252,7 +256,7 @@ const EditorSection = () => {
               maxLength={100}
               outline={0}
               defaultValue={apprenticeshipTitle}
-              _placeholder={{ color: 'gray.400' }}
+              _placeholder={{ color: "gray.400" }}
               placeholder='Enter Apprenticeship Title'
               name='apprenticeshipTitle'
               rounded='none'
@@ -271,20 +275,20 @@ const EditorSection = () => {
             maxRows={7}
             fontSize='17'
             placeholder='Enter Description'
-            style={{ width: '100%', outline: 'none', resize: 'none' }}
+            style={{ width: "100%", outline: "none", resize: "none" }}
             name='companyDescription'
             defaultValue={companyDescription}
             variant='unstyled'
             sx={{
-              '&::-webkit-scrollbar': {
-                width: '1px',
-                backgroundColor: 'transparent',
-                borderRadius: '30px',
+              "&::-webkit-scrollbar": {
+                width: "1px",
+                backgroundColor: "transparent",
+                borderRadius: "30px",
               },
-              '&::-webkit-scrollbar-thumb': {
-                width: '1px',
-                backgroundColor: 'transparent',
-                borderRadius: '30px',
+              "&::-webkit-scrollbar-thumb": {
+                width: "1px",
+                backgroundColor: "transparent",
+                borderRadius: "30px",
               },
             }}
             onChange={handleTextChange}
@@ -295,7 +299,7 @@ const EditorSection = () => {
           <Textarea
             as={TextareaAutosize}
             placeholder='Enter Description'
-            style={{ width: '100%', outline: 'none', resize: 'none' }}
+            style={{ width: "100%", outline: "none", resize: "none" }}
             maxLength={400}
             rows={1}
             minRows={1}
@@ -306,15 +310,15 @@ const EditorSection = () => {
             name='apprenticeshipDescription'
             onChange={handleTextChange}
             sx={{
-              '&::-webkit-scrollbar': {
-                width: '1px',
-                backgroundColor: 'transparent',
-                borderRadius: '30px',
+              "&::-webkit-scrollbar": {
+                width: "1px",
+                backgroundColor: "transparent",
+                borderRadius: "30px",
               },
-              '&::-webkit-scrollbar-thumb': {
-                width: '1px',
-                backgroundColor: 'transparent',
-                borderRadius: '30px',
+              "&::-webkit-scrollbar-thumb": {
+                width: "1px",
+                backgroundColor: "transparent",
+                borderRadius: "30px",
               },
             }}
           />
@@ -332,11 +336,10 @@ const EditorSection = () => {
           border='1px dashed gray'
           variant='solid'
           fontSize='15'
-          rightIcon={<AddDocIcon fill='gray' color='gray.400' />}
-        >
+          rightIcon={<AddDocIcon fill='gray' color='gray.400' />}>
           {isDragActive
-            ? 'Release to Drop'
-            : 'Drag n drop to upload your video'}
+            ? "Release to Drop"
+            : "Drag n drop to upload your video"}
         </Button>
         <input {...getInputProps()} type='file' hidden />
         <HStack pt={3} flexWrap='wrap'>
@@ -352,18 +355,16 @@ const EditorSection = () => {
                 m={1}
                 py={0.5}
                 fontSize='15'
-                color='#793EF5'
-              >
+                color='#793EF5'>
                 <Text>
                   {`${file.name.slice(0, 17)}${
-                    file.name.length > 17 ? '...' : ''
+                    file.name.length > 17 ? "..." : ""
                   }`}
                 </Text>
                 <IconButton
                   size='xs'
                   aria-label='cancel video'
-                  onClick={() => removeOneApprVideo(file.name)}
-                >
+                  onClick={() => removeOneApprVideo(file.name)}>
                   <XmarkIcon />
                 </IconButton>
               </Flex>
@@ -382,11 +383,10 @@ const EditorSection = () => {
                   m={1}
                   py={0.5}
                   fontSize='15'
-                  color='#793EF5'
-                >
+                  color='#793EF5'>
                   <Text color='blue'>
                     {`${file.name.slice(0, 17)}${
-                      file.name.length > 17 ? '...' : ''
+                      file.name.length > 17 ? "..." : ""
                     }`}
                   </Text>
                   <IconButton
@@ -395,15 +395,14 @@ const EditorSection = () => {
                     color='blue'
                     onClick={async () => {
                       await deleteObject(ref(storage, file?.url)).then(() =>
-                        updateDoc(doc(db, 'apprenticeships', `${params.id}`), {
+                        updateDoc(doc(db, "apprenticeships", `${params.id}`), {
                           videosUrls: videosUrls?.filter(
                             (url) => file.url !== url.url
                           ),
                         })
                       );
                       params.id && populateAppr(params.id);
-                    }}
-                  >
+                    }}>
                     <XmarkIcon />
                   </IconButton>
                 </Flex>
@@ -414,17 +413,19 @@ const EditorSection = () => {
 
       <FocusableBox text='Team Type'>
         <Grid
-          gridTemplateColumns='repeat(3,1fr)'
+          gridTemplateColumns={[
+            "repeat(2,1fr)",
+            "repeat(2,1fr)",
+            "repeat(3,1fr)",
+          ]}
           gridColumnGap={3}
           gridRowGap={3}
-          w='full'
-        >
+          w='full'>
           <CheckboxGroup
             value={teamTypes}
             onChange={(checked) =>
               addTeamTypes(checked.map((check) => check.toString()))
-            }
-          >
+            }>
             <GridItem
               w='full'
               p={3}
@@ -432,153 +433,148 @@ const EditorSection = () => {
               role='group'
               tabIndex={1}
               bgColor={
-                checkedStyle('web-platform')
-                  ? 'rgba(102, 95, 239, 0.16)'
-                  : 'white'
+                checkedStyle("web-platform")
+                  ? "rgba(102, 95, 239, 0.16)"
+                  : "white"
               }
               border={
-                checkedStyle('web-platform')
-                  ? '1px solid #793EF5'
-                  : '1px solid gainsboro'
-              }
-            >
+                checkedStyle("web-platform")
+                  ? "1px solid #793EF5"
+                  : "1px solid gainsboro"
+              }>
               <Flex w='full' py={1} justify='space-between'>
                 <MonitorIcon color='#793EF5' />
                 <Checkbox value='web-platform' />
               </Flex>
-              <Text>Web Platform</Text>
+              <Text fontSize={["16px", "16px", "inherit"]}>Web Platform</Text>
             </GridItem>
 
             <GridItem
               w='full'
               bgColor={
-                checkedStyle('mobile-app')
-                  ? 'rgba(102, 95, 239, 0.16)'
-                  : 'white'
+                checkedStyle("mobile-app")
+                  ? "rgba(102, 95, 239, 0.16)"
+                  : "white"
               }
               border={
-                checkedStyle('mobile-app')
-                  ? '1px solid #793EF5'
-                  : '1px solid gainsboro'
+                checkedStyle("mobile-app")
+                  ? "1px solid #793EF5"
+                  : "1px solid gainsboro"
               }
               p={3}
-              rounded='3xl'
-            >
+              rounded='3xl'>
               <Flex w='full' py={1} justify='space-between'>
                 <MobileAppIcon color='#793EF5' />
                 <Checkbox value='mobile-app' />
               </Flex>
-              <Text>Mobile App</Text>
+              <Text fontSize={["16px", "16px", "inherit"]}>Mobile App</Text>
             </GridItem>
 
             <GridItem
               w='full'
               bgColor={
-                checkedStyle('growth') ? 'rgba(102, 95, 239, 0.16)' : 'white'
+                checkedStyle("growth") ? "rgba(102, 95, 239, 0.16)" : "white"
               }
               border={
-                checkedStyle('growth')
-                  ? '1px solid #793EF5'
-                  : '1px solid gainsboro'
+                checkedStyle("growth")
+                  ? "1px solid #793EF5"
+                  : "1px solid gainsboro"
               }
               p={3}
-              rounded='3xl'
-            >
+              rounded='3xl'>
               <Flex w='full' py={1} justify='space-between'>
                 {/* Joshua add GrowthIcon  */}
                 <GrowthIcon color='#793EF5' />
                 <Checkbox value='growth' />
               </Flex>
-              <Text>Growth</Text>
+              <Text fontSize={["16px", "16px", "inherit"]}>Growth</Text>
             </GridItem>
 
             <GridItem
               w='full'
               bgColor={
-                checkedStyle('marketing-website')
-                  ? 'rgba(102, 95, 239, 0.16)'
-                  : 'white'
+                checkedStyle("marketing-website")
+                  ? "rgba(102, 95, 239, 0.16)"
+                  : "white"
               }
               border={
-                checkedStyle('marketing-website')
-                  ? '1px solid #793EF5'
-                  : '1px solid gainsboro'
+                checkedStyle("marketing-website")
+                  ? "1px solid #793EF5"
+                  : "1px solid gainsboro"
               }
               p={3}
-              rounded='3xl'
-            >
+              rounded='3xl'>
               <Flex w='full' py='1' justify='space-between'>
                 {/* Joshua add MarketingIcon  */}
                 <MarketingIcon color='#793EF5' />
                 <Checkbox value='marketing-website' />
               </Flex>
-              <Text>Marketing Website</Text>
+              <Text fontSize={["16px", "16px", "inherit"]}>
+                Marketing Website
+              </Text>
             </GridItem>
 
             <GridItem
               w='full'
               bgColor={
-                checkedStyle('prototyping')
-                  ? 'rgba(102, 95, 239, 0.16)'
-                  : 'white'
+                checkedStyle("prototyping")
+                  ? "rgba(102, 95, 239, 0.16)"
+                  : "white"
               }
               border={
-                checkedStyle('prototyping')
-                  ? '1px solid #793EF5'
-                  : '1px solid gainsboro'
+                checkedStyle("prototyping")
+                  ? "1px solid #793EF5"
+                  : "1px solid gainsboro"
               }
               p={3}
-              rounded='3xl'
-            >
+              rounded='3xl'>
               <Flex w='full' py='1' justify='space-between'>
                 {/* Joshua add PrototypeIcon  */}
                 <PrototypeIcon color='#793EF5' />
                 <Checkbox value='prototyping' />
               </Flex>
-              <Text>Prototyping</Text>
+              <Text fontSize={["16px", "16px", "inherit"]}>Prototyping</Text>
             </GridItem>
 
             <GridItem
               w='full'
               bgColor={
-                checkedStyle('data') ? 'rgba(102, 95, 239, 0.16)' : 'white'
+                checkedStyle("data") ? "rgba(102, 95, 239, 0.16)" : "white"
               }
               border={
-                checkedStyle('data')
-                  ? '1px solid #793EF5'
-                  : '1px solid gainsboro'
+                checkedStyle("data")
+                  ? "1px solid #793EF5"
+                  : "1px solid gainsboro"
               }
               p={3}
-              rounded='3xl'
-            >
+              rounded='3xl'>
               <Flex w='full' py='1' justify='space-between'>
-                {/* Joshua add DataIcon  */}
+                {/* Joshua added DataIcon  */}
                 <DataIcon color='#793EF5' />
                 <Checkbox value='data' />
               </Flex>
-              <Text>Data</Text>
+              <Text fontSize={["16px", "16px", "inherit"]}>Data</Text>
             </GridItem>
 
             <GridItem
               w='full'
               bgColor={
-                checkedStyle('custom-team')
-                  ? 'rgba(102, 95, 239, 0.16)'
-                  : 'white'
+                checkedStyle("custom-team")
+                  ? "rgba(102, 95, 239, 0.16)"
+                  : "white"
               }
               border={
-                checkedStyle('custom-team')
-                  ? '1px solid #793EF5'
-                  : '1px solid gainsboro'
+                checkedStyle("custom-team")
+                  ? "1px solid #793EF5"
+                  : "1px solid gainsboro"
               }
               p={3}
-              rounded='3xl'
-            >
+              rounded='3xl'>
               <Flex w='full' py='1' justify='space-between'>
                 <CustomteamIcon color='#793EF5' />
                 <Checkbox value='custom-team' />
               </Flex>
-              <Text>Custom Team</Text>
+              <Text fontSize={["16px", "16px", "inherit"]}>Custom Team</Text>
             </GridItem>
           </CheckboxGroup>
         </Grid>
@@ -589,7 +585,7 @@ const EditorSection = () => {
       <TeamAdmins />
 
       <FocusableBox text='Timeline'>
-        <HStack>
+        <Stack spacing={3} direction={["column", "column", "row"]}>
           <DatePicker
             selected={timeline.startDate}
             placeholderText='Start Date'
@@ -603,7 +599,7 @@ const EditorSection = () => {
             onChange={(e: Date) => addTimelineEED(e)}
             customInput={<CustomInput />}
           />
-        </HStack>
+        </Stack>
       </FocusableBox>
     </Stack>
   );

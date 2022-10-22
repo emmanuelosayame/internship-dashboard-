@@ -63,8 +63,6 @@ const Apprenticeship = () => {
     shallow
   );
 
-  // console.log(rest);
-
   useEffect(() => {
     let sub = false;
     if (params.id && params.id !== "new") {
@@ -83,20 +81,26 @@ const Apprenticeship = () => {
   const [loading, setLoading] = useState(false);
 
   const handleSaveAppr = async () => {
+    //when the process of creating the apprenticeship in the storage or database starts, set the status to loading. On error or success,  the loading state would become false
     setLoading(true);
+    //create unique id for logos and videos incase you have multiple files with the same ////name, they dont get overwritten
     const id = v4();
-    const uploadVideos = Promise.all(
-      videos.map(async (video) => {
-        const uploadTask = await uploadBytes(
-          ref(storage, `apprenticeship-videos/${id}${video.name}`),
-          video
-        );
-        return {
-          name: video.name,
-          url: await getDownloadURL(uploadTask.ref),
-        };
-      })
-    );
+    //uploadVideos is function that returns a promise. In this function it uploads the videos in parallel and resolves the promises
+    const uploadVideos = videos
+      ? Promise.all(
+          videos.map(async (video) => {
+            const uploadTask = await uploadBytes(
+              ref(storage, `apprenticeship-videos/${id}${video.name}`),
+              video
+            );
+            return {
+              name: video.name,
+              url: await getDownloadURL(uploadTask.ref),
+            };
+          })
+        )
+      : [];
+    //upload logo is a function that returns a promise. In this function, it uploads the logo if there be any. its also creates unique names for the logos by adding a unique id created during the save apprenticeship execution with the file name.
     const uploadLogo = async () => {
       if (logo) {
         const uploadTask = await uploadBytes(
@@ -104,37 +108,66 @@ const Apprenticeship = () => {
           logo
         );
         return getDownloadURL(uploadTask.ref);
-      }
+      } else return null;
     };
     if (params.id === "new") {
-      try {
-        const videosUrls = await uploadVideos;
-        const logoUrl = await uploadLogo();
-        await addDoc(collection(db, "apprenticeships"), {
-          ...rest,
-          videosUrls,
-          timeStamp: serverTimestamp(),
-          creatorId: user?.uid,
-          logoUrl,
-        });
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-        console.log(err);
-        toast();
+      if (logo) {
+        try {
+          const videosUrls = await uploadVideos;
+          const logoUrl = await uploadLogo();
+          await addDoc(collection(db, "apprenticeships"), {
+            ...rest,
+            videosUrls,
+            timestamp: serverTimestamp(),
+            creatorId: user?.uid,
+            logoUrl,
+          });
+          setLoading(false);
+          navigate("/apprenticeships");
+          resetStore();
+        } catch (err) {
+          setLoading(false);
+          console.log(err);
+          toast();
+        }
       }
-    } else
+      //if no logo in the new apprenticeship data
+      else {
+        try {
+          const videosUrls = await uploadVideos;
+          await addDoc(collection(db, "apprenticeships"), {
+            ...rest,
+            videosUrls,
+            timestamp: serverTimestamp(),
+            creatorId: user?.uid,
+          });
+          setLoading(false);
+          navigate("/apprenticeships");
+          resetStore();
+        } catch (err) {
+          setLoading(false);
+          console.log(err);
+          toast();
+        }
+      }
+    }
+    //if its not a new apprenticeship.i.e editing apprenticeship
+    else
       try {
-        const videosUrls = await uploadVideos;
-        const logoUrl = await uploadLogo();
+        const videosUrls =
+          videos && videos.length > 0 ? await uploadVideos : [];
+        const logoUrl = logo ? await uploadLogo() : null;
         await updateDoc(doc(db, "apprenticeships", `${params.id}`), {
           ...rest,
           logoUrl: logo ? logoUrl : prevLogoUrl || "",
           videosUrls: prevVideoUrls
             ? [...prevVideoUrls, ...videosUrls]
             : videosUrls,
+          timestamp: serverTimestamp(),
         });
         setLoading(false);
+        navigate("/apprenticeships");
+        resetStore();
       } catch (err) {
         setLoading(false);
         console.log(err);
@@ -153,30 +186,30 @@ const Apprenticeship = () => {
         left={0}
         p={2}
         top={0}>
-        <Stack bgColor='white' rounded='3xl' p={4} w='full'>
-          {/* <Heading mx='auto' display={["unset", "unset", "none"]}>
-            {params.id === "new"
-              ? "Creating Apprenticeship"
-              : "Editing Apprenticeship"}
-          </Heading> */}
+        <Stack bgColor='white' rounded='3xl' p={[3, 3, 4]} w='full'>
           <Flex justify='space-between' align='center'>
             <Link to='/apprenticeships'>
               <Button
                 onClick={() => params.id !== "new" && resetStore()}
                 // Emmanuel changed this icon
-                leftIcon={<ArrowLeft boxSize={5} />}>
+                leftIcon={<ArrowLeft boxSize={7} />}
+                iconSpacing='1'
+                pl='1'>
                 Back
+                {/* <Text opacity={[0, 0, 1]}>Back</Text> */}
               </Button>
             </Link>
-            <Heading display={["none", "none", "unset"]}>
+            <Heading textAlign='center' fontSize={["14px", "14px", "unset"]}>
               {params.id === "new"
                 ? "Creating Apprenticeship"
                 : "Editing Apprenticeship"}
             </Heading>
             <Button
+              display={["flex", "flex", "none"]}
               leftIcon={<AddSquareIcon />}
               variant='solid'
               bgColor='#793EF5'
+              px='4'
               color='white'
               onClick={handleSaveAppr}
               isDisabled={
@@ -185,7 +218,27 @@ const Apprenticeship = () => {
                   rest.companyDescription.length > 0 &&
                   rest.apprenticeshipTitle.length > 0 &&
                   rest.teamAdmins.length > 0 &&
-                  rest.teamRoles.length &&
+                  rest.teamRoles.length > 0 &&
+                  rest.timeline.startDate
+                )
+              }>
+              {params.id === "new" ? "Publish" : "Save"}
+            </Button>
+            <Button
+              display={["none", "none", "flex"]}
+              leftIcon={<AddSquareIcon />}
+              variant='solid'
+              bgColor='#793EF5'
+              px='4'
+              color='white'
+              onClick={handleSaveAppr}
+              isDisabled={
+                !(
+                  rest.apprenticeshipDescription.length > 0 &&
+                  rest.companyDescription.length > 0 &&
+                  rest.apprenticeshipTitle.length > 0 &&
+                  rest.teamAdmins.length > 0 &&
+                  rest.teamRoles.length > 0 &&
                   rest.timeline.startDate
                 )
               }>
@@ -197,8 +250,10 @@ const Apprenticeship = () => {
         </Stack>
 
         <Flex
+          display={["none", "none", "flex"]}
+          // flexWrap='wrap'
           justify='space-between'
-          mt={4}
+          mt={[2, 2, 4]}
           p={3.5}
           border='1px solid gainsboro'
           rounded='2xl'>
@@ -208,34 +263,44 @@ const Apprenticeship = () => {
           </HStack>
 
           <HStack spacing={1}>
-            <CircleIcon
-              color={rest.teamTypes.length > 0 ? "#793EF5" : "gray"}
-            />
+            {rest.teamTypes.length > 0 ? (
+              <CheckIcon color='#793EF5' />
+            ) : (
+              <CircleIcon color='gray' />
+            )}
             <Text color={rest.teamTypes.length > 0 ? "#793EF5" : "gray"}>
               Team Type
             </Text>
           </HStack>
 
           <HStack spacing={1}>
-            <CircleIcon
-              color={rest.teamRoles.length > 0 ? "#793EF5" : "gray"}
-            />
+            {rest.teamRoles.length > 0 ? (
+              <CheckIcon color='#793EF5' />
+            ) : (
+              <CircleIcon color='gray' />
+            )}
             <Text color={rest.teamRoles.length > 0 ? "#793EF5" : "gray"}>
               Team Roles
             </Text>
           </HStack>
 
           <HStack spacing={1}>
-            <CircleIcon
-              color={rest.teamAdmins.length > 0 ? "#793EF5" : "gray"}
-            />
+            {rest.teamAdmins.length > 0 ? (
+              <CheckIcon color='#793EF5' />
+            ) : (
+              <CircleIcon color='gray' />
+            )}
             <Text color={rest.teamAdmins.length > 0 ? "#793EF5" : "gray"}>
               Team Admin
             </Text>
           </HStack>
 
           <HStack spacing={1}>
-            <CircleIcon color={rest.timeline.startDate ? "#793EF5" : "gray"} />
+            {rest.timeline.startDate ? (
+              <CheckIcon color='#793EF5' />
+            ) : (
+              <CircleIcon color='gray' />
+            )}
             <Text color={rest.timeline.startDate ? "#793EF5" : "gray"}>
               Timeline
             </Text>
@@ -244,6 +309,74 @@ const Apprenticeship = () => {
       </Box>
 
       <EditorSection />
+
+      <Box
+        pos='fixed'
+        bottom='0'
+        left='0'
+        right='0'
+        display={["unset", "unset", "none"]}
+        zIndex={1000}>
+        <Flex
+          w='full'
+          bgColor='whiteAlpha.500'
+          backdropFilter='auto'
+          backdropBlur='md'
+          flexWrap='wrap'
+          justify='space-between'
+          px={3}
+          py='2'
+          borderTop='1px solid gainsboro'>
+          <HStack spacing={1} py='0.5'>
+            <CheckIcon color='#793EF5' />
+            <Text color='#793EF5'>Company Title and Desc.</Text>
+          </HStack>
+
+          <HStack spacing={1} py='0.5'>
+            {rest.teamTypes.length > 0 ? (
+              <CheckIcon color='#793EF5' />
+            ) : (
+              <CircleIcon color='gray' />
+            )}
+            <Text color={rest.teamTypes.length > 0 ? "#793EF5" : "gray"}>
+              Team Type
+            </Text>
+          </HStack>
+
+          <HStack spacing={1} py='0.5'>
+            {rest.teamRoles.length > 0 ? (
+              <CheckIcon color='#793EF5' />
+            ) : (
+              <CircleIcon color='gray' />
+            )}
+            <Text color={rest.teamRoles.length > 0 ? "#793EF5" : "gray"}>
+              Team Roles
+            </Text>
+          </HStack>
+
+          <HStack spacing={1} py='0.5'>
+            {rest.teamAdmins.length > 0 ? (
+              <CheckIcon color='#793EF5' />
+            ) : (
+              <CircleIcon color='gray' />
+            )}
+            <Text color={rest.teamAdmins.length > 0 ? "#793EF5" : "gray"}>
+              Team Admin
+            </Text>
+          </HStack>
+
+          <HStack spacing={1} py='0.5'>
+            {rest.timeline.startDate ? (
+              <CheckIcon color='#793EF5' />
+            ) : (
+              <CircleIcon color='gray' />
+            )}
+            <Text color={rest.timeline.startDate ? "#793EF5" : "gray"}>
+              Timeline
+            </Text>
+          </HStack>
+        </Flex>
+      </Box>
     </>
   );
 };

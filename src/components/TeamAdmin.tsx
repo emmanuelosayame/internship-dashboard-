@@ -85,9 +85,14 @@ const TeamAdmins = () => {
         onCloseComplete={() => {
           setTeamAdmin(initialState);
           photoSrc && URL.revokeObjectURL(photoSrc);
-        }}>
+        }}
+        isCentered>
         <ModalOverlay />
-        <ModalContent pos='fixed' rounded='2xl' border='1px solid #793EF5'>
+        <ModalContent
+          pos='fixed'
+          rounded='2xl'
+          border='1px solid #793EF5'
+          w={["95%", "full", "full"]}>
           <ModalHeader display='flex' justifyContent='space-between' pb='2'>
             <Heading flex='1'>Add Team Admin</Heading>
             <Button
@@ -232,7 +237,7 @@ const TeamAdmins = () => {
                 key={admin.email}
                 cursor='pointer'
                 as={HStack}
-                colSpan={2}
+                colSpan={[4, 4, 2]}
                 border='1px solid gainsboro'
                 rounded='xl'
                 p={2}

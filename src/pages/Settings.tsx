@@ -139,11 +139,12 @@ const Settings = ({
 
       <Stack spacing={7} p={5}>
         <Flex justify='space-between'>
-          <HStack w='fit-content' h='25px' my={4}>
+          <HStack w={["full", "full", "fit-content"]} h='50px' my={4}>
             {editName ? (
               <Input
-                maxW='280px'
+                w={["full", "full", "280px"]}
                 fontSize='35px'
+                h='full'
                 fontWeight={600}
                 value={name}
                 rounded='2xl'
@@ -180,6 +181,7 @@ const Settings = ({
           </HStack>
 
           <Button
+            display={["none", "none", "unset"]}
             size='lg'
             bgColor='#793EF5'
             color='white'
@@ -228,6 +230,16 @@ const Settings = ({
             <Heading size='md'>: 0</Heading>
           </HStack>
         </Stack>
+
+        <Button
+          display={["unset", "unset", "none"]}
+          size='lg'
+          bgColor='#793EF5'
+          color='white'
+          rounded='15px'
+          onClick={() => auth.signOut()}>
+          Sign Out
+        </Button>
 
         <HStack pos='absolute' bottom='10' right='10'>
           <Text fontSize='13px' color='gray'>
