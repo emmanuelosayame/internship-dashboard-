@@ -100,7 +100,12 @@ const TeamRoles = () => {
         onCloseComplete={() => resetTeamRole()}
       >
         <ModalOverlay />
-        <ModalContent pos='fixed' rounded='2xl' border='1px solid #793EF5'>
+        <ModalContent
+          pos='fixed'
+          rounded='2xl'
+          border='1px solid #793EF5'
+          w={['95%', 'full', 'full']}
+        >
           <ModalHeader display='flex' justifyContent='space-between' pb='2'>
             <Heading flex='1'>Add Role</Heading>
             <Button
@@ -296,14 +301,14 @@ const TeamRoles = () => {
           {teamRoles.map((member) => (
             <GridItem
               key={member.id}
-              colSpan={2}
+              colSpan={[4, 4, 2]}
               border='1px solid gainsboro'
               p={2}
               rounded='2xl'
             >
               <Flex justify='space-between'>
                 <UserIcon />
-                <Text fontSize='16px'>{member.title}</Text>
+                <Text fontSize={['17px', '16px']}>{member.title}</Text>
                 <Flex>
                   <IconButton
                     aria-label='edit'
