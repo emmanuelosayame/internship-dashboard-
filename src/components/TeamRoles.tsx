@@ -21,7 +21,7 @@ import {
   Text,
   Textarea,
   useDisclosure,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 import {
   CautionIcon,
   AddSquareIcon,
@@ -30,17 +30,20 @@ import {
   EditIcon,
   Square2StackIcon,
   TrashIcon,
-} from "../components/Svgs";
-import { TeamRole } from "../components/Types";
-import { debounce } from "lodash";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import { collection } from "firebase/firestore";
-import { db } from "../../firebase";
-import SearchMenu from "./SearchMenu";
-import SearchMenuCheckBox from "./SearchMenuCheckBox";
-import { useStore } from "../components/store/Store";
-import shallow from "zustand/shallow";
-import { useState } from "react";
+  SkillsIcon,
+  CompSkillsIcon,
+  LocationIcon,
+} from '../components/Svgs';
+import { TeamRole } from '../components/Types';
+import { debounce } from 'lodash';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { collection } from 'firebase/firestore';
+import { db } from '../../firebase';
+import SearchMenu from './SearchMenu';
+import SearchMenuCheckBox from './SearchMenuCheckBox';
+import { useStore } from '../components/store/Store';
+import shallow from 'zustand/shallow';
+import { useState } from 'react';
 
 const TeamRoles = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -82,9 +85,8 @@ const TeamRoles = () => {
 
   const { roleTitles, roleSkills, locations } = useStore(
     (state) => state.searchData
-
-    );
-    // console.log(roleTitles)
+  );
+  // console.log(roleTitles)
 
   const selectRoleTitle = (title: string) =>
     teamRole.title !== title && setTitle(title);
@@ -95,7 +97,8 @@ const TeamRoles = () => {
         motionPreset='slideInBottom'
         isOpen={isOpen}
         onClose={onClose}
-        onCloseComplete={() => resetTeamRole()}>
+        onCloseComplete={() => resetTeamRole()}
+      >
         <ModalOverlay />
         <ModalContent pos='fixed' rounded='2xl' border='1px solid #793EF5'>
           <ModalHeader display='flex' justifyContent='space-between' pb='2'>
@@ -108,7 +111,8 @@ const TeamRoles = () => {
               onClick={() => {
                 addTeamRole(teamRole);
                 onClose();
-              }}>
+              }}
+            >
               Save
             </Button>
             <ModalCloseButton position='unset' ml={2} />
@@ -118,9 +122,10 @@ const TeamRoles = () => {
               searchData={roleTitles}
               indexer='value'
               menuText={
-                teamRole.title.length < 1 ? "Select Role" : teamRole.title
+                teamRole.title.length < 1 ? 'Select Role' : teamRole.title
               }
-              mutateFn={selectRoleTitle}>
+              mutateFn={selectRoleTitle}
+            >
               <UserIcon color='#793EF5' />
             </SearchMenu>
             {/* <Button onClick={() => addReqSkills(["hh"])}>clikkk</Button> */}
@@ -134,8 +139,8 @@ const TeamRoles = () => {
               rows={7}
               border='1px solid gainsboro'
               variant='flushed'
-              _focus={{ border: "1px solid #793EF5" }}
-              _active={{ border: "1px solid #793EF5" }}
+              _focus={{ border: '1px solid #793EF5' }}
+              _active={{ border: '1px solid #793EF5' }}
               defaultValue={teamRole.description}
               onChange={debounce((e) => setDescr(e.target.value), 500)}
             />
@@ -150,8 +155,9 @@ const TeamRoles = () => {
               searchData={roleSkills?.filter(
                 (data) => !teamRole.complementarySkills.includes(data.value)
               )}
-              mutateFn={(value) => setReqSkills(value)}>
-              <UserIcon />
+              mutateFn={(value) => setReqSkills(value)}
+            >
+              <SkillsIcon />
             </SearchMenuCheckBox>
 
             <HStack>
@@ -162,21 +168,23 @@ const TeamRoles = () => {
                   w='fit-content'
                   px={2}
                   py={1}
-                  rounded='xl'>
+                  rounded='xl'
+                >
                   <Text color='#793EF5' fontSize='15px'>
                     {skill}
                   </Text>
                   <IconButton
                     aria-label=''
                     size='xs'
-                    onClick={() => removeOneReqSkill(skill)}>
+                    onClick={() => removeOneReqSkill(skill)}
+                  >
                     <XmarkIcon color='#793EF5' />
                   </IconButton>
                 </HStack>
               ))}
             </HStack>
 
-            <Heading size='xs'>{"Complimentary Skills {Select any 3}"}</Heading>
+            <Heading size='xs'>{'Complimentary Skills {Select any 3}'}</Heading>
 
             <SearchMenuCheckBox
               menuText='Search Skill'
@@ -186,8 +194,9 @@ const TeamRoles = () => {
               )}
               maxSelection={3}
               value={teamRole.complementarySkills}
-              mutateFn={(value) => setCompSkills(value)}>
-              <UserIcon />
+              mutateFn={(value) => setCompSkills(value)}
+            >
+              <CompSkillsIcon />
             </SearchMenuCheckBox>
 
             <HStack>
@@ -198,14 +207,16 @@ const TeamRoles = () => {
                   w='fit-content'
                   px={2}
                   py={1}
-                  rounded='xl'>
+                  rounded='xl'
+                >
                   <Text color='#793EF5' fontSize='15px'>
                     {skill}
                   </Text>
                   <IconButton
                     aria-label=''
                     size='xs'
-                    onClick={() => removeOneCompSkill(skill)}>
+                    onClick={() => removeOneCompSkill(skill)}
+                  >
                     <XmarkIcon color='#793EF5' />
                   </IconButton>
                 </HStack>
@@ -219,6 +230,7 @@ const TeamRoles = () => {
                 <InputLeftElement>
                   <AddSquareIcon />
                 </InputLeftElement>
+
                 <Input
                   placeholder='No. of hours'
                   type='number'
@@ -236,14 +248,15 @@ const TeamRoles = () => {
               menuText={
                 teamRole.locationPref.length > 0
                   ? teamRole.locationPref
-                  : "Select Location"
+                  : 'Select Location'
               }
               searchData={locations}
               maxSelection={1}
               mutateFn={(value) =>
-                setLocationPref(value.length > 0 ? value[0] : "")
-              }>
-              <UserIcon />
+                setLocationPref(value.length > 0 ? value[0] : '')
+              }
+            >
+              <LocationIcon />
             </SearchMenuCheckBox>
           </ModalBody>
         </ModalContent>
@@ -256,7 +269,7 @@ const TeamRoles = () => {
         border='1px solid transparent'
         tabIndex={1}
         outline='none'
-        _focusWithin={{ border: "1px solid #793EF5", boxShadow: "2xl" }}
+        _focusWithin={{ border: '1px solid #793EF5', boxShadow: '2xl' }}
         // _focus={{ border: "1px solid #793EF5" }}
       >
         <Flex justify='space-between' p={1}>
@@ -266,7 +279,8 @@ const TeamRoles = () => {
               border='1px dashed #793EF5'
               leftIcon={<AddSquareIcon />}
               color='#793EF5'
-              onClick={onOpen}>
+              onClick={onOpen}
+            >
               Add Team Member
             </Button>
           </HStack>
@@ -277,14 +291,16 @@ const TeamRoles = () => {
           gridTemplateColumns='repeat(4,1fr)'
           gridColumnGap={3}
           gridRowGap={3}
-          w='full'>
+          w='full'
+        >
           {teamRoles.map((member) => (
             <GridItem
               key={member.id}
               colSpan={2}
               border='1px solid gainsboro'
               p={2}
-              rounded='2xl'>
+              rounded='2xl'
+            >
               <Flex justify='space-between'>
                 <UserIcon />
                 <Text fontSize='16px'>{member.title}</Text>
@@ -295,7 +311,8 @@ const TeamRoles = () => {
                     onClick={() => {
                       setInitialData(member);
                       onOpen();
-                    }}>
+                    }}
+                  >
                     <EditIcon boxSize={5} />
                   </IconButton>
                   <IconButton aria-label='edit' size='xs'>
@@ -304,7 +321,8 @@ const TeamRoles = () => {
                   <IconButton
                     aria-label='edit'
                     size='xs'
-                    onClick={() => removeOneTeamRole(member.id)}>
+                    onClick={() => removeOneTeamRole(member.id)}
+                  >
                     <TrashIcon boxSize={5} />
                   </IconButton>
                 </Flex>
@@ -319,7 +337,8 @@ const TeamRoles = () => {
                     p={1}
                     rounded='12px'
                     bgColor='lavender'
-                    color='#793EF5'>
+                    color='#793EF5'
+                  >
                     {skill}
                   </Text>
                 ))}
@@ -331,7 +350,8 @@ const TeamRoles = () => {
                     p={1}
                     rounded='12px'
                     bgColor='blue.200'
-                    color='blue'>
+                    color='blue'
+                  >
                     {skill}
                   </Text>
                 ))}
