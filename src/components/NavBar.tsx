@@ -12,6 +12,7 @@ import {
   Stack,
   Text,
   useDisclosure,
+  useOutsideClick,
 } from "@chakra-ui/react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { NavLink, useLocation, useParams } from "react-router-dom";
@@ -30,17 +31,23 @@ import logo from "../assets/RadicallX-Black-Logo 1.png";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { doc } from "firebase/firestore";
 import { useStore } from "../components/store/Store";
+import { useRef } from "react";
 
 const NavBar = ({}: {}) => {
   const userData = useStore((state) => state.userData);
   const user = auth.currentUser;
 
-  const { isOpen, onToggle } = useDisclosure();
+  const ref = useRef(null);
+
+  const { isOpen, onToggle, onClose } = useDisclosure();
+
+  useOutsideClick({ ref, handler: () => onClose() });
 
   return (
     <>
       <Show below='md'>
         <Box
+          ref={ref}
           position='fixed'
           boxShadow='sm'
           // border='1px solid #CFD3D9'
