@@ -10,10 +10,9 @@ Companies working with RadicalX want to be able to provide 3-6 months paid appre
 
 ### Technologies Used
 
-For front-end development, [chakra-ui] (https://chakra-ui.com/) was used due to its precise and simple coding.  
+For front-end development, [chakra-ui](https://chakra-ui.com/) was used due to its precise and simple coding.  
 
-
-For back-end development, [fire-base] (https://firebase.google.com) was used.
+For back-end development, [fire-base](https://firebase.google.com) was used.
 
 ### Challenges, Lessons, and Next steps
 
@@ -69,14 +68,14 @@ Run git Checkout (the branch Name)
 
 ## How to Use the Project
 
-After opening the project on (http://localhost:3000)
+After opening the project on http://localhost:3000
 Enter the following login credentials,
 `email` techradicals@gmail.com and
 `password` techradicals
 
 This should open to Dashboard. From the left, navigate to apprenticeship. There you should be able to create a new apprenticeship and customize it.
 
-This figma file is an accurate representation of what the project looks like. `figma file` (https://www.figma.com/file/1zZlTp8xg1NBXqO61WCPwJ/Radical-X-Platform?node-id=1%3A25)
+This [figma file](https://www.figma.com/file/1zZlTp8xg1NBXqO61WCPwJ/Radical-X-Platform?node-id=1%3A25) is an accurate representation of what the project looks like.
 
 ## Credits
 
