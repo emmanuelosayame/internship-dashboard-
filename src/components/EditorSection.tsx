@@ -52,7 +52,6 @@ import {
   TeamRole,
   validationSchemaA,
 } from "../components/Types";
-import "../../editor.css";
 import TeamRoles from "./TeamRoles";
 import TeamAdmins from "./TeamAdmin";
 import DatePicker from "react-datepicker";

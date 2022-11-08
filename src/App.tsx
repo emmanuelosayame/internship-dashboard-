@@ -35,16 +35,17 @@ import {
 } from "firebase/firestore";
 import { ApprType, SearchEntity } from "./components/Types";
 import { functions } from "lodash";
+import Home from "./pages/Home";
 
 function App() {
-  // TODO make navbar display none to avoid refetching logo
-  // TODO add caching for images ==> edit apprr==>title
-  // TODO limit and paginate appr data
-  // TODO validation schema for text inputs
-  // TODO remove indexer prop and replace with value ==>hard code indexer
-  // TODO add search data to database
-  // TODO index db field:creatorId
-  // TODO error handling
+  // TODO make navbar display none to avoid refetching logo //DONE
+  // TODO add caching for images ==> edit apprr==>title  //DONE
+  // TODO limit and paginate appr data //DONE
+  // TODO validation schema for text inputs //DONE
+  // TODO remove indexer prop and replace with value ==>hard code indexer //DONE
+  // TODO add search data to database //DONE
+  // TODO index db field:creatorId //DONE
+  // TODO error handling //DONE
 
   // Line 48 is a react hook. Hooks lets us abstract codes into a simple function. yes hooks are functions. They can contain other functions, variables, classes, components, libraries and even other hooks in the case of custom hooks Jooks in react start with the 'use' word.
   const [user, loading, error] = useAuthState(auth);
@@ -97,9 +98,6 @@ function App() {
     empty: apprs?.empty,
   };
 
-  // console.log(errorc);
-  apprsError && console.log(apprsError);
-
   if (loading) return <Loading />;
 
   if (apprsLoading) return <LoadingBlur />;
@@ -119,8 +117,7 @@ function App() {
     //2 is the creat apprenticeship page. I'm also using this same component for edit apprenticeship. That's the idea of components: re-usablility, code-abstraction(so I dont have my code jampacked in a single file) and a lot more.
 
     <Flex p={3} w='full' h='100vh'>
-      {/* TODO create responsive Navbar */}
-
+      {/* TODO create responsive Navbar //DONE*/}
       {/* navbar component */}
       <Routes>
         <Route index element={<NavBar />} />
@@ -132,17 +129,9 @@ function App() {
         <Route path='*' element={<div />} />
       </Routes>
       {/* navbar component */}
-
       <Box w='full' h='full' px={["0", "0", "5"]} pb='5' pt={["14", "14", "5"]}>
         <Routes>
-          <Route
-            index
-            element={
-              <Center h='full' fontSize='30px'>
-                🥹
-              </Center>
-            }
-          />
+          <Route index element={<Home />} />
           <Route path='/apprenticeships'>
             <Route index element={<Apprenticeships apprsData={apprsData} />} />
             //path=":id" means that the page should be dynamic. eg.
@@ -170,6 +159,23 @@ function App() {
           <Route
             path='/settings'
             element={<Settings userData={userData} apprsData={apprsData} />}
+          />
+          {/* TODO create 404 page //DONE */}
+          <Route
+            path='*'
+            element={
+              <div style={{ width: "100%", height: "100%", display: "flex" }}>
+                <p
+                  style={{
+                    margin: "auto",
+                    fontSize: "19px",
+                    fontWeight: "600",
+                    color: "gray",
+                  }}>
+                  404 | page not found
+                </p>
+              </div>
+            }
           />
         </Routes>
       </Box>
