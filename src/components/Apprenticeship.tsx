@@ -63,6 +63,8 @@ const Apprenticeship = () => {
     shallow
   );
 
+  console.log(rest);
+
   useEffect(() => {
     let sub = false;
     if (params.id && params.id !== "new") {
@@ -219,7 +221,8 @@ const Apprenticeship = () => {
                   rest.apprenticeshipTitle.length > 0 &&
                   rest.teamAdmins.length > 0 &&
                   rest.teamRoles.length > 0 &&
-                  rest.timeline.startDate
+                  rest.timeline.startDate &&
+                  rest.teamTypes.length > 0
                 )
               }>
               {params.id === "new" ? "Publish" : "Save"}
@@ -239,7 +242,8 @@ const Apprenticeship = () => {
                   rest.apprenticeshipTitle.length > 0 &&
                   rest.teamAdmins.length > 0 &&
                   rest.teamRoles.length > 0 &&
-                  rest.timeline.startDate
+                  rest.timeline.startDate &&
+                  rest.teamTypes.length > 0
                 )
               }>
               {params.id === "new"

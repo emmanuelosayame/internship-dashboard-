@@ -23,21 +23,23 @@ import {
   Text,
   Textarea,
   useDisclosure,
-} from "@chakra-ui/react";
-import { useRef, useState } from "react";
-import { useStore } from "../components/store/Store";
+} from '@chakra-ui/react';
+import { useRef, useState } from 'react';
+import { useStore } from '../components/store/Store';
 import {
   CautionIcon,
   AddSquareIcon,
   UserIcon,
   PhotoIcon,
   SmsIcon,
-} from "../components/Svgs";
-import shallow from "zustand/shallow";
-import { Form, Formik } from "formik";
-import * as Yup from "yup";
-import { TeamAdmin } from "../components/Types";
-import { useParams } from "react-router-dom";
+  EmailIcon,
+  LinkIcon,
+} from '../components/Svgs';
+import shallow from 'zustand/shallow';
+import { Form, Formik } from 'formik';
+import * as Yup from 'yup';
+import { TeamAdmin } from '../components/Types';
+import { useParams } from 'react-router-dom';
 
 const TeamAdmins = () => {
   const params = useParams();
@@ -45,20 +47,20 @@ const TeamAdmins = () => {
   const photoRef = useRef<HTMLInputElement | null>(null);
   const btnRef = useRef<HTMLButtonElement | null>(null);
   const initialState = {
-    name: "",
-    email: "",
-    photoUrl: "",
-    linkedInUrl: "",
+    name: '',
+    email: '',
+    photoUrl: '',
+    linkedInUrl: '',
   };
   const [teamAdmin, setTeamAdmin] = useState<TeamAdmin>(initialState);
   const [photo, setPhoto] = useState<File | null>(null);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
-      .max(40, "Thats a little too long")
-      .required("enter name"),
-    email: Yup.string().email("enter a valid email").required("enter email"),
-    linkedInUrl: Yup.string().max(40, "limit 500"),
+      .max(40, 'Thats a little too long')
+      .required('enter name'),
+    email: Yup.string().email('enter a valid email').required('enter email'),
+    linkedInUrl: Yup.string().max(40, 'limit 500'),
   });
 
   const { teamAdmins, addTeamAdmin } = useStore(
@@ -86,13 +88,14 @@ const TeamAdmins = () => {
           setTeamAdmin(initialState);
           photoSrc && URL.revokeObjectURL(photoSrc);
         }}
-        isCentered>
+      >
         <ModalOverlay />
         <ModalContent
           pos='fixed'
           rounded='2xl'
           border='1px solid #793EF5'
-          w={["95%", "full", "full"]}>
+          w={['95%', 'full', 'full']}
+        >
           <ModalHeader display='flex' justifyContent='space-between' pb='2'>
             <Heading flex='1'>Add Team Admin</Heading>
             <Button
@@ -100,8 +103,9 @@ const TeamAdmins = () => {
               variant='solid'
               color='white'
               bgColor='#793EF5'
-              onClick={() => btnRef.current?.click()}>
-              {params.id === "new" ? "Save" : "Edit"}
+              onClick={() => btnRef.current?.click()}
+            >
+              {params.id === 'new' ? 'Save' : 'Edit'}
             </Button>
             <ModalCloseButton position='unset' ml={2} />
           </ModalHeader>
@@ -123,7 +127,8 @@ const TeamAdmins = () => {
                 rounded='lg'
                 aria-label='add-photo'
                 size='xs'
-                onClick={() => photoRef.current?.click()}>
+                onClick={() => photoRef.current?.click()}
+              >
                 <PhotoIcon />
               </IconButton>
               <input
@@ -149,14 +154,15 @@ const TeamAdmins = () => {
                 linkedInUrl: teamAdmin.linkedInUrl,
               }}
               onSubmit={({ email, linkedInUrl, name }) => {
-                if (params.id === "new") {
+                if (params.id === 'new') {
                   addTeamAdmin({ email, linkedInUrl, name, photo });
                   onClose();
                 } else {
                   //remove old image and upload new
                   onClose();
                 }
-              }}>
+              }}
+            >
               {({ dirty, errors, getFieldProps }) => (
                 <Stack as={Form} spacing='3'>
                   <InputGroup>
@@ -164,7 +170,7 @@ const TeamAdmins = () => {
                       placeholder='name'
                       type='text'
                       rounded='xl'
-                      {...getFieldProps("name")}
+                      {...getFieldProps('name')}
                     />
                     <InputLeftElement>
                       <UserIcon />
@@ -175,10 +181,10 @@ const TeamAdmins = () => {
                       placeholder='email'
                       type='text'
                       rounded='xl'
-                      {...getFieldProps("email")}
+                      {...getFieldProps('email')}
                     />
                     <InputLeftElement>
-                      <UserIcon />
+                      <EmailIcon />
                     </InputLeftElement>
                   </InputGroup>
                   <InputGroup>
@@ -186,10 +192,10 @@ const TeamAdmins = () => {
                       placeholder='linkedin URL (optional) '
                       type='text'
                       rounded='xl'
-                      {...getFieldProps("linkedInUrl")}
+                      {...getFieldProps('linkedInUrl')}
                     />
                     <InputLeftElement>
-                      <SmsIcon boxSize={5} />
+                      <LinkIcon boxSize={5} />
                     </InputLeftElement>
                   </InputGroup>
                   <button ref={btnRef} hidden />
@@ -207,7 +213,7 @@ const TeamAdmins = () => {
         border='1px solid transparent'
         tabIndex={1}
         outline='none'
-        _focusWithin={{ border: "1px solid #793EF5", boxShadow: "2xl" }}
+        _focusWithin={{ border: '1px solid #793EF5', boxShadow: '2xl' }}
         // _focus={{ border: "1px solid #793EF5" }}
       >
         <Flex justify='space-between' p={1}>
@@ -217,7 +223,8 @@ const TeamAdmins = () => {
               border='1px dashed #793EF5'
               leftIcon={<AddSquareIcon />}
               color='#793EF5'
-              onClick={onOpen}>
+              onClick={onOpen}
+            >
               Add Team Member
             </Button>
           </HStack>
@@ -228,7 +235,8 @@ const TeamAdmins = () => {
           gridColumnGap={3}
           gridRowGap={3}
           p={1}
-          w='full'>
+          w='full'
+        >
           {teamAdmins.map((admin) => {
             // const src = admin.photo ? URL.createObjectURL(admin.photo) : null;
             const src = null;
@@ -244,7 +252,8 @@ const TeamAdmins = () => {
                 onClick={() => {
                   setTeamAdmin(admin);
                   onOpen();
-                }}>
+                }}
+              >
                 {src ? (
                   <Image src={src} w='40px' rounded='lg' h='40px' />
                 ) : (

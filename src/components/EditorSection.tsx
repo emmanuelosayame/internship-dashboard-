@@ -179,17 +179,20 @@ const EditorSection = () => {
         case "apprenticeshipTitle":
           validationSchemaA
             .validate({ apprenticeshipTitle: value })
-            .then(() => addApprTitle(value));
+            .then(() => addApprTitle(value))
+            .catch(() => addApprTitle(""));
           break;
         case "companyDescription":
           validationSchemaA
             .validate({ companyDescription: value })
-            .then(() => addCompanyDescr(value));
+            .then(() => addCompanyDescr(value))
+            .catch(() => addCompanyDescr(""));
           break;
         case "apprenticeshipDescription":
           validationSchemaA
             .validate({ apprenticeshipDescription: value })
-            .then(() => addApprDescr(value));
+            .then(() => addApprDescr(value))
+            .catch(() => addApprDescr(""));
           break;
       }
       // .catch((error) =>

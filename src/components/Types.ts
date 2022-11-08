@@ -27,9 +27,9 @@ export interface ApprErrorTypes {
 }
 
 export const validationSchemaA = Yup.object().shape({
-  apprenticeshipTitle: Yup.string().max(40, "Thats a little too long"),
+  apprenticeshipTitle: Yup.string().max(100, "Thats a little too long"),
   companyDescription: Yup.string().max(500, "limit 500"),
-  apprenticeshipDescription: Yup.string().max(400, "limit 500"),
+  apprenticeshipDescription: Yup.string().max(500, "limit 500"),
 });
 
 export interface TeamRole {
