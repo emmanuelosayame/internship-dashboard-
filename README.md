@@ -10,11 +10,10 @@ Companies working with RadicalX want to be able to provide 3-6 months paid appre
 
 ### Technologies Used
 
-For front-end development, chakra ui was used due to its precise and simple coding.  
-`chakra-ui` (https://chakra-ui.com/)
+For front-end development, [chakra-ui] (https://chakra-ui.com/) was used due to its precise and simple coding.  
 
-For back-end development, firebase was used...
-`fire-base` ()
+
+For back-end development, [fire-base] (https://firebase.google.com) was used.
 
 ### Challenges, Lessons, and Next steps
 
