@@ -81,9 +81,6 @@ This figma file is an accurate representation of what the project looks like. `f
 
 ## Credits
 
-### Collaborators
-Emmanuel Osayame, Kamdi, Ayomide Aladetuyi, Aline Utetiwabo
-
 ### Helpful Links
 
 
