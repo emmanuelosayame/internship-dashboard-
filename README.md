@@ -68,7 +68,7 @@ Run git Checkout (the branch Name)
 
 ## How to Use the Project
 
-After opening the project on http://localhost:3000
+After opening the project on http://localhost:3000. 
 Enter the following login credentials,
 `email` techradicals@gmail.com and
 `password` techradicals
