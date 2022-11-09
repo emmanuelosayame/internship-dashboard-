@@ -14,7 +14,7 @@ For front-end development, [chakra-ui](https://chakra-ui.com/) was used due to i
 
 For back-end development, [fire-base](https://firebase.google.com) was used.
 
-### Challenges, Lessons, and Next steps
+### Next steps
 
 In the future, we hope to implement the login feature which would allow any user to log in. 
 
@@ -80,6 +80,7 @@ This [figma file](https://www.figma.com/file/1zZlTp8xg1NBXqO61WCPwJ/Radical-X-Pl
 ## Credits
 
 ### Helpful Links
+[React.js](https://reactjs.org)
 
 
 
